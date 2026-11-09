@@ -1,0 +1,39 @@
+{
+	"lineWidth": 80,
+	"useTabs": true,
+	"typescript": {
+		"quoteStyle": "preferSingle",
+		"bracePosition": "sameLine"
+	},
+	"json": {
+		"trailingCommas": "jsonc"
+	},
+	"markdown": {
+		"textWrap": "always"
+	},
+	"yaml": {},
+	"malva": {
+		"quotes": "preferSingle"
+	},
+	"markup": {
+		"styleIndent": true,
+		"scriptIndent": true,
+		"vue.scriptIndent": false,
+		"vue.styleIndent": false,
+		"html.void.selfClosing": true
+	},
+	"excludes": [
+		"!.vscode",
+		"!.zed",
+		"**/*-lock.json",
+		"**/*-lock.yaml"
+	],
+	"plugins": [
+		"npm:@dprint/typescript@0.97.0",
+		"npm:@dprint/json@0.25.2",
+		"npm:@dprint/markdown@0.28.2",
+		"npm:dprint-plugin-malva@0.16.0",
+		"npm:dprint-plugin-markup@0.27.6",
+		"npm:dprint-plugin-yaml@0.6.0"
+	]
+}
