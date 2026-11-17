@@ -2,7 +2,24 @@
 import Layout from '~/layouts/base.astro';
 ---
 
+<style>
+	section {
+		--container-size: 75rem;
+		--stack-gap: var(--space-xs);
+
+		padding-block: var(--space-2xl);
+		padding-inline: var(--space-l);
+
+		@media (max-width: 60rem) {
+			padding-block: var(--space-xl);
+			padding-inline: var(--space-s);
+		}
+	}
+</style>
+
 <Layout title={false}>
-	<h1>Project Ready</h1>
-	<p>You may now add components and start building.</p>
+	<section class="stack container">
+		<h1 class="text-display">Project Ready</h1>
+		<p>You may now add components and start building.</p>
+	</section>
 </Layout>

@@ -1,0 +1,41 @@
+---
+/**
+ * Decorative 256-grid line icons (Phosphor style). Always aria-hidden:
+ * give the parent control its own accessible name.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+const icons = {
+	phone:
+		'<path d="M159.4,166.4a8,8,0,0,1,7.6-.7l47.2,21.1a8,8,0,0,1,4.8,8.3A48.3,48.3,0,0,1,171,236C95.9,236,27,167.1,27,92A48.3,48.3,0,0,1,68,44.1a8,8,0,0,1,8.3,4.8l21.1,47.2a8,8,0,0,1-.7,7.5L75.5,128.8a7.9,7.9,0,0,0-.5,7.8c8.3,16.9,25.8,34.2,42.8,42.4a7.9,7.9,0,0,0,7.8-.6Z"/>',
+	'caret-down': '<polyline points="208 96 128 176 48 96"/>',
+	'arrow-right':
+		'<line x1="40" y1="128" x2="216" y2="128"/><polyline points="144 56 216 128 144 200"/>',
+	list:
+		'<line x1="40" y1="64" x2="216" y2="64"/><line x1="40" y1="128" x2="216" y2="128"/><line x1="40" y1="192" x2="216" y2="192"/>',
+	x: '<line x1="200" y1="56" x2="56" y2="200"/><line x1="200" y1="200" x2="56" y2="56"/>',
+} as const;
+
+interface Props extends HTMLAttributes<'svg'> {
+	name: keyof typeof icons;
+	size?: number;
+}
+
+const { name, size = 20, ...rest } = Astro.props;
+---
+
+<svg
+	aria-hidden="true"
+	focusable="false"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 256 256"
+	width={size}
+	height={size}
+	fill="none"
+	stroke="currentColor"
+	stroke-width="18"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	{...rest}
+	set:html={icons[name]}
+/>

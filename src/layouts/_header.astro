@@ -1,0 +1,479 @@
+---
+import Logo from '~/assets/logos/JCN-logo-color.svg';
+import Button from '~/components/button.astro';
+import Icon from '~/components/icon.astro';
+import { mainNav, site } from '~/config';
+
+const menuId = (i: number, prefix: string) => `${prefix}-menu-${i}`;
+---
+
+<style>
+	header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: var(--color-surface-card);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.bar {
+		--container-size: 75rem;
+		--repel-gap: var(--space-l);
+
+		padding-block: var(--space-xs);
+		padding-inline: var(--space-l);
+	}
+
+	.logo {
+		flex: none;
+		border-radius: var(--radius-s);
+	}
+
+	.actions {
+		--cluster-gap: var(--space-m);
+		--cluster-valign: center;
+
+		flex-wrap: nowrap;
+	}
+
+	/* Desktop nav */
+
+	.nav {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3xs);
+
+		> li {
+			position: relative;
+		}
+	}
+
+	.nav-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		padding-inline: var(--space-xs);
+		border: 0;
+		border-radius: var(--radius-m);
+		background: transparent;
+		color: var(--color-text-primary);
+		font-family: var(--font-family-heading);
+		font-size: var(--font-size-m);
+		font-weight: var(--font-weight-medium);
+		text-decoration: none;
+		cursor: pointer;
+
+		&:hover,
+		&[aria-expanded='true'] {
+			background: var(--color-blue-50);
+			color: var(--color-brand-blue);
+		}
+	}
+
+	/* Icon is a child component, so reach its svg with :global */
+	button :global(.caret) {
+		transition: transform 150ms;
+	}
+
+	button[aria-expanded='true'] :global(.caret) {
+		transform: rotate(180deg);
+	}
+
+	.dropdown {
+		position: absolute;
+		top: calc(100% + var(--space-2xs));
+		left: 0;
+		min-inline-size: 16rem;
+		padding: var(--space-2xs);
+		background: var(--color-surface-card);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-l);
+		box-shadow: var(--shadow-m);
+
+		hr {
+			margin: var(--space-3xs) var(--space-xs);
+			border: 0;
+			border-top: 1px solid var(--color-border-subtle);
+		}
+	}
+
+	.dd-link {
+		display: block;
+		padding: 0.625rem var(--space-xs);
+		border-radius: var(--radius-m);
+		color: var(--color-text-primary);
+		text-decoration: none;
+
+		&:hover {
+			background: var(--color-blue-50);
+			color: var(--color-blue-700);
+		}
+	}
+
+	.dd-overview {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-2xs);
+		padding-block: var(--space-xs);
+		color: var(--color-brand-blue);
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	/* Mobile menu */
+
+	.menu-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		inline-size: 44px;
+		block-size: 44px;
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-m);
+		background: var(--color-surface-card);
+		color: var(--color-text-primary);
+		cursor: pointer;
+
+		.icon-close {
+			display: none;
+		}
+
+		&[aria-expanded='true'] {
+			.icon-open {
+				display: none;
+			}
+
+			.icon-close {
+				display: block;
+			}
+		}
+	}
+
+	.mobile {
+		position: fixed;
+		inset-inline: 0;
+		top: var(--mobile-menu-top, 0);
+		bottom: 0;
+		display: flex;
+		flex-direction: column;
+		overflow-y: auto;
+		background: var(--color-surface-page);
+
+		&[hidden] {
+			display: none;
+		}
+
+		> ul {
+			padding: var(--space-2xs) var(--space-s);
+
+			> li {
+				border-bottom: 1px solid var(--color-border-subtle);
+			}
+		}
+	}
+
+	.m-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		inline-size: 100%;
+		min-block-size: 56px;
+		padding-inline: var(--space-3xs);
+		border: 0;
+		background: transparent;
+		color: var(--color-text-primary);
+		font-family: var(--font-family-heading);
+		font-size: var(--font-size-l);
+		font-weight: var(--font-weight-medium);
+		text-align: start;
+		text-decoration: none;
+		cursor: pointer;
+
+		&[aria-expanded='true'] {
+			color: var(--color-brand-blue);
+		}
+	}
+
+	.m-sub[hidden] {
+		display: none;
+	}
+
+	.m-sub {
+		display: flex;
+		flex-direction: column;
+		margin-block-end: var(--space-xs);
+		padding-block: var(--space-3xs);
+		padding-inline-start: var(--space-xs);
+		border-inline-start: 3px solid var(--color-brand-gold);
+
+		a {
+			display: flex;
+			align-items: center;
+			min-block-size: 44px;
+			color: var(--color-text-primary);
+			text-decoration: none;
+		}
+
+		.m-overview {
+			color: var(--color-brand-blue);
+			font-family: var(--font-family-heading);
+			font-weight: var(--font-weight-medium);
+		}
+	}
+
+	.support {
+		--stack-gap: var(--space-2xs);
+
+		margin-block-start: auto;
+		padding: var(--space-m) var(--space-s);
+		border-top: 1px solid var(--color-border-subtle);
+		background: var(--color-surface-sunken);
+
+		.support-label {
+			color: var(--color-text-secondary);
+		}
+
+		.support-phone {
+			color: var(--color-brand-blue);
+			text-decoration: none;
+		}
+	}
+
+	@media (max-width: 60rem) {
+		header {
+			position: relative;
+		}
+
+		.bar {
+			--repel-gap: var(--space-2xs);
+
+			padding-block: var(--space-2xs);
+			padding-inline: var(--space-s);
+		}
+
+		.logo :global(svg) {
+			inline-size: 160px;
+		}
+
+		.actions {
+			--cluster-gap: var(--space-2xs);
+		}
+
+		.nav {
+			display: none;
+		}
+
+		.menu-toggle {
+			display: inline-flex;
+		}
+	}
+
+	@media (min-width: 60.0625rem) {
+		.mobile {
+			display: none;
+		}
+	}
+</style>
+
+<header>
+	<div class="bar | repel container" data-nowrap>
+		<a class="logo" href="/" aria-label={`${site.name} home`}>
+			<Logo width={176} height="auto" aria-hidden="true" />
+		</a>
+
+		<div class="actions | cluster">
+			<nav aria-label="Main">
+				<ul role="list" class="nav">
+					{mainNav.map((menu, i) => (
+						<li>
+							{menu.items ? (
+								<>
+									<button
+										class="nav-btn"
+										type="button"
+										aria-expanded="false"
+										aria-controls={menuId(i, 'desktop')}
+										data-disclosure="desktop"
+									>
+										{menu.label}
+										<Icon class="caret" name="caret-down" size={16} />
+									</button>
+									<div class="dropdown" id={menuId(i, 'desktop')} hidden>
+										{menu.overview && (
+											<>
+												<a
+													class="dd-link dd-overview"
+													href={menu.overview.href}
+												>
+													{menu.overview.label}
+													<Icon name="arrow-right" size={16} />
+												</a>
+												<hr />
+											</>
+										)}
+										<ul role="list">
+											{menu.items.map((item) => (
+												<li>
+													<a class="dd-link" href={item.href}>{item.label}</a>
+												</li>
+											))}
+										</ul>
+									</div>
+								</>
+							) : <a class="nav-btn" href={menu.href}>{menu.label}</a>}
+						</li>
+					))}
+				</ul>
+			</nav>
+
+			<Button href="/donate" variant="donate">
+				<svg
+					slot="icon"
+					aria-hidden="true"
+					focusable="false"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 256 256"
+					fill="currentColor"
+				>
+					<path d="M230.33,141.06a24.34,24.34,0,0,0-18.61-4.77C230.5,117.33,240,98.48,240,80c0-26.47-21.29-48-47.46-48A47.58,47.58,0,0,0,156,48.75,47.58,47.58,0,0,0,119.46,32C93.29,32,72,53.53,72,80c0,11,3.24,21.69,10.06,33a31.87,31.87,0,0,0-14.75,8.4L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM119.46,48A31.15,31.15,0,0,1,148.6,67a8,8,0,0,0,14.8,0,31.15,31.15,0,0,1,29.14-19C209.59,48,224,62.65,224,80c0,19.51-15.79,41.58-45.66,63.9l-11.09,2.55A28,28,0,0,0,140,112H100.68C92.05,100.36,88,90.12,88,80,88,62.65,102.41,48,119.46,48ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9Z" />
+				</svg>
+				Donate
+			</Button>
+
+			<button
+				class="menu-toggle"
+				type="button"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+				aria-label="Menu"
+				data-menu-toggle
+			>
+				<Icon class="icon-open" name="list" size={24} />
+				<Icon class="icon-close" name="x" size={24} />
+			</button>
+		</div>
+	</div>
+
+	<nav class="mobile" id="mobile-menu" aria-label="Main" hidden>
+		<ul role="list">
+			{mainNav.map((menu, i) => (
+				<li>
+					{menu.items ? (
+						<>
+							<button
+								class="m-item"
+								type="button"
+								aria-expanded="false"
+								aria-controls={menuId(i, 'mobile')}
+								data-disclosure="mobile"
+							>
+								{menu.label}
+								<Icon class="caret" name="caret-down" size={20} />
+							</button>
+							<ul role="list" class="m-sub" id={menuId(i, 'mobile')} hidden>
+								{menu.overview && (
+									<li>
+										<a class="m-overview" href={menu.overview.href}>
+											{menu.overview.label}
+										</a>
+									</li>
+								)}
+								{menu.items.map((item) => (
+									<li>
+										<a href={item.href}>{item.label}</a>
+									</li>
+								))}
+							</ul>
+						</>
+					) : <a class="m-item" href={menu.href}>{menu.label}</a>}
+				</li>
+			))}
+		</ul>
+
+		<div class="support | stack">
+			<p class="support-label | text-label">Need support?</p>
+			<a
+				class="support-phone | text-h3"
+				href={site.phone.href}
+			>{site.phone.display}</a>
+			<a href="/contact">Contact us</a>
+		</div>
+	</nav>
+</header>
+
+<script>
+	/**
+	 * Disclosure menus: one open per group; Escape and outside clicks close
+	 * them. The mobile panel fills the screen below the header.
+	 */
+	const toggles = document.querySelectorAll<HTMLButtonElement>(
+		'[data-disclosure]',
+	);
+
+	function setOpen(btn: HTMLButtonElement, open: boolean) {
+		btn.setAttribute('aria-expanded', String(open));
+		const panel = document.getElementById(btn.getAttribute('aria-controls')!);
+		if (panel) panel.hidden = !open;
+	}
+
+	function closeGroup(group: string, except?: HTMLButtonElement) {
+		toggles.forEach((btn) => {
+			if (btn !== except && btn.dataset.disclosure === group) {
+				setOpen(btn, false);
+			}
+		});
+	}
+
+	toggles.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const open = btn.getAttribute('aria-expanded') !== 'true';
+			closeGroup(btn.dataset.disclosure!, btn);
+			setOpen(btn, open);
+		});
+	});
+
+	document.addEventListener('click', (event) => {
+		if (!(event.target as Element).closest('.nav > li')) closeGroup('desktop');
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key !== 'Escape') return;
+		const open = document.querySelector<HTMLButtonElement>(
+			'[data-disclosure="desktop"][aria-expanded="true"]',
+		);
+		if (open) {
+			setOpen(open, false);
+			open.focus();
+		}
+	});
+
+	const menuToggle = document.querySelector<HTMLButtonElement>(
+		'[data-menu-toggle]',
+	);
+	const mobileMenu = document.getElementById('mobile-menu');
+
+	function setMobileOpen(open: boolean) {
+		if (!menuToggle || !mobileMenu) return;
+		if (open) {
+			const top = menuToggle.closest('header')!.getBoundingClientRect().bottom;
+			mobileMenu.style.setProperty(
+				'--mobile-menu-top',
+				`${Math.max(top, 0)}px`,
+			);
+		}
+		menuToggle.setAttribute('aria-expanded', String(open));
+		menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+		mobileMenu.hidden = !open;
+		document.documentElement.style.overflow = open ? 'hidden' : '';
+	}
+
+	menuToggle?.addEventListener('click', () => {
+		setMobileOpen(menuToggle.getAttribute('aria-expanded') !== 'true');
+	});
+
+	matchMedia('(min-width: 60.0625rem)').addEventListener('change', (event) => {
+		if (event.matches) setMobileOpen(false);
+	});
+</script>

@@ -1,0 +1,70 @@
+---
+import Icon from '~/components/icon.astro';
+import { site } from '~/config';
+---
+
+<style>
+	.banner {
+		background: var(--color-surface-brand);
+		color: var(--color-text-on-brand);
+	}
+
+	.inner {
+		--container-size: 75rem;
+		--repel-gap: var(--space-s);
+
+		padding-block: var(--space-2xs);
+		padding-inline: var(--space-l);
+	}
+
+	.links {
+		--cluster-gap: var(--space-m);
+		--cluster-valign: center;
+	}
+
+	a {
+		color: inherit;
+	}
+
+	.phone {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.contact {
+		text-underline-offset: 3px;
+	}
+
+	a:focus-visible {
+		--outline-color: var(--color-brand-gold);
+	}
+
+	@media (max-width: 60rem) {
+		.inner {
+			padding-inline: var(--space-s);
+		}
+
+		.tagline {
+			display: none;
+		}
+	}
+</style>
+
+<aside class="banner" aria-label="Contact">
+	<div class="inner | repel container | text-small">
+		<p class="tagline">{site.tagline}</p>
+		<div class="links | cluster">
+			<a class="phone" href={site.phone.href}>
+				<Icon name="phone" size={16} />
+				{site.phone.display}
+			</a>
+			<a class="contact" href="/contact">Contact us</a>
+		</div>
+	</div>
+</aside>

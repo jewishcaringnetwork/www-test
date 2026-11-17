@@ -1,0 +1,151 @@
+---
+import Logo from '~/assets/logos/JCN-logo-white.svg';
+import { footerLinks, legalLinks, site } from '~/config';
+---
+
+<style>
+	footer {
+		background: var(--color-blue-900);
+		color: var(--color-text-on-brand);
+	}
+
+	.inner {
+		--container-size: 75rem;
+		--stack-gap: var(--space-xl);
+
+		padding-block: var(--space-2xl) var(--space-l);
+		padding-inline: var(--space-l);
+	}
+
+	.columns {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr);
+		gap: var(--space-xl);
+	}
+
+	.brand {
+		--stack-gap: var(--space-m);
+		--stack-halign: start;
+
+		p {
+			max-inline-size: 24rem;
+			color: var(--color-blue-100);
+		}
+	}
+
+	.col {
+		--stack-gap: var(--space-xs);
+	}
+
+	h2 {
+		font-family: var(--font-family-heading);
+		font-size: var(--font-size-m);
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-brand-gold);
+	}
+
+	.links {
+		--stack-gap: var(--space-2xs);
+	}
+
+	address {
+		--stack-gap: var(--space-xs);
+
+		font-style: normal;
+	}
+
+	a {
+		color: var(--color-text-on-brand);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-gold-100);
+			text-decoration: underline;
+		}
+
+		&:focus-visible {
+			--outline-color: var(--color-brand-gold);
+		}
+	}
+
+	address a {
+		text-decoration: underline;
+		text-decoration-color: rgb(255 255 255 / 0.35);
+		text-underline-offset: 3px;
+
+		&:hover {
+			text-decoration-color: currentColor;
+		}
+	}
+
+	.legal {
+		--repel-gap: var(--space-s);
+		--repel-valign: start;
+
+		padding-block-start: var(--space-m);
+		border-top: 1px solid rgb(255 255 255 / 0.16);
+		color: var(--color-blue-100);
+
+		p {
+			max-inline-size: 46rem;
+		}
+
+		.cluster {
+			--cluster-gap: var(--space-m);
+		}
+	}
+
+	@media (max-width: 53.75rem) {
+		.columns {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	@media (max-width: 60rem) {
+		.inner {
+			padding-inline: var(--space-s);
+		}
+	}
+</style>
+
+<footer>
+	<div class="inner | stack container">
+		<div class="columns">
+			<div class="brand | stack">
+				<Logo width={176} height="auto" role="img" aria-label={site.name} />
+				<p>{site.description}</p>
+			</div>
+
+			<div class="col | stack">
+				<h2>Quick links</h2>
+				<ul role="list" class="links | stack">
+					{footerLinks.map((link) => (
+						<li><a href={link.href}>{link.label}</a></li>
+					))}
+				</ul>
+			</div>
+
+			<div class="col | stack">
+				<h2>Call or visit</h2>
+				<address class="stack">
+					<p>{site.address[0]}<br />{site.address[1]}</p>
+					<p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+					<p>
+						Tel <a href={site.phone.href}>{site.phone.display}</a><br />
+						Fax {site.fax}
+					</p>
+				</address>
+			</div>
+		</div>
+
+		<div class="legal | repel | text-small">
+			<p>
+				© {new Date().getFullYear()} {site.legalName}, a 501(c)(3) nonprofit.
+				EIN {site.ein}. Gifts are tax-deductible as allowed by law.
+			</p>
+			<div class="cluster">
+				{legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+			</div>
+		</div>
+	</div>
+</footer>
