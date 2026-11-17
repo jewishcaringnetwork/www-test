@@ -1,0 +1,150 @@
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2xs);
+	min-block-size: 44px;
+
+	padding-inline: var(--space-m);
+	border: 1.5px solid transparent;
+	border-radius: var(--radius-m);
+
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		background-color 120ms ease,
+		border-color 120ms ease,
+		color 120ms ease;
+
+	&:focus-visible, &[data-state='focus'] {
+		outline: 2px solid var(--color-focus-ring);
+		outline-offset: 2px;
+	}
+
+	/* Disabled: muted but readable (label 5:1 or better) */
+	&:disabled, &[aria-disabled='true'] {
+		cursor: not-allowed;
+	}
+}
+
+.btn {
+	svg {
+		font-size: 20px;
+		width: 20px;
+		height: 20px;
+		flex: none;
+	}
+
+	&[data-icon='only'] {
+		width: 44px;
+		padding: 0;
+	}
+}
+
+/* Primary: brand-blue fill, white label (7.5:1) */
+.btn[data-variant='primary'] {
+	background: var(--color-brand-blue);
+	color: var(--color-text-on-brand);
+
+	&:hover:not(:disabled):not([aria-disabled='true']),
+	&[data-state='hover'] {
+		background: var(--color-blue-700);
+	}
+
+	&:disabled, &[aria-disabled='true'] {
+		background: var(--color-neutral-200);
+		color: var(--color-neutral-600);
+	}
+}
+
+/* Secondary: outline, brand-blue label and border (7.5:1 on white) */
+.btn[data-variant='secondary'] {
+	background: transparent;
+	color: var(--color-brand-blue);
+	border-color: var(--color-brand-blue);
+
+	&:hover:not(:disabled):not([aria-disabled='true']),
+	&[data-state='hover'] {
+		background: var(--color-blue-50);
+		color: var(--color-blue-700);
+		border-color: var(--color-blue-700);
+	}
+
+	&:disabled, &[aria-disabled='true'] {
+		background: transparent;
+		color: var(--color-neutral-600);
+		border-color: var(--color-neutral-300);
+	}
+}
+
+.btn[data-inverse] {
+	/* On brand-blue or blue-900 backgrounds: add [data-inverse] */
+	&:focus-visible,
+	&[data-state='focus'] {
+		outline-color: var(--color-brand-gold);
+	}
+}
+
+.btn[data-variant='primary'][data-inverse] {
+	background: var(--color-neutral-0);
+	color: var(--color-brand-blue);
+
+	&:hover:not(:disabled):not([aria-disabled='true']),
+	&[data-state='hover'] {
+		background: var(--color-blue-50);
+		color: var(--color-blue-700);
+	}
+
+	&:disabled,
+	&[aria-disabled='true'] {
+		background: rgba(255, 255, 255, 0.10);
+		color: var(--color-blue-100);
+	}
+}
+
+.btn[data-variant='secondary'][data-inverse] {
+	background: transparent;
+	color: var(--color-text-on-brand);
+	border-color: var(--color-neutral-0);
+
+	&:hover:not(:disabled):not([aria-disabled='true']),
+	&[data-state='hover'] {
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	&:disabled,
+	&[aria-disabled='true'] {
+		background: transparent;
+		color: var(--color-blue-100);
+		border-color: rgba(255, 255, 255, 0.30);
+	}
+}
+
+/* Donate (option under review): gold fill, blue-900 label (8.2:1).
+   Only for Donate / Give actions. Works on light and brand-blue backgrounds. */
+.btn[data-variant='donate'] {
+	background: var(--color-brand-gold);
+	color: var(--color-text-on-accent);
+
+	&:hover:not(:disabled):not([aria-disabled='true']),
+	&[data-state='hover'] {
+		background: var(--color-gold-600, #e0ab14);
+	}
+
+	&:disabled, &[aria-disabled='true'] {
+		background: var(--color-neutral-200);
+		color: var(--color-neutral-600);
+	}
+
+	&[data-inverse]:focus-visible,
+	&[data-inverse][data-state='focus'] {
+		outline-color: var(--color-neutral-0);
+	}
+
+	&[data-inverse]:disabled,
+	&[data-inverse][aria-disabled='true'] {
+		background: rgba(255, 255, 255, 0.10);
+		color: var(--color-blue-100);
+	}
+}

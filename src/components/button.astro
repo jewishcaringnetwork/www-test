@@ -1,0 +1,43 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import './button.css';
+
+interface Props {
+	inverse?: boolean;
+	disabled?: boolean;
+	state?: 'hover' | 'focus';
+	variant: 'primary' | 'secondary' | 'donate';
+	href?: string;
+	type?: HTMLAttributes<'button'>['type'];
+}
+
+const { props } = Astro;
+
+const Tag = props.href ? 'a' : 'button';
+
+const restProps = props.href
+	? {
+		href: props.disabled ? undefined : props.href,
+		role: props.disabled ? 'link' : undefined,
+		tabindex: props.disabled ? -1 : undefined,
+		'aria-disabled': props.disabled,
+	} as const
+	: {
+		type: props.type,
+		disabled: props.disabled,
+	} as const;
+---
+
+<Tag
+	class:list={['btn', 'text-label']}
+	data-inverse={props.inverse}
+	data-state={props.state}
+	data-variant={props.variant}
+	data-icon={Astro.slots.has('icon')
+	? Astro.slots.has('default') ? true : 'only'
+	: false}
+	{...restProps}
+>
+	<slot name="icon" />
+	<slot />
+</Tag>
