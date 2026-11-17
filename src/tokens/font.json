@@ -1,0 +1,79 @@
+{
+	"font": {
+		"family": {
+			"$type": "fontFamily",
+			"heading": {
+				"$value": [
+					"Signika Variable",
+					"system-ui",
+					"sans-serif"
+				],
+				"$description": "Headings, quotes and short UI labels (buttons, tags, navigation, form labels). Never paragraphs."
+			},
+			"body": {
+				"$value": [
+					"system-ui",
+					"sans-serif"
+				],
+				"$description": "All running text: the device's own UI font, with its matching Hebrew."
+			}
+		},
+		"weight": {
+			"$type": "fontWeight",
+			"regular": {
+				"$value": 400
+			},
+			"medium": {
+				"$value": 500
+			},
+			"semibold": {
+				"$value": 600
+			}
+		},
+		"size": {
+			"$type": "dimension",
+			"4xl": {
+				"$value": {
+					"value": 3,
+					"unit": "rem"
+				}
+			},
+			"3xl": {
+				"$value": {
+					"value": 2.25,
+					"unit": "rem"
+				}
+			},
+			"2xl": {
+				"$value": {
+					"value": 1.75,
+					"unit": "rem"
+				}
+			},
+			"xl": {
+				"$value": {
+					"value": 1.375,
+					"unit": "rem"
+				}
+			},
+			"l": {
+				"$value": {
+					"value": 1.125,
+					"unit": "rem"
+				}
+			},
+			"m": {
+				"$value": {
+					"value": 1,
+					"unit": "rem"
+				}
+			},
+			"s": {
+				"$value": {
+					"value": 0.875,
+					"unit": "rem"
+				}
+			}
+		}
+	}
+}

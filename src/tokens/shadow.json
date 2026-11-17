@@ -1,0 +1,188 @@
+{
+	"shadow": {
+		"$type": "shadow",
+		"s": {
+			"$value": [
+				{
+					"color": {
+						"colorSpace": "srgb",
+						"components": [
+							0.1216,
+							0.1059,
+							0.0902
+						],
+						"alpha": 0.06,
+						"hex": "#1f1b17"
+					},
+					"offsetX": {
+						"value": 0,
+						"unit": "px"
+					},
+					"offsetY": {
+						"value": 1,
+						"unit": "px"
+					},
+					"blur": {
+						"value": 2,
+						"unit": "px"
+					},
+					"spread": {
+						"value": 0,
+						"unit": "px"
+					}
+				},
+				{
+					"color": {
+						"colorSpace": "srgb",
+						"components": [
+							0.1216,
+							0.1059,
+							0.0902
+						],
+						"alpha": 0.08,
+						"hex": "#1f1b17"
+					},
+					"offsetX": {
+						"value": 0,
+						"unit": "px"
+					},
+					"offsetY": {
+						"value": 1,
+						"unit": "px"
+					},
+					"blur": {
+						"value": 3,
+						"unit": "px"
+					},
+					"spread": {
+						"value": 0,
+						"unit": "px"
+					}
+				}
+			],
+			"$description": "Slight lift: clickable cards at rest, raised buttons. Step up to m on hover."
+		},
+		"m": {
+			"$value": [
+				{
+					"color": {
+						"colorSpace": "srgb",
+						"components": [
+							0.1216,
+							0.1059,
+							0.0902
+						],
+						"alpha": 0.06,
+						"hex": "#1f1b17"
+					},
+					"offsetX": {
+						"value": 0,
+						"unit": "px"
+					},
+					"offsetY": {
+						"value": 4,
+						"unit": "px"
+					},
+					"blur": {
+						"value": 8,
+						"unit": "px"
+					},
+					"spread": {
+						"value": 0,
+						"unit": "px"
+					}
+				},
+				{
+					"color": {
+						"colorSpace": "srgb",
+						"components": [
+							0.1216,
+							0.1059,
+							0.0902
+						],
+						"alpha": 0.08,
+						"hex": "#1f1b17"
+					},
+					"offsetX": {
+						"value": 0,
+						"unit": "px"
+					},
+					"offsetY": {
+						"value": 8,
+						"unit": "px"
+					},
+					"blur": {
+						"value": 16,
+						"unit": "px"
+					},
+					"spread": {
+						"value": 0,
+						"unit": "px"
+					}
+				}
+			],
+			"$description": "Floating UI: dropdowns, menus, popovers, tooltips, sticky headers, card hover."
+		},
+		"l": {
+			"$value": [
+				{
+					"color": {
+						"colorSpace": "srgb",
+						"components": [
+							0.1216,
+							0.1059,
+							0.0902
+						],
+						"alpha": 0.1,
+						"hex": "#1f1b17"
+					},
+					"offsetX": {
+						"value": 0,
+						"unit": "px"
+					},
+					"offsetY": {
+						"value": 12,
+						"unit": "px"
+					},
+					"blur": {
+						"value": 24,
+						"unit": "px"
+					},
+					"spread": {
+						"value": 0,
+						"unit": "px"
+					}
+				},
+				{
+					"color": {
+						"colorSpace": "srgb",
+						"components": [
+							0.1216,
+							0.1059,
+							0.0902
+						],
+						"alpha": 0.12,
+						"hex": "#1f1b17"
+					},
+					"offsetX": {
+						"value": 0,
+						"unit": "px"
+					},
+					"offsetY": {
+						"value": 24,
+						"unit": "px"
+					},
+					"blur": {
+						"value": 48,
+						"unit": "px"
+					},
+					"spread": {
+						"value": 0,
+						"unit": "px"
+					}
+				}
+			],
+			"$description": "Top layer: modals, drawers, toasts. Pair modals with a dimmed backdrop."
+		}
+	}
+}

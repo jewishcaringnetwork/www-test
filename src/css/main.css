@@ -1,1 +1,9 @@
-@import '@kochav/css';
+@layer global, composition, utility, block;
+
+@import '@kochav/css/global/reset.css' layer(global);
+@import '@kochav/css/composition/index.css' layer(composition);
+@import '@kochav/css/utility/index.css' layer(utility);
+
+@import './global/base.css' layer(global);
+@import './utility/container.css' layer(utility);
+@import './utility/text.css' layer(utility);

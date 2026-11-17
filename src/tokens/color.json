@@ -1,0 +1,149 @@
+{
+	"color": {
+		"$type": "color",
+		"surface": {
+			"page": {
+				"$value": "{color.neutral.50}",
+				"$description": "Default page background: a warm off-white."
+			},
+			"card": {
+				"$value": "{color.neutral.0}",
+				"$description": "Cards, panels, inputs and modals that sit on the page."
+			},
+			"sunken": {
+				"$value": "{color.neutral.100}",
+				"$description": "Recessed areas: table headers, footers, disabled inputs."
+			},
+			"brand": {
+				"$value": "{color.brand.blue}",
+				"$description": "Brand-blue bands and hero blocks. Put text.on-brand on it."
+			},
+			"accent": {
+				"$value": "{color.gold.50}",
+				"$description": "Soft gold highlight behind callouts and donation prompts. Text on it: text.primary or gold.700."
+			}
+		},
+		"text": {
+			"primary": {
+				"$value": "{color.neutral.900}",
+				"$description": "Default text and headings on light surfaces (16:1 on surface.page)."
+			},
+			"secondary": {
+				"$value": "{color.neutral.600}",
+				"$description": "Supporting text: descriptions, metadata, captions (6.3:1 on surface.page)."
+			},
+			"subtle": {
+				"$value": "{color.neutral.500}",
+				"$description": "Placeholders, timestamps, helper text (4.8:1 on surface.page). The lightest gray allowed for text."
+			},
+			"on-brand": {
+				"$value": "{color.neutral.0}",
+				"$description": "Text and icons on surface.brand or blue.700 (7.5:1 on brand blue)."
+			},
+			"on-accent": {
+				"$value": "{color.blue.900}",
+				"$description": "Text on brand-gold fills, such as the gold Donate button (8.2:1)."
+			},
+			"link": {
+				"$value": "{color.brand.blue}",
+				"$description": "Links in running text; underline them. Hover: blue.700."
+			}
+		},
+		"border": {
+			"subtle": {
+				"$value": "{color.neutral.200}",
+				"$description": "Dividers and card outlines (decorative, not for control edges)."
+			},
+			"strong": {
+				"$value": "{color.neutral.500}",
+				"$description": "Edges of inputs, checkboxes and other controls; meets 3:1 against white."
+			}
+		},
+		"focus-ring": {
+			"$value": "{color.blue.400}",
+			"$description": "Keyboard focus outline: 2px with a 2px offset (4.0:1 on white, 3.8:1 on the page). On brand-blue backgrounds use brand.gold; on gold buttons over blue use neutral.0."
+		},
+		"status": {
+			"success": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.1647,
+						0.4784,
+						0.2941
+					],
+					"hex": "#2a7a4b"
+				},
+				"$description": "Success text, icons and borders (5.3:1 on white). Pair with an icon or word."
+			},
+			"success-bg": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.902,
+						0.9569,
+						0.9255
+					],
+					"hex": "#e6f4ec"
+				},
+				"$description": "Success message background; success text on it is 4.7:1."
+			},
+			"warning": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.5412,
+						0.3529,
+						0.0
+					],
+					"hex": "#8a5a00"
+				},
+				"$description": "Warning text, icons and borders (5.9:1 on white). Gold itself is too light for warning text."
+			},
+			"warning-bg": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9922,
+						0.9529,
+						0.8431
+					],
+					"hex": "#fdf3d7"
+				},
+				"$description": "Warning message background; warning text on it is 5.4:1."
+			},
+			"danger": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.702,
+						0.149,
+						0.1176
+					],
+					"hex": "#b3261e"
+				},
+				"$description": "Errors, destructive actions, required-field marks (6.5:1 on white)."
+			},
+			"danger-bg": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9843,
+						0.9137,
+						0.9059
+					],
+					"hex": "#fbe9e7"
+				},
+				"$description": "Error message background; danger text on it is 5.6:1."
+			},
+			"info": {
+				"$value": "{color.brand.blue}",
+				"$description": "Informational text, icons and borders."
+			},
+			"info-bg": {
+				"$value": "{color.blue.50}",
+				"$description": "Info message background; info text on it is 6.8:1."
+			}
+		}
+	}
+}

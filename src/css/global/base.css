@@ -1,0 +1,35 @@
+/**
+ * Global Styles
+ * Low-specificity styles that apply to the whole project
+ */
+
+body {
+	background-color: var(--color-surface-page);
+	color: var(--color-text-primary);
+	font-family: var(--font-family-body);
+	font-size: var(--font-size-m);
+}
+
+:focus-visible {
+	--outline-size: max(2px, 0.15em);
+
+	outline: var(--outline-width, var(--outline-size)) var(--outline-style, solid)
+		var(--outline-color, currentColor);
+	outline-offset: var(--outline-offset, var(--outline-size));
+}
+
+p {
+	line-height: var(--leading-normal, 1.5);
+	overflow-wrap: break-word;
+	text-wrap: pretty;
+}
+
+a {
+	color: var(--color-text-link);
+	text-underline-offset: 0.15em;
+
+	&:hover,
+	&:focus-visible {
+		text-decoration: none;
+	}
+}

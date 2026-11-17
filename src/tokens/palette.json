@@ -1,0 +1,334 @@
+{
+	"$description": "Raw, primitive colors tokens",
+	"color": {
+		"$type": "color",
+		"brand": {
+			"blue": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.0784,
+						0.3373,
+						0.5765
+					],
+					"hex": "#145693"
+				},
+				"$description": "Brand blue from the JCN and Tikva House logos. Primary buttons, links, brand bands, headings. 7.5:1 on white: safe for text."
+			},
+			"gold": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9333,
+						0.7412,
+						0.1647
+					],
+					"hex": "#eebd2a"
+				},
+				"$description": "Brand gold from the logo marks. Accent only: fills, highlights, dividers, icons, and (if approved) the Donate button. 1.8:1 on white: never text on light backgrounds."
+			}
+		},
+		"blue": {
+			"50": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9333,
+						0.9569,
+						0.9804
+					],
+					"hex": "#eef4fa"
+				},
+				"$description": "Lightest blue tint: info backgrounds, selected rows, secondary-button hover."
+			},
+			"100": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.8471,
+						0.902,
+						0.9529
+					],
+					"hex": "#d8e6f3"
+				},
+				"$description": "Subtle blue fills and tags; disabled label on blue backgrounds."
+			},
+			"200": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.6902,
+						0.8,
+						0.902
+					],
+					"hex": "#b0cce6"
+				},
+				"$description": "Decorative fills and illustrations. Not for text."
+			},
+			"300": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.4941,
+						0.6667,
+						0.8275
+					],
+					"hex": "#7eaad3"
+				},
+				"$description": "Decorative fills and chart series. Not for text."
+			},
+			"400": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.2902,
+						0.5137,
+						0.7333
+					],
+					"hex": "#4a83bb"
+				},
+				"$description": "Focus rings and large icons (4.0:1 on white). Not for body text."
+			},
+			"600": {
+				"$value": "{color.brand.blue}",
+				"$description": "The brand blue in the scale."
+			},
+			"700": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.0588,
+						0.2667,
+						0.4588
+					],
+					"hex": "#0f4475"
+				},
+				"$description": "Hover and pressed state for brand-blue buttons and links (10:1 on white)."
+			},
+			"900": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.0392,
+						0.1686,
+						0.2902
+					],
+					"hex": "#0a2b4a"
+				},
+				"$description": "Deepest blue: footers, text on gold."
+			}
+		},
+		"gold": {
+			"50": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9922,
+						0.9725,
+						0.9059
+					],
+					"hex": "#fdf8e7"
+				},
+				"$description": "Lightest gold tint: accent surfaces."
+			},
+			"100": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9843,
+						0.9373,
+						0.7765
+					],
+					"hex": "#fbefc6"
+				},
+				"$description": "Soft gold fill for badges and highlights."
+			},
+			"200": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9647,
+						0.8667,
+						0.5412
+					],
+					"hex": "#f6dd8a"
+				},
+				"$description": "Decorative gold: illustrations and chart series."
+			},
+			"500": {
+				"$value": "{color.brand.gold}",
+				"$description": "The brand gold in the scale."
+			},
+			"600": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.8784,
+						0.6706,
+						0.0784
+					],
+					"hex": "#e0ab14"
+				},
+				"$description": "Hover fill for the gold Donate button (option under review); blue-900 text on it is 6.9:1. Not for text."
+			},
+			"700": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.5412,
+						0.4,
+						0.0314
+					],
+					"hex": "#8a6608"
+				},
+				"$description": "The only gold safe for text on light backgrounds (5.3:1 on white)."
+			},
+			"900": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.3608,
+						0.2667,
+						0.0196
+					],
+					"hex": "#5c4405"
+				},
+				"$description": "Darkest gold: text on gold-100 (8:1)."
+			}
+		},
+		"neutral": {
+			"0": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						1.0,
+						1.0,
+						1.0
+					],
+					"hex": "#ffffff"
+				},
+				"$description": "White."
+			},
+			"50": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9804,
+						0.9725,
+						0.9569
+					],
+					"hex": "#faf8f4"
+				},
+				"$description": "Warm off-white: page background."
+			},
+			"100": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.9529,
+						0.9373,
+						0.9098
+					],
+					"hex": "#f3efe8"
+				},
+				"$description": "Sunken surfaces."
+			},
+			"200": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.902,
+						0.8784,
+						0.8392
+					],
+					"hex": "#e6e0d6"
+				},
+				"$description": "Subtle borders and dividers; disabled button fill."
+			},
+			"300": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.8235,
+						0.7922,
+						0.7412
+					],
+					"hex": "#d2cabd"
+				},
+				"$description": "Disabled control borders; decorative lines."
+			},
+			"400": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.6627,
+						0.6235,
+						0.5647
+					],
+					"hex": "#a99f90"
+				},
+				"$description": "Disabled icons only (2.6:1, below text contrast on purpose)."
+			},
+			"500": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.4667,
+						0.4275,
+						0.3765
+					],
+					"hex": "#776d60"
+				},
+				"$description": "Subtle text and control borders (5.1:1 on white)."
+			},
+			"600": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.3922,
+						0.3569,
+						0.3098
+					],
+					"hex": "#645b4f"
+				},
+				"$description": "Secondary text (6.7:1 on white); disabled button labels."
+			},
+			"700": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.2902,
+						0.2627,
+						0.2275
+					],
+					"hex": "#4a433a"
+				},
+				"$description": "Strong secondary text; icons."
+			},
+			"800": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.1922,
+						0.1725,
+						0.149
+					],
+					"hex": "#312c26"
+				},
+				"$description": "Dark surfaces, tooltips."
+			},
+			"900": {
+				"$value": {
+					"colorSpace": "srgb",
+					"components": [
+						0.1216,
+						0.1059,
+						0.0902
+					],
+					"hex": "#1f1b17"
+				},
+				"$description": "Primary text: warm near-black (17:1 on white)."
+			}
+		}
+	}
+}

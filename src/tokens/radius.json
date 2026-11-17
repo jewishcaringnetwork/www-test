@@ -1,0 +1,40 @@
+{
+	"radius": {
+		"$type": "dimension",
+		"s": {
+			"$value": {
+				"value": 6,
+				"unit": "px"
+			},
+			"$description": "Small controls: checkboxes, tags, tooltips."
+		},
+		"m": {
+			"$value": {
+				"value": 10,
+				"unit": "px"
+			},
+			"$description": "Buttons and inputs."
+		},
+		"l": {
+			"$value": {
+				"value": 16,
+				"unit": "px"
+			},
+			"$description": "Cards, panels, dropdown menus."
+		},
+		"xl": {
+			"$value": {
+				"value": 24,
+				"unit": "px"
+			},
+			"$description": "Modals, hero images, large feature blocks."
+		},
+		"full": {
+			"$value": {
+				"value": 9999,
+				"unit": "px"
+			},
+			"$description": "Pills, avatars, round icon buttons, status badges."
+		}
+	}
+}

@@ -1,0 +1,84 @@
+/**
+ * Typography
+ */
+
+.text-display,
+.text-h1,
+.text-h2,
+.text-h3 {
+	font-family: var(--font-family-heading);
+	line-height: var(--leading-tight, 1.2);
+	overflow-wrap: break-word;
+	text-wrap: balance;
+}
+
+/**
+ * Hero and campaign titles; one per page
+ */
+.text-display {
+	font-size: var(--font-size-4xl);
+	font-weight: var(--font-weight-semibold);
+}
+
+/**
+ * Page titles
+ */
+.text-h1 {
+	font-size: var(--font-size-3xl);
+	font-weight: var(--font-weight-semibold);
+}
+
+/**
+ * Section headings
+ */
+.text-h2 {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-semibold);
+}
+
+/**
+ * Card and subsection headings
+ */
+.text-h3 {
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-medium);
+}
+
+.text-large,
+.text-body,
+.text-small,
+.text-label {
+	line-height: var(--leading-normal, 1.5);
+	overflow-wrap: break-word;
+	text-wrap: pretty;
+}
+
+/**
+ * Intro paragraphs and lead text
+ */
+.text-large {
+	font-size: var(--font-size-l);
+}
+
+/**
+ * Default running text
+ */
+.text-body {
+	font-size: var(--font-size-m);
+}
+
+/**
+ * Captions, footnotes, metadata
+ */
+.text-small {
+	font-size: var(--font-size-s);
+}
+
+/**
+ * Buttons, tags, navigation and form labels. Short text only
+ */
+.text-label {
+	font-family: var(--font-family-heading);
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-medium);
+}

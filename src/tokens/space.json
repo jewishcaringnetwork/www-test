@@ -1,0 +1,74 @@
+{
+	"space": {
+		"$type": "dimension",
+		"0": {
+			"$value": {
+				"value": 0,
+				"unit": "rem"
+			}
+		},
+		"3xs": {
+			"$value": {
+				"value": 0.25,
+				"unit": "rem"
+			},
+			"$description": "Hairline gaps: icon-to-label, badge padding."
+		},
+		"2xs": {
+			"$value": {
+				"value": 0.5,
+				"unit": "rem"
+			},
+			"$description": "Tight gaps inside controls; between related inline items."
+		},
+		"xs": {
+			"$value": {
+				"value": 0.75,
+				"unit": "rem"
+			},
+			"$description": "Gaps in dense lists; small control padding."
+		},
+		"s": {
+			"$value": {
+				"value": 1,
+				"unit": "rem"
+			},
+			"$description": "Default gap: card padding on mobile, form field spacing."
+		},
+		"m": {
+			"$value": {
+				"value": 1.5,
+				"unit": "rem"
+			},
+			"$description": "Card padding on desktop; gap between cards; button horizontal padding."
+		},
+		"l": {
+			"$value": {
+				"value": 2,
+				"unit": "rem"
+			},
+			"$description": "Space between groups within a section; heading to content."
+		},
+		"xl": {
+			"$value": {
+				"value": 3,
+				"unit": "rem"
+			},
+			"$description": "Section padding on mobile; between major blocks."
+		},
+		"2xl": {
+			"$value": {
+				"value": 4,
+				"unit": "rem"
+			},
+			"$description": "Section padding on desktop."
+		},
+		"3xl": {
+			"$value": {
+				"value": 6,
+				"unit": "rem"
+			},
+			"$description": "Hero and page-top padding on large screens."
+		}
+	}
+}

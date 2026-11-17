@@ -1,0 +1,18 @@
+{
+	"version": "2025.10",
+	"description": "JCN design tokens (source of truth). Light theme only.",
+	"resolutionOrder": [
+		{
+			"type": "set",
+			"name": "base",
+			"sources": [
+				{ "$ref": "./palette.json" },
+				{ "$ref": "./color.json" },
+				{ "$ref": "./space.json" },
+				{ "$ref": "./radius.json" },
+				{ "$ref": "./shadow.json" },
+				{ "$ref": "./font.json" }
+			]
+		}
+	]
+}
