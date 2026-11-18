@@ -2,41 +2,50 @@
 import type { HTMLAttributes } from 'astro/types';
 import './button.css';
 
-interface Props {
+type BaseProps = {
 	inverse?: boolean;
 	disabled?: boolean;
 	state?: 'hover' | 'focus';
 	variant: 'primary' | 'secondary' | 'donate';
-	href?: string;
+};
+
+type AnchorProps = HTMLAttributes<'a'> & {
+	href: string;
+	type?: never;
+};
+
+type ButtonProps = HTMLAttributes<'button'> & {
+	href?: never;
 	type?: HTMLAttributes<'button'>['type'];
-}
+};
 
-const { props } = Astro;
+type Props = BaseProps & (AnchorProps | ButtonProps);
 
-const Tag = props.href ? 'a' : 'button';
+const { href, disabled, type, variant, state, inverse, class: cn, ...props } =
+	Astro.props;
 
-const restProps = props.href
+const restProps = href
 	? {
-		href: props.disabled ? undefined : props.href,
-		role: props.disabled ? 'link' : undefined,
-		tabindex: props.disabled ? -1 : undefined,
-		'aria-disabled': props.disabled,
-	} as const
-	: {
-		type: props.type,
-		disabled: props.disabled,
-	} as const;
+		href: disabled ? undefined : href,
+		role: disabled ? 'link' as const : undefined,
+		tabindex: disabled ? -1 : undefined,
+		'aria-disabled': disabled,
+	}
+	: { type, disabled };
+
+const Tag = href ? 'a' : 'button';
 ---
 
 <Tag
-	class:list={['btn', 'text-label']}
-	data-inverse={props.inverse}
-	data-state={props.state}
-	data-variant={props.variant}
+	{...restProps}
+	class:list={['btn', 'text-label', cn]}
+	data-inverse={inverse}
+	data-state={state}
+	data-variant={variant}
 	data-icon={Astro.slots.has('icon')
 	? Astro.slots.has('default') ? true : 'only'
 	: false}
-	{...restProps}
+	{...props}
 >
 	<slot name="icon" />
 	<slot />
