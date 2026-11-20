@@ -1,6 +1,6 @@
 ---
 import Icon from '~/components/icon.astro';
-import { site } from '~/config';
+import { org, site, telHref } from '~/config';
 ---
 
 <style>
@@ -60,9 +60,9 @@ import { site } from '~/config';
 	<div class="inner | repel container | text-small">
 		<p class="tagline">{site.tagline}</p>
 		<div class="links | cluster">
-			<a class="phone" href={site.phone.href}>
+			<a class="phone" href={telHref(org.phone)}>
 				<Icon name="phone" size={16} />
-				{site.phone.display}
+				{org.phone}
 			</a>
 			<a class="contact" href="/contact">Contact us</a>
 		</div>

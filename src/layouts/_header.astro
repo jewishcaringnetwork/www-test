@@ -2,7 +2,7 @@
 import Logo from '~/assets/logos/JCN-logo-color.svg';
 import Button from '~/components/button.astro';
 import Icon from '~/components/icon.astro';
-import { mainNav, site } from '~/config';
+import { mainNav, org, site, telHref } from '~/config';
 
 const menuId = (i: number, prefix: string) => `${prefix}-menu-${i}`;
 ---
@@ -396,8 +396,8 @@ const menuId = (i: number, prefix: string) => `${prefix}-menu-${i}`;
 			<p class="support-label | text-label">Need support?</p>
 			<a
 				class="support-phone | text-h3"
-				href={site.phone.href}
-			>{site.phone.display}</a>
+				href={telHref(org.phone)}
+			>{org.phone}</a>
 			<a href="/contact">Contact us</a>
 		</div>
 	</nav>

@@ -1,6 +1,6 @@
 ---
 import Logo from '~/assets/logos/JCN-logo-white.svg';
-import { footerLinks, legalLinks, site } from '~/config';
+import { footerLinks, legalLinks, org, site, telHref } from '~/config';
 ---
 
 <style>
@@ -128,11 +128,14 @@ import { footerLinks, legalLinks, site } from '~/config';
 			<div class="col | stack">
 				<h2>Call or visit</h2>
 				<address class="stack">
-					<p>{site.address[0]}<br />{site.address[1]}</p>
-					<p><a href={`mailto:${site.email}`}>{site.email}</a></p>
 					<p>
-						Tel <a href={site.phone.href}>{site.phone.display}</a><br />
-						Fax {site.fax}
+						{org.address.street}<br />{org.address.city},
+						{org.address.state} {org.address.zip}
+					</p>
+					<p><a href={`mailto:${org.email}`}>{org.email}</a></p>
+					<p>
+						Tel <a href={telHref(org.phone)}>{org.phone}</a><br />
+						Fax {org.fax}
 					</p>
 				</address>
 			</div>
@@ -140,8 +143,8 @@ import { footerLinks, legalLinks, site } from '~/config';
 
 		<div class="legal | repel | text-small">
 			<p>
-				© {new Date().getFullYear()} {site.legalName}, a 501(c)(3) nonprofit.
-				EIN {site.ein}. Gifts are tax-deductible as allowed by law.
+				© {new Date().getFullYear()} {org.legalName}, a 501(c)(3) nonprofit. EIN
+				{org.ein}. Gifts are tax-deductible as allowed by law.
 			</p>
 			<div class="cluster">
 				{legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}

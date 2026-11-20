@@ -1,0 +1,17 @@
+{
+	"site": {
+		"tagline": "Supporting families facing serious illness since 1996",
+		"description": "Free, long-term, family-centered support for Jewish families facing serious illness in Baltimore and beyond."
+	},
+	"org": {
+		"email": "info@jewishcaringnetwork.org",
+		"phone": "410-602-6075",
+		"fax": "410-602-6076",
+		"address": {
+			"street": "5806 Park Heights Ave",
+			"city": "Baltimore",
+			"state": "MD",
+			"zip": "21215"
+		}
+	}
+}

@@ -1,14 +1,22 @@
-export const site = {
+import data from '../content/site.json' with { type: 'json' };
+import { siteSchema } from './schemas/site.ts';
+
+// bad data fails the build
+const editable = siteSchema.parse(data);
+
+export const telHref = (phone: string) => `tel:+1${phone.replaceAll('-', '')}`;
+
+export const org = {
+	...editable.org,
+	// locked: put these last so nothing in the JSON can override them
 	name: 'Jewish Caring Network',
-	tagline: 'Supporting families facing serious illness since 1996',
-	description:
-		'Free, long-term, family-centered support for Jewish families facing serious illness in Baltimore and beyond.',
 	legalName: 'Jewish Caring Network',
 	ein: '52-2224452',
-	email: 'info@jewishcaringnetwork.org',
-	phone: { display: '410-602-6075', href: 'tel:+14106026075' },
-	fax: '410-602-6076',
-	address: ['5806 Park Heights Ave', 'Baltimore, MD 21215'],
+};
+
+export const site = {
+	...editable.site,
+	name: org.name,
 };
 
 export interface NavLink {

@@ -1,7 +1,7 @@
 ---
 import Button from '~/components/button.astro';
 import Icon from '~/components/icon.astro';
-import { type NavLink, site } from '~/config';
+import { type NavLink, org, telHref } from '~/config';
 import Layout from '~/layouts/base.astro';
 
 const moreLinks: NavLink[] = [
@@ -85,8 +85,8 @@ const moreLinks: NavLink[] = [
 			you're looking for? Call us. We're glad to help.
 		</p>
 		<div class="actions | cluster">
-			<Button variant="primary" href={site.phone.href}>
-				<Icon slot="icon" name="phone" />Call {site.phone.display}
+			<Button variant="primary" href={telHref(org.phone)}>
+				<Icon slot="icon" name="phone" />Call {org.phone}
 			</Button>
 			<Button variant="secondary" href="/">Go to the home page</Button>
 		</div>
