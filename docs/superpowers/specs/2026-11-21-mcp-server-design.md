@@ -155,7 +155,7 @@ into the wrong field.
    House "Request a Stay").
 4. Format the file the way dprint does (`@dprint/formatter` + `@dprint/json`,
    WebAssembly, run in the function), so the PR diff shows only the edit and
-   `pnpm check:fmt` passes.
+   `pnpm lint:fmt` passes.
 5. Create branch `edit/<collection>/<id>-<short id>` from `main`. The suffix
    lets two edits to the same file coexist.
 6. Commit with the contents API, passing the `sha`. If `main` changed since,

@@ -8,12 +8,15 @@
   store, that checkout uses aube: run the same command with `aube` instead (e.g.
   `aube add <pkg>`) rather than reinstalling.
 - Formatting is **dprint** (`dprint.json`), not Prettier: it covers TS, JSON,
-  Markdown, CSS and `.astro` files. Run `pnpm format`; CI-style check is `pnpm
-  check:fmt`.
+  Markdown, CSS and `.astro` files. Run `pnpm format` to fix.
+- `pnpm lint` runs every read-only check; add a new one as a `lint:<what>`
+  script and append it to the `lint` chain. `lint:fmt` is dprint, `lint:tokens`
+  is sugarcube (DTCG tokens and token references in CSS), `lint:types` is `astro
+  sync && tsc --noEmit`.
+- Type checking uses TypeScript 7 and covers `.ts` files only; `.astro` files
+  aren't type-checked until `@astrojs/ts-content-mapper` is stable.
 - Schema tests: `node --test 'src/schemas/*.test.ts'` (Node's built-in runner;
   TypeScript runs natively, no build step).
-- No type checker is installed yet. Until `@astrojs/check` is added, a cached
-  TypeScript can be run with `node <path-to-typescript>/bin/tsc --noEmit -p .`.
 - AI-assisted commits end with an `Assisted-by: AGENT:MODEL` trailer (Linux
   kernel convention), e.g. `Assisted-by: Claude:claude-opus-5-5`. Never use
   `Co-Authored-By` for an AI tool.
