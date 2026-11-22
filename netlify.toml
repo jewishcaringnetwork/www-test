@@ -1,0 +1,6 @@
+#:schema https://open-api.netlify.com/netlify.schema.json
+#:tombi schema.strict = false
+
+[dev]
+targetPort = 3000
+autoLaunch = false
