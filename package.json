@@ -9,7 +9,10 @@
 		"build": "astro build",
 		"preview": "astro build && astro preview",
 		"test": "node --test",
-		"check:fmt": "dprint check",
+		"lint": "\"$npm_execpath\" run lint:fmt && \"$npm_execpath\" run lint:tokens && \"$npm_execpath\" run lint:types",
+		"lint:fmt": "dprint check",
+		"lint:tokens": "sugarcube lint",
+		"lint:types": "astro sync && tsc --noEmit",
 		"format": "dprint fmt"
 	},
 	"dependencies": {
@@ -25,6 +28,7 @@
 		"@sugarcube-sh/vite": "^0.1.28",
 		"@types/node": "^26.6.6",
 		"dprint": "^0.65.0",
-		"netlify-cli": "^27.20.1"
+		"netlify-cli": "^27.20.1",
+		"typescript": "^7.0.2"
 	}
 }
