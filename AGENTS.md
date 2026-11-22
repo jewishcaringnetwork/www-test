@@ -39,3 +39,20 @@ exposes so Claude can edit site content for staff. Write them for that reader.
 - Blocks are flat semantic sections, never layout primitives. A new block type
   needs its own visual design; layout variations are fields. See
   `docs/superpowers/specs/2026-11-21-page-schemas-design.md`.
+- No `.transform()`, so schemas convert cleanly to JSON Schema for MCP tool
+  inputs.
+- Store a value once and derive the rest at render time: the phone is stored as
+  `410-602-6075` and `telHref()` builds the `tel:` link.
+- Content accessibility rules belong in the schema (required alt text, no "click
+  here" link text). Heading levels come from components, not content.
+- Zod, not Markdoc: content is mostly structured blocks, and one Zod schema
+  serves both the build and the MCP tools. Revisit Markdoc only if body text
+  needs components inside it.
+
+## Editable content (`content/`)
+
+- Only root `content/` is staff-editable. Schemas stay in `src/`, so an edit
+  can't loosen its own validation.
+- Nav (`mainNav`, `footerLinks`, `legalLinks`) stays in code.
+- Locked identity (`name`, `legalName`, `ein`) lives in `src/config.ts`, merged
+  after `site.json`. A field that isn't in an editable file can't be edited.
