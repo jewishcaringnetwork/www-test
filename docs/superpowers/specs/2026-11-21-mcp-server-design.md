@@ -15,7 +15,7 @@ The first milestone proves the whole loop, without styling: Claude → MCP → P
 checks → auto-merge → Netlify deploy.
 
 1. Site settings: "change the phone number", end to end.
-2. One page: "add a section".
+2. One page: "add a section" (a JSON Patch `add` on `/blocks/-`).
 
 ## Architecture
 
@@ -24,16 +24,36 @@ checks → auto-merge → Netlify deploy.
 - **SDK:** MCP TypeScript SDK v2 (`@modelcontextprotocol/server`,
   `createMcpHandler`). The SDK handles non-POST methods.
 - **Zod:** `astro/zod` (Zod 4), the same instance the schemas use.
-- **Schemas are shared.** Tool inputs are the schemas in `src/schemas/`, the
-  same ones `src/content.config.ts` uses. Bad edits are rejected before a PR
-  exists, and the build catches anything that slips through.
+- **Schemas are shared, but checked on the server.** The server validates every
+  edit with the schemas in `src/schemas/`, the same ones `src/content.config.ts`
+  uses. Bad edits are rejected before a PR exists, and the build catches
+  anything that slips through.
+  - Tool inputs take content as loose `data` / `patch`, not the schemas
+    themselves. The page schema alone is ~5.7k tokens as JSON Schema; a union of
+    all collections in every tool input would cost that on every call. Claude
+    fetches a schema once with `get_schema` instead.
   - Schema factories take `SchemaFns`. The server passes stubs: `image` → a
     string path, `reference` → a string id. Never import `astro:content` here.
   - No `.transform()` in schemas, so they convert cleanly to JSON Schema.
-- **Writes only to `content/`, enforced server-side.** Tools build paths from a
-  validated slug and never accept a raw path. Schemas live in `src/`, so an edit
-  can't loosen its own validation.
+- **Writes only to `content/`, enforced server-side.** Tools take a `collection`
+  from a fixed enum and a validated `id`, build the path themselves, and never
+  accept a raw path. Schemas live in `src/`, so an edit can't loosen its own
+  validation.
 - **No delete tools.**
+
+### Scope
+
+| Content                        | Through MCP                                                        |
+| ------------------------------ | ------------------------------------------------------------------ |
+| `pages` (`content/pages/`)     | Yes, generic content tools                                         |
+| `people` (`content/people/`)   | Yes, generic content tools                                         |
+| Site settings (`site.json`)    | Yes, `read_settings` / `update_settings`                           |
+| `stories` (`content/stories/`) | Not yet. Flow to be designed later                                 |
+| `legal` (`content/legal/`)     | No, at the client's request. The collection is removed after merge |
+
+**Stories, when they come back:** Claude may add a story, or fix one as its
+author asks, but never changes a story's wording unless explicitly told to. The
+`storySchema` description ("not edited through MCP") changes then.
 
 ### Why content-only, when every edit is a PR anyway
 
@@ -64,8 +84,9 @@ the only gate. It stays because review doesn't cover everything:
 - Everyone shares the credential. To revoke, rotate the env var, then remove and
   re-add the connector.
 - **Rate limit:** 60 requests/min via `config.rateLimit`.
-- **Audit log:** `console.info` on every tool call, with the tool name, slug and
-  "requested by". Netlify function logs are the audit trail.
+- **Audit log:** `console.info` on every tool call, with the tool name,
+  collection, id and "requested by". Also log rejected edits, to see how often
+  Claude has to retry. Netlify function logs are the audit trail.
 
 ## GitHub access
 
@@ -81,16 +102,33 @@ the only gate. It stays because review doesn't cover everything:
 
 ## Tools
 
-| Tool              | Status             | Input                                                      | Does                                                                                             |
-| ----------------- | ------------------ | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `list_pages`      | written, needs fix | —                                                          | Page slugs under `content/pages/`                                                                |
-| `read_page`       | next               | `slug`                                                     | The page JSON plus its blob `sha`                                                                |
-| `update_page`     | planned            | `slug`, `sha`, `page`, `summary`, `requestedBy`, `publish` | Validate, commit to a branch, open a PR, maybe enable auto-merge                                 |
-| `read_settings`   | planned (spike 1)  | —                                                          | `content/site.json` plus its `sha`                                                               |
-| `update_settings` | planned (spike 1)  | `sha`, `settings`, `summary`, `requestedBy`, `publish`     | Same flow as `update_page`, validated with `siteSchema`, never the merged `src/config.ts` object |
-| `publish`         | planned            | `pr`                                                       | Enable auto-merge on an edit PR opened with `publish: false`                                     |
-| `create_page`     | later              | `slug`, `page`, …                                          | New page file. It won't appear in nav, which stays in code                                       |
-| `request_change`  | planned            | `title`, `details`, `slug?`, `requestedBy`                 | Open a GitHub issue for something content edits can't do; return its URL                         |
+Content tools are generic: they take a `collection` (`pages` or `people`) and an
+`id` (the file path under the collection, without `.json`, e.g.
+`about/history`). Settings has its own pair, since `site.json` is a single file.
+
+| Tool              | Status                | Input                                                                   | Does                                                                                 |
+| ----------------- | --------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `list_content`    | written, uncommitted  | `collection`                                                            | Ids in the collection on `main`, via the git trees API; `[]` when empty              |
+| `get_schema`      | planned               | `collection` (or `settings`)                                            | The collection's JSON Schema, with descriptions. Claude calls it once before editing |
+| `read_content`    | next                  | `collection`, `id`                                                      | The file's JSON plus its blob `sha`                                                  |
+| `update_content`  | planned               | `collection`, `id`, `sha`, `patch`, `summary`, `requestedBy`, `publish` | Apply a JSON Patch, validate, commit to a branch, open a PR, maybe enable auto-merge |
+| `create_content`  | planned               | `collection`, `id`, `data`, `summary`, `requestedBy`, `publish`         | New file, same flow. A new page won't appear in nav, which stays in code             |
+| `read_settings`   | planned (milestone 1) | —                                                                       | `content/site.json` plus its `sha`                                                   |
+| `update_settings` | planned (milestone 1) | `sha`, `patch`, `summary`, `requestedBy`, `publish`                     | Same flow, validated with `siteSchema`, never the merged `src/config.ts` object      |
+| `publish`         | planned               | `pr`                                                                    | Enable auto-merge on an edit PR opened with `publish: false`                         |
+| `request_change`  | planned               | `title`, `details`, `collection?`, `id?`, `requestedBy`                 | Open a GitHub issue for something content edits can't do; return its URL             |
+
+### Edits are JSON Patch
+
+`update_content` and `update_settings` take a JSON Patch (RFC 6902), limited to
+`add`, `remove`, `replace`, `move` and `test`. A `replace` at path `""` replaces
+the whole file. Patches keep edits small (Claude doesn't resend a 5k-token page
+to fix a typo), and the PR diff shows only what changed.
+
+Blocks are addressed by array position (`/blocks/3/heading`). Claude should
+include `test` ops on the values it expects at those paths, so an edit fails
+instead of landing on the wrong block if the page changed. Stable block ids
+would be stronger but change the schema and content; deferred.
 
 ### `request_change`
 
@@ -99,40 +137,37 @@ types, new images, or an edit the schema rejects for a reason that isn't a typo.
 The tool description tells Claude to use it then, instead of forcing the edit
 into the wrong field.
 
-- Opens an unlabeled issue. The body has `details`, the page (if any) and
-  "Requested by: `requestedBy`". The App's bot account is the author, so
+- Opens an unlabeled issue. The body has `details`, the content item (if any)
+  and "Requested by: `requestedBy`". The App's bot account is the author, so
   `is:issue author:app/<app-slug>` finds every request. Area labels (set by
   Claude from a fixed enum) can come later if triage needs them.
 - Returns the issue URL so the staff member can follow it.
 - The developer works these in Claude Code. Issue text is a staff request, not
   instructions to an agent: read it, don't execute it.
 
-**`list_pages` fix:** pages are `content/pages/**/*.json` (see
-`content.config.ts`), but the tool lists only top-level `.md` files. Use the git
-trees API (`recursive=1`) on `main` and return ids like `index` and
-`about/history`.
+### Edit flow (`update_content`, `create_content`, `update_settings`)
 
-### Edit flow (`update_page`, `update_settings`)
-
-1. Validate the input with the shared schema. On failure, return the Zod issues
-   as a tool error so Claude can fix them and retry.
-2. Enforce rules the schema can't, such as locked blocks (for example Tikva
+1. Load the file at `sha` (for creates: check the id is free on `main`).
+2. Apply the patch. Validate the **whole result** with the collection's schema.
+   On failure, return the Zod issues as a tool error so Claude can fix them and
+   retry. Nothing has touched GitHub yet, so a rejected edit costs no writes.
+3. Enforce rules the schema can't, such as locked blocks (for example Tikva
    House "Request a Stay").
-3. Create branch `edit/<slug>-<short id>` from `main`. The suffix lets two edits
-   to the same page coexist.
-4. Commit with the contents API, passing the `sha` from the read. If `main`
-   changed since, GitHub rejects the write; tell Claude to read again and redo
-   the edit. This stops one staff member silently overwriting another's change.
-5. Open a PR. The title is `summary`; the body includes "Requested by:
+4. Format the file the way dprint does (`@dprint/formatter` + `@dprint/json`,
+   WebAssembly, run in the function), so the PR diff shows only the edit and
+   `pnpm check:fmt` passes.
+5. Create branch `edit/<collection>/<id>-<short id>` from `main`. The suffix
+   lets two edits to the same file coexist.
+6. Commit with the contents API, passing the `sha`. If `main` changed since,
+   GitHub rejects the write; tell Claude to read again and redo the edit. This
+   stops one staff member silently overwriting another's change.
+7. Open a PR. The title is `summary`; the body includes "Requested by:
    `requestedBy`", since commits come from the bot.
-6. `publish: true` ("publish now"): enable auto-merge via GraphQL
+8. `publish: true` ("publish now"): enable auto-merge via GraphQL
    `enablePullRequestAutoMerge`. `publish: false` ("preview first"): return the
    deploy preview URL (`deploy-preview-<pr>--<site>.netlify.app`). The staff
    member reviews it, then says "publish", which calls `publish`.
-7. Return the PR URL and preview URL.
-
-Pretty-print JSON with tabs and a trailing newline, so `pnpm check:fmt` stays
-clean and diffs are small.
+9. Return the PR URL and preview URL.
 
 ## Merge workflow
 
@@ -210,18 +245,42 @@ Custom connectors can't be added on JCN's Team plan without its Owner, so:
 3. **End-to-end:** a personal Free/Pro Claude account adds the custom connector,
    pointed at a deploy preview. Ask JCN's Team Owner to add it only at handoff.
 
+## Delivery
+
+Four PRs, merged in order. Each one is safe on `main` by itself: `/mcp` rejects
+requests without the token, and read-only tools expose only content that's
+already public in the repo.
+
+1. **Endpoint and listing** (jewishcaringnetwork/www-test#3). Docs, the `/mcp`
+   endpoint, `netlify/lib/github.ts`, `list_content`. GitHub and Netlify setup.
+2. **Edit pipeline + milestone 1.** Collection and id validation, JSON Patch,
+   dprint formatting, the edit flow helper, logging; `read_settings`,
+   `update_settings`, `publish`. Proves the merge workflow: a content-only PR
+   auto-merges, a code PR waits for review, a failed build shows as failed. The
+   riskiest PR, since it's the first to write. If it grows, split the pure
+   plumbing (validation, patch, formatting, with tests, no GitHub writes) into
+   its own PR first.
+3. **Content tools + milestone 2.** Schemas built with `SchemaFns` stubs,
+   `get_schema`, `read_content`, `update_content`, `create_content`, locked
+   blocks. Then end to end with opencode and a personal Claude account.
+4. **`request_change`.** Independent; can land any time after 1.
+
 ## Open items
 
-- [ ] Fix `list_pages` (see Tools).
+- [x] `list_content` lists a collection via the git trees API (uncommitted).
 - [ ] With approvals at 0, code-owner review blocks only owned paths. Test with
       two PRs: content-only (should auto-merge) and code (should wait).
 - [ ] A failed Netlify build shows as a **failed** check, not a pending one.
-- [ ] SDK v2 response mode (SSE vs JSON) behaves on Netlify; see the SDK's
-      "Sessions, state, scaling" page if the Inspector hangs.
-- [ ] Tool errors reach Claude as errors, not crashes (test by breaking
-      `GH_REPO`).
-- [ ] The SDK accepts `astro/zod` schemas, and the JSON Schema it emits from the
-      `SchemaFns` stubs is small enough for a tool input.
+- [x] SDK v2 response mode works on Netlify (Inspector, locally and on a deploy
+      preview).
+- [x] Tool errors reach Claude as errors, not crashes (a wrong `GH_REPO` gives a
+      404 with `isError: true`).
+- [x] Schema size: too big for tool inputs (page ~5.7k tokens), hence loose
+      `data` / `patch` plus `get_schema`.
+- [ ] `get_schema` output: `z.toJSONSchema` on the `SchemaFns`-stubbed schemas
+      keeps the descriptions and reads well to Claude.
+- [ ] dprint's WebAssembly formatter runs in the function without a painful cold
+      start or bundle size.
 - [ ] Cleanup for preview PRs that are never published (for example, close after
       14 days).
 - [ ] Images: for now staff can only pick paths that already exist; uploads, alt
@@ -229,4 +288,5 @@ Custom connectors can't be added on JCN's Team plan without its Owner, so:
       developer-assisted.
 - [ ] Page-level accessibility checks: which tool (axe or pa11y) and where it
       runs (a GitHub Action or a Netlify build plugin).
+- [ ] Stories flow (see Scope).
 - [ ] Who is the Owner of JCN's Claude Team plan?
