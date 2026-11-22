@@ -1,7 +1,7 @@
 /**
  * Content collections the MCP server can edit. Each `dir` and `nested` flag
- * matches the collection's loader in `src/content.config.ts`. `stories` and
- * `legal` are deliberately absent; see the MCP spec's Scope section.
+ * matches the collection's loader in `src/content.config.ts`. `stories` is
+ * deliberately absent; see the MCP spec's Scope section.
  */
 export const COLLECTIONS = {
 	pages: {

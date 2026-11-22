@@ -52,7 +52,9 @@ stays consistent.
 | `pages`    | `glob` `**/*.json` | `content/pages/`   | id = path; `index.json` = home |
 | `stories`  | `glob` `*.md`      | `content/stories/` | Family stories; Markdown body  |
 | `people`   | `glob` `*.json`    | `content/people/`  | Leadership, board, staff       |
-| `legal`    | `glob` `*.md`      | `content/legal/`   | Privacy, terms; Markdown body  |
+
+No `legal` collection: the client asked to leave privacy and terms pages off the
+site.
 
 `site.json` stays as is (out of scope). Home is an ordinary page; the layout
 renders only the site name in `<title>` for `index`.
@@ -115,21 +117,20 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
 No count/adjacency guardrail on `cta`: the approved home order puts three
 teasers back to back. Prominence is handled by descriptions (above).
 
-### Stories / people / legal
+### Stories / people
 
 - **stories**: `title`, `summary` (≤200), `image?`, `date`, `author?` (omit for
   anonymous), `featured` (default false); body is Markdown. Written by families,
   not edited through MCP — minimal descriptions.
 - **people**: `name`, `role?`, `group`, `photo?`, `order` (int ≥ 0), `bio?`
   (≤500).
-- **legal**: `title`, `updated` (date); body is Markdown.
 
 ### Files
 
 - `src/schemas/shared.ts` — link, action, image, markdown, icon, header,
   hierarchy description strings.
 - `src/schemas/blocks.ts` — hero + block schemas.
-- `src/schemas/page.ts` — page, story, person, legal schemas.
+- `src/schemas/page.ts` — page, story, person schemas.
 - `src/content.config.ts` — collections.
 
 Schemas needing Astro's `image()` / `reference()` are factories taking those

@@ -143,12 +143,15 @@ import { footerLinks, legalLinks, org, site, telHref } from '~/config';
 
 		<div class="legal | repel | text-small">
 			<p>
-				© {new Date().getFullYear()} {org.legalName}, a 501(c)(3) nonprofit. EIN
+				© {new Date().getFullYear()} {org.legalName}, a 501(c)(3) nonprofit.
+				EIN{' '}
 				{org.ein}. Gifts are tax-deductible as allowed by law.
 			</p>
-			<div class="cluster">
-				{legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
-			</div>
+			{legalLinks.length > 0 && (
+				<div class="cluster">
+					{legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+				</div>
+			)}
 		</div>
 	</div>
 </footer>

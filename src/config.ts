@@ -63,7 +63,5 @@ export const footerLinks: NavLink[] = [
 	{ label: 'Contact Us', href: '/contact' },
 ];
 
-export const legalLinks: NavLink[] = [
-	{ label: 'Privacy Policy', href: '/privacy' },
-	{ label: 'Terms & Conditions', href: '/terms' },
-];
+/** Privacy, terms and similar. Empty until the client adds legal pages. */
+export const legalLinks: NavLink[] = [];

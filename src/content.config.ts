@@ -1,11 +1,6 @@
 import { glob } from 'astro/loaders';
 import { defineCollection, reference } from 'astro:content';
-import {
-	legalSchema,
-	pageSchema,
-	personSchema,
-	storySchema,
-} from './schemas/page.ts';
+import { pageSchema, personSchema, storySchema } from './schemas/page.ts';
 
 const pages = defineCollection({
 	loader: glob({ pattern: '**/*.json', base: './content/pages' }),
@@ -22,9 +17,4 @@ const people = defineCollection({
 	schema: ({ image }) => personSchema({ image, reference }),
 });
 
-const legal = defineCollection({
-	loader: glob({ pattern: '*.md', base: './content/legal' }),
-	schema: legalSchema,
-});
-
-export const collections = { pages, stories, people, legal };
+export const collections = { pages, stories, people };

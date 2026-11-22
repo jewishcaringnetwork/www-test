@@ -67,15 +67,3 @@ export const personSchema = (fns: SchemaFns) =>
 			bio: text(10, 500).optional(),
 		})
 		.meta({ description: 'A person shown on the Leadership page.' });
-
-export const legalSchema = z
-	.strictObject({
-		title: text(3, 60),
-		updated: z.coerce.date().meta({
-			description: 'Date the policy last changed, YYYY-MM-DD.',
-		}),
-	})
-	.meta({
-		description:
-			'A legal page such as the privacy policy. The body is Markdown.',
-	});

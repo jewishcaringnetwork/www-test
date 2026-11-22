@@ -12,8 +12,8 @@ shouldn't need them.
 ## Decision
 
 - No CMS at launch. Content is files in a root `content/` folder (JSON for pages
-  and people, Markdown for stories and legal pages), loaded by Astro content
-  collections and validated by Zod schemas in `src/schemas/`.
+  and people, Markdown for stories), loaded by Astro content collections and
+  validated by Zod schemas in `src/schemas/`.
 - Staff edit by talking to Claude through a custom MCP server that opens PRs on
   their behalf. Design:
   `docs/superpowers/specs/2026-11-21-mcp-server-design.md`.

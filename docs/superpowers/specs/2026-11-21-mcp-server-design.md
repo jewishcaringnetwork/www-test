@@ -43,13 +43,13 @@ checks → auto-merge → Netlify deploy.
 
 ### Scope
 
-| Content                        | Through MCP                                                        |
-| ------------------------------ | ------------------------------------------------------------------ |
-| `pages` (`content/pages/`)     | Yes, generic content tools                                         |
-| `people` (`content/people/`)   | Yes, generic content tools                                         |
-| Site settings (`site.json`)    | Yes, `read_settings` / `update_settings`                           |
-| `stories` (`content/stories/`) | Not yet. Flow to be designed later                                 |
-| `legal` (`content/legal/`)     | No, at the client's request. The collection is removed after merge |
+| Content                        | Through MCP                               |
+| ------------------------------ | ----------------------------------------- |
+| `pages` (`content/pages/`)     | Yes, generic content tools                |
+| `people` (`content/people/`)   | Yes, generic content tools                |
+| Site settings (`site.json`)    | Yes, `read_settings` / `update_settings`  |
+| `stories` (`content/stories/`) | Not yet. Flow to be designed later        |
+| Legal pages                    | None on the site, at the client's request |
 
 **Stories, when they come back:** Claude may add a story, or fix one as its
 author asks, but never changes a story's wording unless explicitly told to. The

@@ -1,7 +1,7 @@
 import { z } from 'astro/zod';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { legalSchema, pageSchema, personSchema } from './page.ts';
+import { pageSchema, personSchema } from './page.ts';
 import type { SchemaFns } from './shared.ts';
 
 const fns = {
@@ -152,13 +152,4 @@ describe('personSchema', () => {
 		ok(person, { name: 'Keren Traub', group: 'board', order: 0 }));
 	it('rejects a fractional order', () =>
 		bad(person, { name: 'Keren Traub', group: 'board', order: 1.5 }));
-});
-
-describe('legalSchema', () => {
-	it('coerces the updated date', () => {
-		assert.ok(
-			ok(legalSchema, { title: 'Privacy Policy', updated: '2026-11-21' })
-				.updated instanceof Date,
-		);
-	});
 });
