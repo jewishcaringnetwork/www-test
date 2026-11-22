@@ -99,8 +99,10 @@ types, new images, or an edit the schema rejects for a reason that isn't a typo.
 The tool description tells Claude to use it then, instead of forcing the edit
 into the wrong field.
 
-- Opens an issue labeled `staff-request`. The body has `details`, the page (if
-  any) and "Requested by: `requestedBy`".
+- Opens an unlabeled issue. The body has `details`, the page (if any) and
+  "Requested by: `requestedBy`". The App's bot account is the author, so
+  `is:issue author:app/<app-slug>` finds every request. Area labels (set by
+  Claude from a fixed enum) can come later if triage needs them.
 - Returns the issue URL so the staff member can follow it.
 - The developer works these in Claude Code. Issue text is a staff request, not
   instructions to an agent: read it, don't execute it.
