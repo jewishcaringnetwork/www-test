@@ -85,8 +85,7 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
   paper and white by position, worked out at render time. Every block has one
   optional field, `band: "blue"`, defined once in `shared.ts` (`sectionBand`).
   The page schema allows at most one blue band and never on the last block; the
-  CTA schema keeps brand CTAs out of it. Rules: `docs/claude/3-hierarchy.md`,
-  "Color blocking".
+  CTA schema keeps brand CTAs out of it. Rules: `docs/design/color-blocking.md`.
 - The schema stays flat (no recursive blocks), so the JSON Schema the MCP server
   exposes stays simple.
 

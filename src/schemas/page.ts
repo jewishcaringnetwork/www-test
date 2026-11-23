@@ -3,7 +3,7 @@ import { blockSchema, headerSchema } from './blocks.ts';
 import { hierarchy, imageSchema, type SchemaFns, text } from './shared.ts';
 
 /**
- * Color-blocking rules that span blocks (docs/claude/3-hierarchy.md): at
+ * Color-blocking rules that span blocks (docs/design/color-blocking.md): at
  * most one blue band per page, and never as the last section, where it
  * would run into the dark footer.
  */
