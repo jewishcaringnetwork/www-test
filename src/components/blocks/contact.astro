@@ -1,0 +1,188 @@
+---
+/**
+ * Contact details for one location: name, address, tap-to-call phone,
+ * optional email, a photo of the place and a quiet link (e.g. to Plan Your
+ * Stay). The phone is the way to act here (Tikva House requests are
+ * phone-only), so it is the largest line, but a link, not a button: the
+ * page's loud asks stay with the hero and CTA.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Icon from '~/components/icon.astro';
+import { telHref } from '~/config';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'contact' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+const { address } = block;
+---
+
+<style>
+	.panel {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		overflow: hidden;
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-l);
+		background: var(--color-surface-card);
+
+		&:has(> .photo) {
+			grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+
+			@media (max-width: 48rem) {
+				grid-template-columns: minmax(0, 1fr);
+			}
+		}
+	}
+
+	.details {
+		--stack-gap: var(--space-m);
+
+		padding: var(--space-xl);
+
+		@media (max-width: 48rem) {
+			padding: var(--space-m);
+		}
+
+		:is(h3, p, dl, dd) {
+			margin: 0;
+		}
+	}
+
+	h3 {
+		color: var(--color-brand-blue);
+	}
+
+	dl {
+		display: grid;
+		grid-template-columns: max-content minmax(0, 1fr);
+		gap: var(--space-s) var(--space-m);
+		align-items: baseline;
+
+		@media (max-width: 30rem) {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-3xs);
+
+			dd + dt {
+				margin-block-start: var(--space-xs);
+			}
+		}
+	}
+
+	dt {
+		color: var(--color-text-secondary);
+	}
+
+	address {
+		font-style: normal;
+		line-height: var(--leading-normal, 1.5);
+	}
+
+	.phone {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2xs);
+		min-block-size: 44px;
+		font-family: var(--font-family-heading);
+		font-size: var(--font-size-xl);
+		font-weight: var(--font-weight-semibold);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.email {
+		overflow-wrap: anywhere;
+	}
+
+	.quiet {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	/* Brand color shows (with the alt text) if the photo fails to load */
+	/* The details set the panel's height; the photo fills it */
+	.photo {
+		position: relative;
+		min-block-size: 18rem;
+		background: var(--color-surface-brand);
+		color: var(--color-text-on-brand);
+
+		img {
+			position: absolute;
+			inset: 0;
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			/* Exteriors: favour the entrance over sky */
+			object-position: 50% 75%;
+		}
+
+		@media (max-width: 48rem) {
+			order: -1;
+			min-block-size: 0;
+			aspect-ratio: 16 / 9;
+		}
+	}
+</style>
+
+<Section type="contact" heading={block.heading} intro={block.intro}>
+	<div class="panel">
+		<div class="details | stack">
+			<h3 class="text-h3" dir="auto">{block.name}</h3>
+			<dl class="text-body">
+				<dt class="text-label">Phone</dt>
+				<dd>
+					<a class="phone" href={telHref(block.phone)}>
+						<Icon name="phone" size={22} />
+						{block.phone}
+					</a>
+				</dd>
+				<dt class="text-label">Address</dt>
+				<dd>
+					<address>
+						{address.street}<br />{address.city}, {address.state} {address.zip}
+					</address>
+				</dd>
+				{block.email && (
+					<>
+						<dt class="text-label">Email</dt>
+						<dd>
+							<a class="email" href={`mailto:${block.email}`}>{block.email}</a>
+						</dd>
+					</>
+				)}
+			</dl>
+			{block.link && (
+				<a class="quiet" href={block.link.href} dir="auto">
+					{block.link.label}
+					<Icon name="arrow-right" size={16} />
+				</a>
+			)}
+		</div>
+		{block.image && (
+			<div class="photo">
+				<Image
+					src={block.image.src}
+					alt={block.image.alt}
+					widths={[480, 720, 960]}
+					sizes="(max-width: 48rem) 100vw, 28rem"
+				/>
+			</div>
+		)}
+	</div>
+</Section>

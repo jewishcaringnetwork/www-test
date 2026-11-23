@@ -6,6 +6,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import Cards from './cards.astro';
+import Contact from './contact.astro';
 import MediaText from './media-text.astro';
 import People from './people.astro';
 import Placeholder from './placeholder.astro';
@@ -28,6 +29,7 @@ const components: Components = {
 	people: People,
 	cards: Cards,
 	mediaText: MediaText,
+	contact: Contact,
 };
 
 const { block } = Astro.props;
