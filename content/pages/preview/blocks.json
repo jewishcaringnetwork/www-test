@@ -93,6 +93,36 @@
 				"label": "Plan Your Stay",
 				"href": "/tikva-house/plan-your-stay"
 			}
+		},
+		{
+			"type": "cta",
+			"tone": "brand",
+			"heading": "Keep the lights on at Tikva House.",
+			"text": "Your gift helps a family rest close to the one they love.",
+			"actions": [
+				{
+					"label": "Support Tikva House",
+					"href": "/donate?fund=tikva-house",
+					"variant": "donate"
+				}
+			]
+		},
+		{
+			"type": "cta",
+			"tone": "subtle",
+			"heading": "Facing a diagnosis? You don’t have to do this alone.",
+			"text": "Reach out confidentially. We’re here for your whole family.",
+			"actions": [
+				{
+					"label": "Request support",
+					"href": "/contact",
+					"variant": "primary"
+				}
+			],
+			"link": {
+				"label": "Call 410-602-6075",
+				"href": "tel:+14106026075"
+			}
 		}
 	]
 }
