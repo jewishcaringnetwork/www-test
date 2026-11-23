@@ -3,9 +3,9 @@
  * A grid of two to six short cards (e.g. ways to get involved, a services
  * teaser), with the shared section header and an optional quiet link below.
  *
- * Cards are outlined, not shadowed: they sit on the page rather than float
- * above it, so they stay quieter than buttons and CTA bands. A card with a
- * link is clickable as a whole, but only its link is in the tab order.
+ * Each item is a `.card` (src/css/block/card.css); a card with a link is
+ * clickable as a whole, lifted with shadow.s. Laid out with kochav's `.grid`:
+ * items stretch to fill their track instead of stopping at 16rem.
  */
 import type { CollectionEntry } from 'astro:content';
 import Icon from '~/components/icon.astro';
@@ -25,39 +25,23 @@ const { block } = Astro.props;
 ---
 
 <style>
-	.deck {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-		gap: var(--space-m);
+	.items {
+		--grid-gap: var(--space-m);
+		--grid-item-min: 18rem;
+		--grid-item-max: none;
 	}
 
-	/* Two or four cards: two columns, so none is left alone on a row */
-	.deck:is([data-count='2'], [data-count='4']) {
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	/* Two or four cards: at most two columns, so none is left alone on a row */
+	.items:is([data-count='2'], [data-count='4']) {
 		max-inline-size: 56rem;
 	}
 
 	.card {
 		--stack-gap: var(--space-2xs);
 
-		position: relative;
-		padding: var(--space-m);
-		border: 1px solid var(--color-border-subtle);
-		border-radius: var(--radius-l);
-		background: var(--color-surface-card);
-
 		:is(h3, p) {
 			margin-block-end: 0;
 		}
-	}
-
-	.card:has(a):hover {
-		border-color: var(--color-brand-blue);
-	}
-
-	.card:has(a:focus-visible) {
-		outline: 2px solid var(--color-focus-ring);
-		outline-offset: 2px;
 	}
 
 	.icon {
@@ -87,18 +71,6 @@ const { block } = Astro.props;
 		padding-block-start: var(--space-xs);
 		font-family: var(--font-family-heading);
 		font-weight: var(--font-weight-medium);
-
-		/* The whole card is the hit area; the ring goes on the card instead */
-		&::after {
-			content: '';
-			position: absolute;
-			inset: 0;
-			border-radius: inherit;
-		}
-
-		&:focus-visible {
-			outline: none;
-		}
 	}
 
 	.quiet {
@@ -113,7 +85,7 @@ const { block } = Astro.props;
 </style>
 
 <Section type="cards" heading={block.heading} intro={block.intro}>
-	<ul role="list" class="deck" data-count={block.items.length}>
+	<ul role="list" class="items | grid" data-count={block.items.length}>
 		{block.items.map((item) => (
 			<li class="card | stack">
 				{item.icon && (

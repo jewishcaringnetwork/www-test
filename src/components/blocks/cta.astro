@@ -4,8 +4,10 @@
  *
  * - `brand`: the loud one. A brand-blue band, h2 in white, inverse buttons
  *   (the gold donate button keeps its fill). Use sparingly, so it stays loud.
- * - `subtle`: a soft gold surface with ordinary buttons and a smaller
- *   heading, for support or a second ask.
+ * - `subtle`: a white `.card` panel (src/css/block/card.css) with ordinary
+ *   buttons and a smaller heading, for support or a second ask (e.g. Home's
+ *   support teaser). No gold: gold surfaces are for donation prompts, and
+ *   the brand-gold fill is the donate button's.
  */
 import type { CollectionEntry } from 'astro:content';
 import Button from '~/components/button.astro';
@@ -36,13 +38,13 @@ const id = `cta-${
 		justify-content: space-between;
 		gap: var(--space-l) var(--space-xl);
 		padding: var(--space-xl);
-		border-radius: var(--radius-xl);
 
 		@media (max-width: 48rem) {
 			padding: var(--space-l) var(--space-m);
 		}
 
 		&[data-tone='brand'] {
+			border-radius: var(--radius-xl);
 			background: var(--color-surface-brand);
 			color: var(--color-text-on-brand);
 
@@ -61,12 +63,14 @@ const id = `cta-${
 		}
 
 		&[data-tone='subtle'] {
-			padding-block: var(--space-l);
-			border: 1px solid var(--color-gold-200);
-			background: var(--color-surface-accent);
+			padding: var(--space-l) var(--space-xl);
+
+			@media (max-width: 48rem) {
+				padding: var(--space-m);
+			}
 
 			h2 {
-				color: var(--color-text-primary);
+				color: var(--color-brand-blue);
 			}
 
 			.text {
@@ -108,7 +112,7 @@ const id = `cta-${
 </style>
 
 <Section type="cta" aria-labelledby={id}>
-	<div class="band" data-tone={block.tone}>
+	<div class:list={['band', !brand && 'card']} data-tone={block.tone}>
 		<div class="copy | stack">
 			<h2
 				id={id}

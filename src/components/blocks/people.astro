@@ -36,9 +36,8 @@ const profiles = block.group === 'leadership'
 <style>
 	/* Profiles: each person under a gold rule, the leadership marker */
 	.profiles {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-		gap: var(--space-l) var(--space-xl);
+		--grid-gap: var(--space-l) var(--space-xl);
+		--grid-item-min: 14rem;
 	}
 
 	.profile {
@@ -97,7 +96,7 @@ const profiles = block.group === 'leadership'
 <Section type="people" heading={block.heading} intro={block.intro}>
 	{profiles
 		? (
-		 <ul role="list" class="profiles">
+		 <ul role="list" class="profiles | grid">
 			 {people.map((person) => (
 				 <li class="profile | stack">
 					 {person.photo && (
