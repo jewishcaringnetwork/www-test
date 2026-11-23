@@ -33,8 +33,8 @@
 					"text": "Lend a hand, a heart, or a few hours.",
 					"icon": "hand-heart",
 					"link": {
-						"label": "Volunteer",
-						"href": "/get-involved/volunteer"
+						"href": "/get-involved/volunteer",
+						"label": "Sign up for a shift"
 					}
 				},
 				{
@@ -42,7 +42,6 @@
 					"text": "Submit a name to be included on the JCN Tehillim list.",
 					"icon": "book-open-text",
 					"link": {
-						"label": "Tehillim List",
 						"href": "/get-involved/tehillim"
 					}
 				},
@@ -51,7 +50,6 @@
 					"text": "Every gift reaches a family facing serious illness — through meals, care, respite or a home at Tikva House.",
 					"icon": "hand-coins",
 					"link": {
-						"label": "Ways to Give",
 						"href": "/donate"
 					}
 				}

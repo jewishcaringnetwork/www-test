@@ -6,6 +6,7 @@ import {
 	hrefSchema,
 	iconSchema,
 	imageSchema,
+	linkSchema,
 	type SchemaFns,
 	text,
 } from './shared.ts';
@@ -110,5 +111,24 @@ describe('iconSchema', () => {
 	it('rejects unknown or mis-cased names', () => {
 		assert.equal(iconSchema.safeParse('Heartbeat').success, false);
 		assert.equal(iconSchema.safeParse('not-an-icon').success, false);
+	});
+});
+
+describe('linkSchema', () => {
+	it('accepts link text that says where it goes', () => {
+		assert.ok(
+			linkSchema.safeParse({ label: 'See all services', href: '/services' })
+				.success,
+		);
+	});
+
+	it('rejects vague link text', () => {
+		for (const label of ['Click here', 'read more', 'Learn more →', 'here.']) {
+			assert.equal(
+				linkSchema.safeParse({ label, href: '/services' }).success,
+				false,
+				label,
+			);
+		}
 	});
 });

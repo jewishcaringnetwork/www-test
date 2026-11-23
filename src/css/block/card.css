@@ -3,45 +3,14 @@
  * A white panel that sits on the page: subtle border, large radius. Used by
  * the cards block, the contact panel and the subtle CTA.
  *
- * Clickable cards: put `.card-link` on the card's one link. The whole card
- * becomes the hit area, only the link is in the tab order, and the card
- * takes the shadow (shadow.s at rest, shadow.m on hover) and focus ring.
+ * Cards are not clickable as a whole: links inside them are ordinary links,
+ * so card text stays selectable. That's also why cards take no shadow
+ * (shadow.s is for clickable cards).
  */
 
 .card {
-	position: relative;
 	padding: var(--space-m);
 	border: 1px solid var(--color-border-subtle);
 	border-radius: var(--radius-l);
 	background: var(--color-surface-card);
-}
-
-.card:has(.card-link) {
-	box-shadow: var(--shadow-s);
-
-	&:hover {
-		box-shadow: var(--shadow-m);
-	}
-
-	&:has(.card-link:focus-visible) {
-		outline: 2px solid var(--color-focus-ring);
-		outline-offset: 2px;
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		transition: box-shadow 120ms ease;
-	}
-}
-
-.card-link {
-	&::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-	}
-
-	&:focus-visible {
-		outline: none;
-	}
 }

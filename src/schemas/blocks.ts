@@ -6,6 +6,7 @@ import {
 	iconSchema,
 	imageSchema,
 	linkSchema,
+	linkText,
 	markdown,
 	type SchemaFns,
 	sectionHeader,
@@ -97,7 +98,16 @@ const cards = z
 							'One line naming specifics, so the title does not carry it alone.',
 					}),
 					icon: iconSchema.optional(),
-					link: linkSchema.optional(),
+					link: z
+						.strictObject({
+							href: hrefSchema,
+							label: linkText(2, 40).optional().meta({
+								description:
+									'Omit to make the card\'s title the link; that is usually enough. Add a label only when it says more than the title, e.g. title "Volunteer", label "Sign up for a shift".',
+							}),
+						})
+						.optional()
+						.meta({ description: 'Where the card leads. Omit if nowhere.' }),
 				}),
 			)
 			.min(2)

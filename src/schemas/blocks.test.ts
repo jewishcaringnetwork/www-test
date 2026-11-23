@@ -131,6 +131,13 @@ describe('blockSchema', () => {
 		bad(block, { ...minimal.contact, phone: '410.534.1033' });
 	});
 
+	it('allows a card link without a label', () => {
+		ok(block, {
+			type: 'cards',
+			items: [{ ...card, link: { href: '/donate' } }, card],
+		});
+	});
+
 	it('rejects unknown icons', () => {
 		bad(block, {
 			type: 'cards',

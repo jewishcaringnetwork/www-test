@@ -3,9 +3,12 @@
  * A grid of two to six short cards (e.g. ways to get involved, a services
  * teaser), with the shared section header and an optional quiet link below.
  *
- * Each item is a `.card` (src/css/block/card.css); a card with a link is
- * clickable as a whole, lifted with shadow.s. Laid out with kochav's `.grid`:
- * items stretch to fill their track instead of stopping at 16rem.
+ * Each item is a `.card` (src/css/block/card.css), laid out with kochav's
+ * `.grid` (items stretch to fill their track instead of stopping at 16rem).
+ *
+ * A card's link is an ordinary link, not a whole-card hit area, so its text
+ * stays selectable. Without a label, the title is the link; with one, the
+ * label is a link of its own below the text.
  */
 import type { CollectionEntry } from 'astro:content';
 import Icon from '~/components/icon.astro';
@@ -63,7 +66,7 @@ const { block } = Astro.props;
 		color: var(--color-text-secondary);
 	}
 
-	.card-link {
+	.label {
 		display: inline-flex;
 		align-items: center;
 		gap: var(--space-3xs);
@@ -93,10 +96,14 @@ const { block } = Astro.props;
 						<Phosphor name={item.icon} size={24} />
 					</span>
 				)}
-				<h3 class="text-h3" dir="auto">{item.title}</h3>
+				<h3 class="text-h3" dir="auto">
+					{item.link && !item.link.label
+						? <a href={item.link.href}>{item.title}</a>
+						: item.title}
+				</h3>
 				<p class="text" dir="auto">{item.text}</p>
-				{item.link && (
-					<a class="card-link" href={item.link.href} dir="auto">
+				{item.link?.label && (
+					<a class="label" href={item.link.href} dir="auto">
 						{item.link.label}
 						<Icon name="arrow-right" size={16} />
 					</a>
