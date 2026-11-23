@@ -64,7 +64,7 @@ const id = `cta-${
 			}
 
 			h2 {
-				color: var(--color-brand-blue);
+				color: var(--color-text-heading);
 			}
 
 			.text {
@@ -94,7 +94,7 @@ const id = `cta-${
 	}
 </style>
 
-<Section type="cta" aria-labelledby={id}>
+<Section type="cta" background={block.background} aria-labelledby={id}>
 	<div class:list={['band', !brand && 'card']} data-tone={block.tone}>
 		<div class="copy | stack">
 			<h2

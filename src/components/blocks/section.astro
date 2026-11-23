@@ -1,24 +1,46 @@
 ---
 /**
- * The frame every block sits in: a full-width `<section>` with the page's
- * container and rhythm, plus the shared section header (`heading` + `intro`)
- * when there is one. The heading is always an h2: blocks sit under the page's
- * h1, and content never picks a level.
+ * The frame every block sits in: a full-width `<section>` painted with the
+ * block's `background`, holding the page's container and rhythm, plus the
+ * shared section header (`heading` + `intro`) when there is one. The heading
+ * is always an h2: blocks sit under the page's h1, and content never picks a
+ * level.
  *
- * Pass `band` for a block that paints its own full-width background.
+ * Backgrounds (`color.section.*` tokens; see `hierarchy.background`):
+ *
+ * - `paper`: the page itself. No band.
+ * - `white`: a quiet band, edged top and bottom, since white is barely
+ *   lighter than paper.
+ * - `gold`: a pale gold tint, never the Donate button's gold. The schema
+ *   keeps Donate buttons off it.
+ * - `blue`: the loud band. It swaps the text tokens for their on-brand
+ *   versions, so every block's text, headings and links follow without
+ *   knowing about bands. A `.card` inside switches them back
+ *   (src/css/block/card.css).
  */
 import type { HTMLAttributes } from 'astro/types';
+
+type Background = 'paper' | 'white' | 'gold' | 'blue';
 
 interface Props extends HTMLAttributes<'section'> {
 	/** Block type, for styling hooks and debugging. */
 	type: string;
+	background?: Background;
 	heading?: string;
 	intro?: string;
 	/** Narrow measure for reading text (prose) instead of the full grid. */
 	narrow?: boolean;
 }
 
-const { type, heading, intro, narrow, class: cn, ...rest } = Astro.props;
+const {
+	type,
+	background = 'paper',
+	heading,
+	intro,
+	narrow,
+	class: cn,
+	...rest
+} = Astro.props;
 const id = heading
 	? `${type}-${
 		heading.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(
@@ -31,16 +53,45 @@ const id = heading
 
 <style>
 	section {
-		--container-size: 75rem;
-		--stack-gap: var(--space-l);
-
 		padding-block: var(--space-xl);
 		padding-inline: var(--space-l);
+		color: var(--color-text-primary);
 
 		@media (max-width: 60rem) {
 			padding-block: var(--space-l);
 			padding-inline: var(--space-s);
 		}
+
+		&[data-background='white'] {
+			border-block: 1px solid var(--color-border-subtle);
+			background: var(--color-section-white);
+
+			/* One edge between two white bands, not two */
+			& + & {
+				border-block-start: 0;
+			}
+		}
+
+		&[data-background='gold'] {
+			background: var(--color-section-gold);
+		}
+
+		&[data-background='blue'] {
+			--color-text-primary: var(--color-text-on-brand);
+			--color-text-secondary: var(--color-text-on-brand-secondary);
+			--color-text-heading: var(--color-text-on-brand);
+			--color-text-link: var(--color-text-link-on-brand);
+			--color-focus-ring: var(--color-brand-gold);
+
+			background: var(--color-section-blue);
+		}
+	}
+
+	.inner {
+		--container-size: 75rem;
+		--stack-gap: var(--space-l);
+
+		padding-inline: 0;
 
 		/*
 		 * Reading measure: 2.5 to 3 lowercase alphabets per line. One alphabet
@@ -60,7 +111,7 @@ const id = heading
 	}
 
 	h2 {
-		color: var(--color-brand-blue);
+		color: var(--color-text-heading);
 	}
 
 	.intro {
@@ -70,17 +121,19 @@ const id = heading
 </style>
 
 <section
-	class:list={['stack container', cn]}
+	class={cn}
 	data-block={type}
-	data-narrow={narrow}
+	data-background={background}
 	aria-labelledby={id}
 	{...rest}
 >
-	{(heading || intro) && (
-		<div class="header | stack">
-			{heading && <h2 id={id} class="text-h2" dir="auto">{heading}</h2>}
-			{intro && <p class="intro | text-large" dir="auto">{intro}</p>}
-		</div>
-	)}
-	<slot />
+	<div class="inner | stack container" data-narrow={narrow}>
+		{(heading || intro) && (
+			<div class="header | stack">
+				{heading && <h2 id={id} class="text-h2" dir="auto">{heading}</h2>}
+				{intro && <p class="intro | text-large" dir="auto">{intro}</p>}
+			</div>
+		)}
+		<slot />
+	</div>
 </section>

@@ -23,10 +23,32 @@
 				"$description": "Soft gold highlight behind callouts and donation prompts. Text on it: text.primary or gold.700."
 			}
 		},
+		"section": {
+			"paper": {
+				"$value": "{color.surface.page}",
+				"$description": "Section background 'paper': the page's own off-white. The default and quietest; no band."
+			},
+			"white": {
+				"$value": "{color.neutral.0}",
+				"$description": "Section background 'white': a quiet band, edged with border.subtle top and bottom because white is only 1.06:1 against paper. Default text colors (text.primary 17:1, text.link 7.5:1)."
+			},
+			"gold": {
+				"$value": "{color.gold.100}",
+				"$description": "Section background 'gold': a pale gold tint, never the brand gold, so it can't be mistaken for the Donate button. Never holds a Donate button. Default text colors: text.primary 14.9:1, text.secondary 5.8:1, text.heading and text.link 6.6:1."
+			},
+			"blue": {
+				"$value": "{color.brand.blue}",
+				"$description": "Section background 'blue': the loudest band. Text switches to text.on-brand (7.5:1), text.on-brand-secondary (5.9:1) and text.link-on-brand (7.5:1, underlined); focus ring brand.gold (4.3:1)."
+			}
+		},
 		"text": {
 			"primary": {
 				"$value": "{color.neutral.900}",
 				"$description": "Default text and headings on light surfaces (16:1 on surface.page)."
+			},
+			"heading": {
+				"$value": "{color.brand.blue}",
+				"$description": "Section and card headings, list markers (7.5:1 on white, 6.6:1 on section.gold). On section.blue it becomes text.on-brand."
 			},
 			"secondary": {
 				"$value": "{color.neutral.600}",
@@ -39,6 +61,14 @@
 			"on-brand": {
 				"$value": "{color.neutral.0}",
 				"$description": "Text and icons on surface.brand or blue.700 (7.5:1 on brand blue)."
+			},
+			"on-brand-secondary": {
+				"$value": "{color.blue.100}",
+				"$description": "Supporting text on surface.brand and section.blue: intros, roles, captions (5.9:1)."
+			},
+			"link-on-brand": {
+				"$value": "{color.neutral.0}",
+				"$description": "Links on section.blue (7.5:1). Always underlined, since body text there is white too. text.link is brand blue and would vanish."
 			},
 			"on-accent": {
 				"$value": "{color.blue.900}",

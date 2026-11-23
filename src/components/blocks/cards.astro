@@ -87,7 +87,12 @@ const { block } = Astro.props;
 	}
 </style>
 
-<Section type="cards" heading={block.heading} intro={block.intro}>
+<Section
+	type="cards"
+	background={block.background}
+	heading={block.heading}
+	intro={block.intro}
+>
 	<ul role="list" class="items | grid" data-count={block.items.length}>
 		{block.items.map((item) => (
 			<li class="card | stack">

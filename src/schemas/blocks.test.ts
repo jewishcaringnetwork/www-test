@@ -154,4 +154,48 @@ describe('blockSchema', () => {
 			items: [{ ...card, icon: 'not-an-icon' }, card],
 		});
 	});
+
+	describe('background', () => {
+		it('defaults every block to paper', () => {
+			for (const data of Object.values(minimal)) {
+				assert.equal(ok(block, data).background, 'paper');
+			}
+		});
+
+		it('accepts every tone on every block', () => {
+			const subtle = { ...minimal.cta, tone: 'subtle' };
+			for (const data of [...Object.values(minimal), subtle]) {
+				for (const background of ['paper', 'white', 'gold', 'blue']) {
+					// The two CTA conflicts are covered below
+					if (data.type === 'cta' && background !== 'paper') continue;
+					ok(block, { ...data, background });
+				}
+			}
+		});
+
+		it('rejects unknown backgrounds', () => {
+			bad(block, { ...minimal.prose, background: 'green' });
+			bad(block, { ...minimal.prose, background: '#eebd2a' });
+		});
+
+		it('keeps Donate buttons off gold', () => {
+			const primary = { ...action, label: 'Volunteer', variant: 'primary' };
+			const result = block.safeParse({ ...minimal.cta, background: 'gold' });
+			assert.equal(result.success, false);
+			assert.deepEqual(result.error?.issues[0]?.path, ['background']);
+			bad(block, {
+				...minimal.cta,
+				tone: 'subtle',
+				background: 'gold',
+				actions: [primary, action],
+			});
+			ok(block, { ...minimal.cta, background: 'gold', actions: [primary] });
+			ok(block, { ...minimal.cta, background: 'white' });
+		});
+
+		it('keeps a brand CTA off blue', () => {
+			bad(block, { ...minimal.cta, background: 'blue' });
+			ok(block, { ...minimal.cta, tone: 'subtle', background: 'blue' });
+		});
+	});
 });

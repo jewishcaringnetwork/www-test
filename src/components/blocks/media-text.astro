@@ -59,7 +59,7 @@ const id = `media-text-${
 
 		h2 {
 			margin-block-end: 0;
-			color: var(--color-brand-blue);
+			color: var(--color-text-heading);
 		}
 	}
 
@@ -111,7 +111,7 @@ const id = `media-text-${
 	}
 </style>
 
-<Section type="mediaText" aria-labelledby={id}>
+<Section type="mediaText" background={block.background} aria-labelledby={id}>
 	<div class="split" data-side={block.imageSide}>
 		<div class="text | stack">
 			<h2 id={id} class="text-h2" dir="auto">{block.heading}</h2>

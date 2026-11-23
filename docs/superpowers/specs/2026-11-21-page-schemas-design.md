@@ -81,6 +81,11 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
   block.
 - Every block that can have a title uses the same optional section header —
   `heading` + `intro` — defined once in `shared.ts`.
+- Every block has a `background` (`paper` default, `white`, `gold`, `blue`),
+  also defined once in `shared.ts` (`sectionBackground`), so neighbouring
+  sections read as separate (#21). It isn't called `tone` because `cta` already
+  uses `tone` for its own panel. The schema keeps Donate buttons off `gold` and
+  brand CTAs off `blue`.
 - The schema stays flat (no recursive blocks), so the JSON Schema the MCP server
   exposes stays simple.
 

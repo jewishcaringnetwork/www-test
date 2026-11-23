@@ -22,6 +22,6 @@ const { block } = Astro.props;
 const html = renderMarkdown(block.markdown);
 ---
 
-<Section type="prose" narrow>
+<Section type="prose" background={block.background} narrow>
 	<div class="markdown" dir="auto" set:html={html} />
 </Section>

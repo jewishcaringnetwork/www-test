@@ -68,7 +68,7 @@ const people = (await getCollection(
 
 	h3 {
 		font-size: var(--font-size-l);
-		color: var(--color-brand-blue);
+		color: var(--color-text-heading);
 	}
 
 	.role {
@@ -76,7 +76,12 @@ const people = (await getCollection(
 	}
 </style>
 
-<Section type="people" heading={block.heading} intro={block.intro}>
+<Section
+	type="people"
+	background={block.background}
+	heading={block.heading}
+	intro={block.intro}
+>
 	<ul role="list" class="people | grid">
 		{people.map((person) => (
 			<li class="person | stack">

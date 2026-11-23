@@ -34,7 +34,7 @@
 	h2 {
 		font-size: var(--font-size-2xl);
 		font-weight: var(--font-weight-semibold);
-		color: var(--color-brand-blue);
+		color: var(--color-text-heading);
 	}
 
 	h3 {
@@ -61,7 +61,7 @@
 	}
 
 	li::marker {
-		color: var(--color-brand-blue);
+		color: var(--color-text-heading);
 	}
 
 	/* Long lists of short items (Services, amenities) read faster in columns */
