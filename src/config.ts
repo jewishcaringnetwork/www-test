@@ -49,7 +49,6 @@ export const mainNav: NavMenu[] = [
 		overview: { label: 'All ways to help', href: '/get-involved' },
 		items: [
 			{ label: 'Volunteer', href: '/get-involved/volunteer' },
-			{ label: 'Tehillim List', href: '/get-involved/tehillim' },
 			{ label: 'Ways to Give', href: '/donate' },
 		],
 	},
@@ -58,7 +57,7 @@ export const mainNav: NavMenu[] = [
 export const footerLinks: NavLink[] = [
 	{ label: 'Ways to Give', href: '/donate' },
 	{ label: 'Volunteer', href: '/get-involved/volunteer' },
-	{ label: 'Plan Your Stay', href: '/tikva-house' },
+	{ label: 'Tikva House', href: '/tikva-house' },
 	{ label: 'Family Stories', href: '/family-stories' },
 	{ label: 'Contact Us', href: '/contact' },
 ];
