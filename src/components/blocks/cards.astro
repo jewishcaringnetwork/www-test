@@ -1,0 +1,141 @@
+---
+/**
+ * A grid of two to six short cards (e.g. ways to get involved, a services
+ * teaser), with the shared section header and an optional quiet link below.
+ *
+ * Cards are outlined, not shadowed: they sit on the page rather than float
+ * above it, so they stay quieter than buttons and CTA bands. A card with a
+ * link is clickable as a whole, but only its link is in the tab order.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Icon from '~/components/icon.astro';
+import Phosphor from '~/components/phosphor.astro';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'cards' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+---
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+		gap: var(--space-m);
+	}
+
+	/* Two or four cards: two columns, so none is left alone on a row */
+	.grid:is([data-count='2'], [data-count='4']) {
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+		max-inline-size: 56rem;
+	}
+
+	.card {
+		--stack-gap: var(--space-2xs);
+
+		position: relative;
+		padding: var(--space-m);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-l);
+		background: var(--color-surface-card);
+
+		:is(h3, p) {
+			margin-block-end: 0;
+		}
+	}
+
+	.card:has(a):hover {
+		border-color: var(--color-brand-blue);
+	}
+
+	.card:has(a:focus-visible) {
+		outline: 2px solid var(--color-focus-ring);
+		outline-offset: 2px;
+	}
+
+	.icon {
+		display: grid;
+		place-items: center;
+		inline-size: 3rem;
+		aspect-ratio: 1;
+		margin-block-end: var(--space-2xs);
+		border-radius: var(--radius-full);
+		background: var(--color-blue-50);
+		color: var(--color-brand-blue);
+	}
+
+	h3 {
+		color: var(--color-text-primary);
+	}
+
+	.text {
+		color: var(--color-text-secondary);
+	}
+
+	.card-link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		margin-block-start: auto;
+		padding-block-start: var(--space-xs);
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+
+		/* The whole card is the hit area; the ring goes on the card instead */
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+		}
+
+		&:focus-visible {
+			outline: none;
+		}
+	}
+
+	.quiet {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+</style>
+
+<Section type="cards" heading={block.heading} intro={block.intro}>
+	<ul role="list" class="grid" data-count={block.items.length}>
+		{block.items.map((item) => (
+			<li class="card | stack">
+				{item.icon && (
+					<span class="icon">
+						<Phosphor name={item.icon} size={24} />
+					</span>
+				)}
+				<h3 class="text-h3" dir="auto">{item.title}</h3>
+				<p class="text" dir="auto">{item.text}</p>
+				{item.link && (
+					<a class="card-link" href={item.link.href} dir="auto">
+						{item.link.label}
+						<Icon name="arrow-right" size={16} />
+					</a>
+				)}
+			</li>
+		))}
+	</ul>
+	{block.link && (
+		<a class="quiet" href={block.link.href} dir="auto">
+			{block.link.label}
+			<Icon name="arrow-right" size={16} />
+		</a>
+	)}
+</Section>
