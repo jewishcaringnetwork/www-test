@@ -1,0 +1,127 @@
+{
+	"title": "Block preview",
+	"noindex": true,
+	"header": {
+		"type": "header",
+		"heading": "Block preview",
+		"lead": "Every built block with real wording, for checking the design. Not a real page."
+	},
+	"blocks": [
+		{
+			"type": "prose",
+			"markdown": "## Our Mission\n\nThe Jewish Caring Network, formed in 1996, is a non-profit, 501(c)(3) organization dedicated to providing a full range of support services to families facing life-threatening, lifelong, and serious illnesses while preserving their privacy and their dignity.\n\nWhen serious illness strikes, the entire family is affected. The Jewish Caring Network’s programs, activities, and services are designed to help each family member. It is our hope that we can enrich our families’ lives, providing support, strength and the knowledge that the Jewish community is standing by them throughout the duration of their difficult journey.\n\nEach family’s situation is individually assessed, enabling us to cater to their specific needs. All of the programs and services we provide are free of charge and include, but not limited to the following: nursing care funds, respite care, Big Brother/Big Sister programs, Sunday Funday program, summer camp assistance, groceries and prepared meals, tutoring, birthday and holiday gifts, counseling and grief counseling. Numerous other services are also available to our families.\n\nWhen families feel overwhelmed and alone, the Jewish Caring Network reaches out with a helping hand and a loving heart. The Jewish Caring Network is an organization comprised of caring, compassionate individuals who are sensitive to the unique needs of each individual they help."
+		},
+		{
+			"type": "prose",
+			"markdown": "All the services the Jewish Caring Network provides are free of charge and include, but are not limited to:\n\n## Education\n\n- Educational & Tutorial Program Support\n- Dinner - Lecture Series\n- Individual & Group Counseling\n- Bereavement Counseling\n\n## Healthcare\n\n- Nursing Care\n- Hospital Visitation, Meals & Packages\n- Women's Rejuvenating Retreats\n\n## Family Support\n\n- Shabbat & Jewish Holiday Packages\n- Complete Shabbat Meals\n- Parent's Night Out\n- Support Dinner-Lecture Series\n- Day & Weekend Respite Retreats\n- Women's Rejuvenating Retreats\n- Tickets to Concerts, Plays, Amusement Parks, & Sporting Events\n- Individual & Group Counseling\n- Bereavement Counseling\n\n## Children's Services\n\n- Summer Camp Assistance\n- Birthday Gifts & Parties\n- Big Brother/Big Sister Program\n- Educational & Tutorial Program\n\n## Household Help\n\n- Cleaning & Laundry Assistance\n- Babysitting\n- Groceries & Prepared Meals\n\n## Travel & Holidays\n\n- Passover Retreat Program\n- Journey to Jerusalem\n- Sunday Funday Program\n- Tickets to Concerts, Plays, Amusement Parks and Sporting Events\n- Day & Weekend Family Respite Retreats"
+		},
+		{
+			"type": "people",
+			"group": "leadership"
+		},
+		{
+			"type": "people",
+			"heading": "Board of Directors",
+			"group": "board"
+		},
+		{
+			"type": "cards",
+			"intro": "JCN runs on the kindness of our community. There’s a place for everyone.",
+			"items": [
+				{
+					"title": "Volunteer",
+					"text": "Lend a hand, a heart, or a few hours.",
+					"icon": "hand-heart",
+					"link": {
+						"href": "/get-involved/volunteer",
+						"label": "Sign up for a shift"
+					}
+				},
+				{
+					"title": "Say tehillim",
+					"text": "Submit a name to be included on the JCN Tehillim list.",
+					"icon": "book-open-text",
+					"link": {
+						"href": "/get-involved/tehillim"
+					}
+				},
+				{
+					"title": "Donate",
+					"text": "Every gift reaches a family facing serious illness — through meals, care, respite or a home at Tikva House.",
+					"icon": "hand-coins",
+					"link": {
+						"href": "/donate"
+					}
+				}
+			]
+		},
+		{
+			"type": "mediaText",
+			"heading": "What's included",
+			"markdown": "Seven private suites, each with a private bath and kitchenette.\n\n- Stocked kosher pantry\n- Shabbos meals\n- Communal kitchen & dining area\n- Laundry room\n- Playroom\n- Library\n- Wireless internet\n- Guest common room",
+			"images": [
+				{
+					"src": "../../images/tikva-house-suite.jpg",
+					"alt": "A guest suite with a made bed, dark wood floors and a kitchenette"
+				},
+				{
+					"src": "../../images/tikva-house-shabbos-table.jpg",
+					"alt": "A table set for a Shabbos meal in the guest common room"
+				}
+			]
+		},
+		{
+			"type": "contact",
+			"heading": "Request a Stay",
+			"intro": "Please call the Tikva House at (410) 534-1033. Our team will be glad to discuss further.",
+			"name": "The Tikva House",
+			"address": {
+				"street": "529 N. Washington Street",
+				"city": "Baltimore",
+				"state": "MD",
+				"zip": "21205"
+			},
+			"phone": "410-534-1033",
+			"email": "info@tikvahouse.org",
+			"image": {
+				"src": "../../images/tikva-house-exterior.jpg",
+				"alt": "The Tikva House, a three-story brick row house on Washington Street"
+			},
+			"link": {
+				"label": "Plan Your Stay",
+				"href": "/tikva-house/plan-your-stay"
+			}
+		},
+		{
+			"type": "cta",
+			"tone": "brand",
+			"heading": "Keep the lights on at Tikva House",
+			"text": "Your gift helps a family rest close to the one they love.",
+			"actions": [
+				{
+					"label": "Support Tikva House",
+					"href": "/donate?fund=tikva-house",
+					"variant": "donate"
+				}
+			]
+		},
+		{
+			"type": "cta",
+			"tone": "subtle",
+			"heading": "Facing a diagnosis? You don’t have to do this alone.",
+			"text": "Reach out confidentially. We’re here for your whole family.",
+			"actions": [
+				{
+					"label": "Request support",
+					"href": "/contact",
+					"variant": "primary"
+				},
+				{
+					"label": "Call 410-602-6075",
+					"href": "tel:+14106026075",
+					"variant": "secondary"
+				}
+			]
+		}
+	]
+}

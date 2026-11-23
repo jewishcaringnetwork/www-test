@@ -1,0 +1,170 @@
+---
+/**
+ * Contact details for one location: name, address, tap-to-call phone,
+ * optional email, a photo of the place and a quiet link (e.g. to Plan Your
+ * Stay). Every detail is the same size, so the place's name leads; the
+ * loud way to call (e.g. Tikva House's "Request a stay") belongs to the
+ * hero or a CTA, not this reference panel.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Icon from '~/components/icon.astro';
+import { telHref } from '~/config';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'contact' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+const { address } = block;
+---
+
+<style>
+	/* A .card whose photo runs to its edges */
+	.panel {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		overflow: hidden;
+		padding: 0;
+
+		&:has(> .photo) {
+			grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+
+			@media (max-width: 48rem) {
+				grid-template-columns: minmax(0, 1fr);
+			}
+		}
+	}
+
+	.details {
+		--stack-gap: var(--space-m);
+
+		padding: var(--space-xl);
+
+		@media (max-width: 48rem) {
+			padding: var(--space-m);
+		}
+
+		/* Bottom only: the top margin is the stack's gap */
+		:is(h3, p, dl, dd) {
+			margin-block-end: 0;
+		}
+	}
+
+	h3 {
+		color: var(--color-brand-blue);
+	}
+
+	dl {
+		display: grid;
+		grid-template-columns: max-content minmax(0, 1fr);
+		gap: var(--space-s) var(--space-m);
+		align-items: baseline;
+
+		@media (max-width: 30rem) {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-3xs);
+
+			dd + dt {
+				margin-block-start: var(--space-xs);
+			}
+		}
+	}
+
+	dt {
+		color: var(--color-text-secondary);
+	}
+
+	address {
+		font-style: normal;
+		line-height: var(--leading-normal, 1.5);
+	}
+
+	.email {
+		overflow-wrap: anywhere;
+	}
+
+	.quiet {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	/* Brand color shows (with the alt text) if the photo fails to load */
+	/* The details set the panel's height; the photo fills it */
+	.photo {
+		position: relative;
+		min-block-size: 18rem;
+		background: var(--color-surface-brand);
+		color: var(--color-text-on-brand);
+
+		img {
+			position: absolute;
+			inset: 0;
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			/* Exteriors: favour the entrance over sky */
+			object-position: 50% 75%;
+		}
+
+		@media (max-width: 48rem) {
+			order: -1;
+			min-block-size: 0;
+			aspect-ratio: 16 / 9;
+		}
+	}
+</style>
+
+<Section type="contact" heading={block.heading} intro={block.intro}>
+	<div class="panel | card">
+		<div class="details | stack">
+			<h3 class="text-h3" dir="auto">{block.name}</h3>
+			<dl class="text-body">
+				<dt class="text-label">Phone</dt>
+				<dd>
+					<a href={telHref(block.phone)}>{block.phone}</a>
+				</dd>
+				<dt class="text-label">Address</dt>
+				<dd>
+					<address>
+						{address.street}<br />{address.city}, {address.state} {address.zip}
+					</address>
+				</dd>
+				{block.email && (
+					<>
+						<dt class="text-label">Email</dt>
+						<dd>
+							<a class="email" href={`mailto:${block.email}`}>{block.email}</a>
+						</dd>
+					</>
+				)}
+			</dl>
+			{block.link && (
+				<a class="quiet" href={block.link.href} dir="auto">
+					{block.link.label}
+					<Icon name="arrow-right" size={16} />
+				</a>
+			)}
+		</div>
+		{block.image && (
+			<div class="photo">
+				<Image
+					src={block.image.src}
+					alt={block.image.alt}
+					widths={[480, 720, 960]}
+					sizes="(max-width: 48rem) 100vw, 28rem"
+				/>
+			</div>
+		)}
+	</div>
+</Section>

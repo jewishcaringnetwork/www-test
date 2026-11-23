@@ -57,6 +57,20 @@ export const markdown = (max: number) =>
 			'Markdown. Allowed: paragraphs, ## and ### headings, bulleted and numbered lists, **bold**, *italic*, and [links](/path). No images, HTML, tables or # headings.',
 	});
 
+const vagueLinkText =
+	/^(?:(?:click|tap) here|here|(?:read|learn|see|find out) more|more(?: info)?|(?:this )?link)$/i;
+
+/**
+ * Text for a link or button: `text()` plus a ban on wording that says
+ * nothing out of context ("Click here", "Read more"), since screen-reader
+ * users often browse a page by its links alone.
+ */
+export const linkText = (min: number, max: number) =>
+	text(min, max).refine(
+		(s) => !vagueLinkText.test(s.replace(/[\s.:!→>»]+$/u, '')),
+		'Say where the link goes, e.g. "See all services", not "Click here" or "Read more".',
+	);
+
 export const hrefSchema = z
 	.string()
 	.regex(
@@ -70,7 +84,7 @@ export const hrefSchema = z
 
 export const linkSchema = z
 	.strictObject({
-		label: text(2, 40).meta({
+		label: linkText(2, 40).meta({
 			description:
 				'Link text. Say where it goes, e.g. "See all services". Not "Click here".',
 		}),
@@ -81,7 +95,7 @@ export const linkSchema = z
 export const actionSchema = z
 	.strictObject({
 		...linkSchema.shape,
-		label: text(2, 40).meta({
+		label: linkText(2, 40).meta({
 			description: 'Button text. Short and action-first, e.g. "Give now".',
 		}),
 		variant: z.enum(['primary', 'secondary', 'donate']).meta({

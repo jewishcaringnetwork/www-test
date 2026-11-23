@@ -1,0 +1,120 @@
+---
+/**
+ * A grid of two to six short cards (e.g. ways to get involved, a services
+ * teaser), with the shared section header and an optional quiet link below.
+ *
+ * Each item is a `.card` (src/css/block/card.css), laid out with kochav's
+ * `.grid` (items stretch to fill their track instead of stopping at 16rem).
+ *
+ * A card's link is an ordinary link, not a whole-card hit area, so its text
+ * stays selectable. Without a label, the title is the link; with one, the
+ * label is a link of its own below the text.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Icon from '~/components/icon.astro';
+import Phosphor from '~/components/phosphor.astro';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'cards' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+---
+
+<style>
+	.items {
+		--grid-gap: var(--space-m);
+		--grid-item-min: 18rem;
+		--grid-item-max: none;
+	}
+
+	/* Two or four cards: at most two columns, so none is left alone on a row */
+	.items:is([data-count='2'], [data-count='4']) {
+		max-inline-size: 56rem;
+	}
+
+	.card {
+		--stack-gap: var(--space-2xs);
+
+		:is(h3, p) {
+			margin-block-end: 0;
+		}
+	}
+
+	.icon {
+		display: grid;
+		place-items: center;
+		inline-size: 3rem;
+		aspect-ratio: 1;
+		margin-block-end: var(--space-2xs);
+		border-radius: var(--radius-full);
+		background: var(--color-blue-50);
+		color: var(--color-brand-blue);
+	}
+
+	h3 {
+		color: var(--color-text-primary);
+	}
+
+	.text {
+		color: var(--color-text-secondary);
+	}
+
+	.label {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		margin-block-start: auto;
+		padding-block-start: var(--space-xs);
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	.quiet {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+</style>
+
+<Section type="cards" heading={block.heading} intro={block.intro}>
+	<ul role="list" class="items | grid" data-count={block.items.length}>
+		{block.items.map((item) => (
+			<li class="card | stack">
+				{item.icon && (
+					<span class="icon">
+						<Phosphor name={item.icon} size={24} />
+					</span>
+				)}
+				<h3 class="text-h3" dir="auto">
+					{item.link && !item.link.label
+						? <a href={item.link.href}>{item.title}</a>
+						: item.title}
+				</h3>
+				<p class="text" dir="auto">{item.text}</p>
+				{item.link?.label && (
+					<a class="label" href={item.link.href} dir="auto">
+						{item.link.label}
+						<Icon name="arrow-right" size={16} />
+					</a>
+				)}
+			</li>
+		))}
+	</ul>
+	{block.link && (
+		<a class="quiet" href={block.link.href} dir="auto">
+			{block.link.label}
+			<Icon name="arrow-right" size={16} />
+		</a>
+	)}
+</Section>

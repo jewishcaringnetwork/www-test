@@ -7,3 +7,5 @@
 @import './global/base.css' layer(global);
 @import './utility/container.css' layer(utility);
 @import './utility/text.css' layer(utility);
+
+@import './block/card.css' layer(block);

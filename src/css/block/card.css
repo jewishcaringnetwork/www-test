@@ -1,0 +1,16 @@
+/**
+ * Card
+ * A white panel that sits on the page: subtle border, large radius. Used by
+ * the cards block, the contact panel and the subtle CTA.
+ *
+ * Cards are not clickable as a whole: links inside them are ordinary links,
+ * so card text stays selectable. That's also why cards take no shadow
+ * (shadow.s is for clickable cards).
+ */
+
+.card {
+	padding: var(--space-m);
+	border: 1px solid var(--color-border-subtle);
+	border-radius: var(--radius-l);
+	background: var(--color-surface-card);
+}

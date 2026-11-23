@@ -1,0 +1,131 @@
+---
+/**
+ * Text beside one or two photos (e.g. Tikva House's "What's included").
+ * The heading is an h2; `##` in the Markdown becomes h3 under it.
+ *
+ * Two photos sit side by side, the second set lower, with no overlap, so
+ * each shows whole. On narrow screens the text comes first and the photos
+ * sit level, side by side below it.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { renderMarkdown } from '~/lib/markdown';
+import './markdown.css';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'mediaText' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+const html = renderMarkdown(block.markdown, { headingOffset: 1 });
+const id = `media-text-${
+	block.heading.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-')
+}`;
+---
+
+<style>
+	.split {
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+		grid-template-areas: 'text media';
+		align-items: center;
+		gap: var(--space-2xl);
+
+		&[data-side='start'] {
+			grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+			grid-template-areas: 'media text';
+		}
+
+		@media (max-width: 60rem) {
+			&,
+			&[data-side='start'] {
+				grid-template-columns: minmax(0, 1fr);
+				grid-template-areas: 'text' 'media';
+				gap: var(--space-l);
+			}
+		}
+	}
+
+	.text {
+		--stack-gap: var(--space-s);
+
+		grid-area: text;
+
+		h2 {
+			margin-block-end: 0;
+			color: var(--color-brand-blue);
+		}
+	}
+
+	.media {
+		grid-area: media;
+		display: grid;
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			border-radius: var(--radius-l);
+			background: var(--color-surface-sunken);
+		}
+
+		/* One photo: a plain 4:3 frame */
+		&[data-count='1'] img {
+			aspect-ratio: 4 / 3;
+		}
+
+		/*
+		 * Two photos: side by side, the second set lower, so the pair reads as
+		 * one picture of a place. Nothing overlaps or crops, so each photo
+		 * shows whole on every device.
+		 */
+		&[data-count='2'] {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: start;
+			gap: var(--space-s);
+
+			/* Each photo at its own aspect ratio (from Astro's width/height), uncropped */
+			img {
+				block-size: auto;
+				aspect-ratio: auto;
+			}
+
+			img:last-child {
+				margin-block-start: var(--space-2xl);
+			}
+
+			@media (max-width: 60rem) {
+				gap: var(--space-xs);
+
+				img:last-child {
+					margin-block-start: 0;
+				}
+			}
+		}
+	}
+</style>
+
+<Section type="mediaText" aria-labelledby={id}>
+	<div class="split" data-side={block.imageSide}>
+		<div class="text | stack">
+			<h2 id={id} class="text-h2" dir="auto">{block.heading}</h2>
+			<div class="markdown" dir="auto" set:html={html} />
+		</div>
+		<div class="media" data-count={block.images.length}>
+			{block.images.map((image) => (
+				<Image
+					src={image.src}
+					alt={image.alt}
+					widths={[400, 640, 960, 1280]}
+					sizes="(max-width: 60rem) 100vw, 36rem"
+				/>
+			))}
+		</div>
+	</div>
+</Section>

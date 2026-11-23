@@ -1,0 +1,40 @@
+---
+/**
+ * Any Phosphor icon by name (the names `iconSchema` accepts), inlined from
+ * `@phosphor-icons/core` at build time so no icon font or sprite ships.
+ * Decorative: always aria-hidden, so give the parent its own text.
+ *
+ * `icon.astro` stays for the site chrome's hand-tuned line icons.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+
+interface Props extends HTMLAttributes<'span'> {
+	/** Phosphor icon name in kebab-case, e.g. "hand-heart". */
+	name: string;
+	weight?: 'regular' | 'light' | 'bold' | 'duotone';
+	size?: number;
+}
+
+const { name, weight = 'regular', size = 24, ...rest } = Astro.props;
+
+const file = createRequire(import.meta.url).resolve(
+	`@phosphor-icons/core/assets/${weight}/${name}${
+		weight === 'regular' ? '' : `-${weight}`
+	}.svg`,
+);
+const svg = readFileSync(file, 'utf8').replace(
+	'<svg ',
+	`<svg aria-hidden="true" focusable="false" width="${size}" height="${size}" `,
+);
+---
+
+<span class="phosphor" {...rest} set:html={svg} />
+
+<style>
+	.phosphor {
+		display: inline-flex;
+		flex: none;
+	}
+</style>

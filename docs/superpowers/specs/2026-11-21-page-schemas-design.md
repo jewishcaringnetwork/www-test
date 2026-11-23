@@ -106,7 +106,7 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
 | `cards`     | header, items (2–6: title, text, icon?, link?), link?                     | Services teaser                       |
 | `stats`     | header, items (2–4: value, label)                                         | Impact                                |
 | `faq`       | header, items (1–12: question, answer markdown)                           | Plan Your Stay                        |
-| `cta`       | heading, text?, actions (1–2), link?, tone `brand\|subtle`                | Donate / volunteer / support teasers  |
+| `cta`       | heading, text?, actions (1–2), tone `brand\|subtle`                       | Donate / volunteer / support teasers  |
 | `contact`   | header, name, address, phone, email?, image?, link?                       | Tikva "Request a Stay", Contact page  |
 | `form`      | header, form `contact\|volunteer\|tehillim\|story\|donate`, confirmation? | Forms (fields live in code)           |
 | `logos`     | header, items (1–24: name, image, href?), link?                           | Corporate sponsors                    |
@@ -123,8 +123,8 @@ teasers back to back. Prominence is handled by descriptions (above).
 - **stories**: `title`, `summary` (≤200), `image?`, `date`, `author?` (omit for
   anonymous), `featured` (default false); body is Markdown. Written by families,
   not edited through MCP — minimal descriptions.
-- **people**: `name`, `role?`, `group`, `photo?`, `order` (int ≥ 0), `bio?`
-  (≤500).
+- **people**: `name`, `role?`, `group`, `photo?`, `order` (int ≥ 0). No bios
+  (2026-11-22). A missing photo shows a placeholder.
 
 ### Files
 

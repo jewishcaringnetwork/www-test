@@ -1,0 +1,86 @@
+---
+/**
+ * The frame every block sits in: a full-width `<section>` with the page's
+ * container and rhythm, plus the shared section header (`heading` + `intro`)
+ * when there is one. The heading is always an h2: blocks sit under the page's
+ * h1, and content never picks a level.
+ *
+ * Pass `band` for a block that paints its own full-width background.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Block type, for styling hooks and debugging. */
+	type: string;
+	heading?: string;
+	intro?: string;
+	/** Narrow measure for reading text (prose) instead of the full grid. */
+	narrow?: boolean;
+}
+
+const { type, heading, intro, narrow, class: cn, ...rest } = Astro.props;
+const id = heading
+	? `${type}-${
+		heading.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(
+			/^-|-$/g,
+			'',
+		)
+	}`
+	: undefined;
+---
+
+<style>
+	section {
+		--container-size: 75rem;
+		--stack-gap: var(--space-l);
+
+		padding-block: var(--space-xl);
+		padding-inline: var(--space-l);
+
+		@media (max-width: 60rem) {
+			padding-block: var(--space-l);
+			padding-inline: var(--space-s);
+		}
+
+		/*
+		 * Reading measure: 2.5 to 3 lowercase alphabets per line. One alphabet
+		 * of the body font (system-ui) is about 22ch, so 60ch is about 2.7.
+		 */
+		&[data-narrow] > :global(*) {
+			max-inline-size: 60ch;
+		}
+	}
+
+	.header {
+		--stack-gap: var(--space-2xs);
+
+		:is(h2, p) {
+			margin-block-end: 0;
+		}
+	}
+
+	h2 {
+		color: var(--color-brand-blue);
+	}
+
+	.intro {
+		max-inline-size: 40rem;
+		color: var(--color-text-secondary);
+	}
+</style>
+
+<section
+	class:list={['stack container', cn]}
+	data-block={type}
+	data-narrow={narrow}
+	aria-labelledby={id}
+	{...rest}
+>
+	{(heading || intro) && (
+		<div class="header | stack">
+			{heading && <h2 id={id} class="text-h2" dir="auto">{heading}</h2>}
+			{intro && <p class="intro | text-large" dir="auto">{intro}</p>}
+		</div>
+	)}
+	<slot />
+</section>
