@@ -13,6 +13,11 @@
 			"type": "people",
 			"heading": "Board of Directors",
 			"group": "board"
+		},
+		{
+			"type": "people",
+			"heading": "Staff",
+			"group": "staff"
 		}
 	]
 }
