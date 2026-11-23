@@ -1,0 +1,134 @@
+---
+/**
+ * People from one group of the `people` collection, sorted by `order`.
+ *
+ * Two densities from the same data: a group where anyone has a photo or bio
+ * (or that is leadership) gets profiles, each name an h3; otherwise it is a
+ * roster, a plain list of names in columns. A board of nine reads as a list,
+ * not nine boxes.
+ */
+import { Image } from 'astro:assets';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'people' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+
+const people = (await getCollection(
+	'people',
+	(person) => person.data.group === block.group,
+))
+	.map((person) => person.data)
+	.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+
+const profiles = block.group === 'leadership'
+	|| people.some((person) => person.photo || person.bio);
+---
+
+<style>
+	/* Profiles: each person under a gold rule, the leadership marker */
+	.profiles {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+		gap: var(--space-l) var(--space-xl);
+	}
+
+	.profile {
+		--stack-gap: var(--space-3xs);
+
+		padding-block-start: var(--space-s);
+		border-block-start: 3px solid var(--color-brand-gold);
+
+		:is(h3, p) {
+			margin-block-end: 0;
+		}
+	}
+
+	.photo {
+		inline-size: 100%;
+		max-inline-size: 12rem;
+		aspect-ratio: 1;
+		margin-block-end: var(--space-xs);
+		border-radius: var(--radius-l);
+		object-fit: cover;
+		background: var(--color-surface-sunken);
+	}
+
+	h3 {
+		color: var(--color-brand-blue);
+	}
+
+	.role {
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-text-secondary);
+	}
+
+	.bio {
+		margin-block-start: var(--space-2xs);
+	}
+
+	/* Roster: names in columns, a hairline between rows */
+	.roster {
+		columns: 3 14rem;
+		column-gap: var(--space-xl);
+		max-inline-size: 60rem;
+
+		li {
+			break-inside: avoid;
+			padding-block: var(--space-2xs);
+			border-block-end: 1px solid var(--color-border-subtle);
+		}
+
+		.role {
+			font-size: var(--font-size-s);
+		}
+	}
+</style>
+
+<Section type="people" heading={block.heading} intro={block.intro}>
+	{profiles
+		? (
+		 <ul role="list" class="profiles">
+			 {people.map((person) => (
+				 <li class="profile | stack">
+					 {person.photo && (
+						 <Image
+							 class="photo"
+							 src={person.photo.src}
+							 alt={person.photo.alt}
+							 widths={[192, 384]}
+							 sizes="12rem"
+						 />
+					 )}
+					 <h3 class="text-h3" dir="auto">{person.name}</h3>
+					 {person.role && <p class="role" dir="auto">{person.role}</p>}
+					 {person.bio && <p class="bio" dir="auto">{person.bio}</p>}
+				 </li>
+			 ))}
+		 </ul>
+	 )
+		: (
+		 <ul role="list" class="roster">
+			 {people.map((person) => (
+				 <li dir="auto">
+					 {person.name}
+					 {person.role && (
+						 <>
+							 {' '}
+							 <span class="role">({person.role})</span>
+						 </>
+					 )}
+				 </li>
+			 ))}
+		 </ul>
+	 )}
+</Section>

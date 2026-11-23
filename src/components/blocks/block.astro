@@ -5,6 +5,7 @@
  * `components`. Types without one render a visible placeholder.
  */
 import type { CollectionEntry } from 'astro:content';
+import People from './people.astro';
 import Placeholder from './placeholder.astro';
 import Prose from './prose.astro';
 
@@ -22,6 +23,7 @@ type Components = {
 
 const components: Components = {
 	prose: Prose,
+	people: People,
 };
 
 const { block } = Astro.props;
