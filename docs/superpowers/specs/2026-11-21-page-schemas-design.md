@@ -81,11 +81,9 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
   block.
 - Every block that can have a title uses the same optional section header —
   `heading` + `intro` — defined once in `shared.ts`.
-- Section backgrounds are mostly not content (#21): plain sections alternate
-  paper and white by position, worked out at render time. Every block has one
-  optional field, `band: "blue"`, defined once in `shared.ts` (`sectionBand`).
-  The page schema allows at most one blue band and never on the last block; the
-  CTA schema keeps brand CTAs out of it. Rules: `docs/design/color-blocking.md`.
+- Section backgrounds aren't content (#21): the page picks them from the header
+  type and each block's type at render time, so there is no field. Rules:
+  `docs/design/color-blocking.md`.
 - The schema stays flat (no recursive blocks), so the JSON Schema the MCP server
   exposes stays simple.
 

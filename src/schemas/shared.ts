@@ -27,8 +27,6 @@ export const hierarchy = {
 		'Buttons are for the one or two actions this section exists for. "donate" is the loudest style and is reserved for giving; "primary" is the main action; "secondary" is a second, lesser action. Do not add buttons to fill space.',
 	quietLink:
 		'A plain text link, quieter than any button. Use it for a secondary need that should stay findable without competing, e.g. "Need support?".',
-	band:
-		'Sections alternate between the page\'s paper background and white on their own, so most sections need no band. "blue" makes this one section a brand-blue band with white text, the loudest section style: use it for the page\'s one key moment, such as impact numbers. At most one per page, and never the last section, since the footer below it is dark blue too.',
 	cta:
 		"A call-to-action band for one of the page's main asks (give, volunteer, get support). Not for incidental actions: for those, use a link inside prose.",
 } as const;
@@ -136,18 +134,6 @@ export const iconSchema = z
 		description:
 			'A Phosphor icon name in kebab-case (https://phosphoricons.com), e.g. "heartbeat", "house", "hand-heart".',
 	});
-
-/**
- * Optional emphasis band, spread into every block shape. Plain sections get
- * their paper or white background from their position on the page
- * (`sectionBackground` in src/components/blocks/block.astro); the page schema
- * enforces the band rules.
- */
-export const sectionBand = {
-	band: z.enum(['blue']).optional().meta({
-		description: `${hierarchy.band} ${hierarchy.whenUnsure}`,
-	}),
-};
 
 /** Optional section header, spread into block shapes. */
 export const sectionHeader = {

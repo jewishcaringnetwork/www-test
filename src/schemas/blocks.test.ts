@@ -154,32 +154,4 @@ describe('blockSchema', () => {
 			items: [{ ...card, icon: 'not-an-icon' }, card],
 		});
 	});
-
-	describe('band', () => {
-		it('is optional on every block', () => {
-			for (const data of Object.values(minimal)) {
-				assert.equal(ok(block, data).band, undefined);
-			}
-		});
-
-		it('accepts blue on every block but a brand CTA', () => {
-			for (const data of Object.values(minimal)) {
-				if (data.type === 'cta') continue;
-				ok(block, { ...data, band: 'blue' });
-			}
-			ok(block, { ...minimal.cta, tone: 'subtle', band: 'blue' });
-		});
-
-		it('rejects other colors, including the automatic ones', () => {
-			for (const band of ['gold', 'white', 'paper', '#145693']) {
-				bad(block, { ...minimal.prose, band });
-			}
-		});
-
-		it('keeps a brand CTA out of a blue band', () => {
-			const result = block.safeParse({ ...minimal.cta, band: 'blue' });
-			assert.equal(result.success, false);
-			assert.deepEqual(result.error?.issues[0]?.path, ['band']);
-		});
-	});
 });

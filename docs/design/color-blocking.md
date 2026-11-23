@@ -1,25 +1,27 @@
 # Color blocking
 
-How page sections are set apart by background. It follows the reference site's
-color blocking (#21). Paper is the page's background and stays the base; white
-and blue are bands on it.
+How page sections are set apart by background (#21). Section headings already do
+most of that work; backgrounds only help them. Paper is the page's background
+and stays the base.
 
 ## Rules
 
-1. **The header or hero is always paper.**
-2. **Plain sections alternate automatically:** paper, white, paper, … by
-   position, starting with paper so the page background carries on into the
-   content. Content never picks paper or white, so neighbours can't match.
-3. **One emphasis band: blue** (`band: "blue"` on the block), for the page's one
-   key moment, e.g. impact numbers. At most one per page (enforced).
-4. **Blue is never the last section** (enforced): the footer is dark blue, and
-   the two would run together.
-5. **No brand CTA in a blue band** (enforced): its blue panel would vanish. A
-   subtle CTA is fine.
-6. **No gold band.** Gold is a secondary accent (and the Donate button's fill),
+1. **Bands only on landing pages.** A page with a hero header (Home, Tikva
+   House) is a stack of blocks, and bands help tell them apart. A page with a
+   plain header (History, Leadership, Services) is simpler or text-heavy, so it
+   stays on paper throughout.
+2. **The first open section after the hero is white,** and open sections
+   alternate paper and white from there.
+3. **Self-contained blocks stay on paper:** cards, the contact panel and CTAs.
+   Their cards and panels already set them apart, and a white card on a white
+   band loses its edge.
+4. **Content never picks a background.** The page works it out from the header
+   type and each block's type, so editors and Claude can't break these rules.
+5. **Blue is for emphasis, not a default.** No current block uses it. It's kept
+   as a variant for a future block it suits, such as impact numbers, and then at
+   most once per page. No page needs one.
+6. **No gold band.** Gold is a secondary accent and the Donate button's fill,
    not a section background.
-7. **Cards and panels stay white on every band.** On a blue band their text
-   switches back to the light-surface colors.
 
 ## Colors and contrast
 
@@ -28,7 +30,8 @@ The backgrounds are the `color.section.*` tokens in `src/tokens/color.json`.
 - **paper:** `surface.page`, the page itself.
 - **white:** `neutral.0`, edged top and bottom with `border.subtle`, since white
   is only 1.06:1 against paper.
-- **blue:** brand blue. The band swaps the text tokens for on-brand ones:
+- **blue (reserved):** brand blue. The band swaps the text tokens for on-brand
+  ones, and a `.card` inside swaps them back:
 
 | On the blue band | Token                     | Contrast |
 | ---------------- | ------------------------- | -------- |
@@ -41,12 +44,11 @@ Links on blue are white like the body text, so they are always underlined.
 
 ## Where it lives
 
-- **Schema:** the `band` field (`sectionBand` in `src/schemas/shared.ts`); rules
-  3 and 4 in `src/schemas/page.ts`; rule 5 in the `cta` block in
-  `src/schemas/blocks.ts`. Their wording for editors is `hierarchy.band`.
-- **Rendering:** `sectionBackground()` in `src/lib/section-background.ts` picks
-  each section's background; `src/components/blocks/section.astro` paints it and
-  swaps the text tokens on blue; `src/css/block/card.css` swaps them back.
-
-Changing a rule means changing the schema and its tests too, so the build and
-the MCP tools keep enforcing what this page says.
+- `sectionBackgrounds()` in `src/lib/section-background.ts` applies rules 1–3
+  and lists the self-contained block types. Add a new block type there when its
+  component puts its content in cards or panels.
+- `src/pages/[...slug].astro` calls it and passes each block its background;
+  `src/components/blocks/section.astro` paints it; `src/css/block/card.css`
+  resets the text tokens inside cards.
+- To give a future block the blue variant, return `blue` for it from
+  `sectionBackgrounds()` and keep rule 5's once-per-page limit.

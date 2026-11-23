@@ -1,17 +1,36 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { sectionBackground } from './section-background.ts';
+import { sectionBackgrounds } from './section-background.ts';
 
-describe('sectionBackground', () => {
-	it('alternates paper and white, starting with paper', () => {
+describe('sectionBackgrounds', () => {
+	it('keeps every section on paper under a plain header', () => {
+		assert.deepEqual(sectionBackgrounds('header', ['prose', 'people']), [
+			'paper',
+			'paper',
+		]);
+	});
+
+	it('starts with white after a hero, then alternates', () => {
 		assert.deepEqual(
-			[0, 1, 2, 3].map((i) => sectionBackground({}, i)),
-			['paper', 'white', 'paper', 'white'],
+			sectionBackgrounds('hero', ['mediaText', 'prose', 'people']),
+			['white', 'paper', 'white'],
 		);
 	});
 
-	it('lets a band override only its own section', () => {
-		const blocks = [{}, { band: 'blue' as const }, {}];
-		assert.deepEqual(blocks.map(sectionBackground), ['paper', 'blue', 'paper']);
+	it('keeps self-contained blocks on paper', () => {
+		// Tikva House
+		assert.deepEqual(
+			sectionBackgrounds('hero', ['mediaText', 'contact', 'cta']),
+			['white', 'paper', 'paper'],
+		);
+		assert.deepEqual(sectionBackgrounds('hero', ['cards', 'prose']), [
+			'paper',
+			'white',
+		]);
+	});
+
+	it('never assigns blue to a current block', () => {
+		const types = ['prose', 'mediaText', 'cards', 'contact', 'cta', 'people'];
+		assert.ok(!sectionBackgrounds('hero', types).includes('blue'));
 	});
 });

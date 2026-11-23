@@ -7,16 +7,17 @@
  * level.
  *
  * Color blocking (`color.section.*` tokens; rules in
- * docs/design/color-blocking.md). Content never picks paper or white: they
- * come from the block's position (`sectionBackground`).
+ * docs/design/color-blocking.md). The page picks each block's background
+ * (`sectionBackgrounds`); content never does.
  *
  * - `paper`: the page itself. No band.
  * - `white`: a quiet band, edged top and bottom, since white is barely
- *   lighter than paper.
- * - `blue`: the one emphasis band a page may have (`band: "blue"`). It swaps
- *   the text tokens for their on-brand versions, so every block's text,
- *   headings and links follow without knowing about bands. A `.card` inside
- *   switches them back (src/css/block/card.css).
+ *   lighter than paper. Only on landing pages.
+ * - `blue`: kept for a future block it suits (e.g. impact numbers), at most
+ *   once per page; no block uses it yet. It swaps the text tokens for their
+ *   on-brand versions, so the block's text, headings and links follow
+ *   without knowing about bands. A `.card` inside switches them back
+ *   (src/css/block/card.css).
  */
 import type { HTMLAttributes } from 'astro/types';
 import type { SectionBackground } from '~/lib/section-background';
@@ -53,12 +54,10 @@ const id = heading
 <style>
 	section {
 		padding-block: var(--space-xl);
-		padding-inline: var(--space-l);
 		color: var(--color-text-primary);
 
 		@media (max-width: 60rem) {
 			padding-block: var(--space-l);
-			padding-inline: var(--space-s);
 		}
 
 		&[data-background='white'] {
@@ -81,7 +80,12 @@ const id = heading
 		--container-size: 75rem;
 		--stack-gap: var(--space-l);
 
-		padding-inline: 0;
+		/* Same edges as the hero and header, which pad inside the container */
+		padding-inline: var(--space-l);
+
+		@media (max-width: 60rem) {
+			padding-inline: var(--space-s);
+		}
 
 		/*
 		 * Reading measure: 2.5 to 3 lowercase alphabets per line. One alphabet

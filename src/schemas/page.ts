@@ -2,34 +2,6 @@ import { z } from 'astro/zod';
 import { blockSchema, headerSchema } from './blocks.ts';
 import { hierarchy, imageSchema, type SchemaFns, text } from './shared.ts';
 
-/**
- * Color-blocking rules that span blocks (docs/design/color-blocking.md): at
- * most one blue band per page, and never as the last section, where it
- * would run into the dark footer.
- */
-const checkBands = (
-	blocks: { band?: 'blue' }[],
-	ctx: z.core.$RefinementCtx,
-) => {
-	const blue = blocks.flatMap((block, i) => block.band === 'blue' ? [i] : []);
-	for (const i of blue.slice(1)) {
-		ctx.addIssue({
-			code: 'custom',
-			path: [i, 'band'],
-			message:
-				'Only one blue band per page, so it stays the loudest section. Remove this band, or the other one.',
-		});
-	}
-	if (blue.includes(blocks.length - 1)) {
-		ctx.addIssue({
-			code: 'custom',
-			path: [blocks.length - 1, 'band'],
-			message:
-				"The last section can't be a blue band: the footer below it is dark blue too. Remove the band, or move the section up.",
-		});
-	}
-};
-
 /** Astro generates JSON Schemas for editors; data files may point at them. */
 const editorSchema = z.string().optional().meta({
 	description: 'Path to the editor JSON Schema. Leave unchanged.',
@@ -51,15 +23,10 @@ export const pageSchema = (fns: SchemaFns) =>
 				description: 'Hide this page from search engines.',
 			}),
 			header: headerSchema(fns),
-			blocks: z
-				.array(blockSchema(fns))
-				.max(12)
-				.superRefine(checkBands)
-				.default([])
-				.meta({
-					description:
-						`Page sections after the header, top to bottom. Order by priority: the first sections get the most attention. ${hierarchy.band}`,
-				}),
+			blocks: z.array(blockSchema(fns)).max(12).default([]).meta({
+				description:
+					'Page sections after the header, top to bottom. Order by priority: the first sections get the most attention.',
+			}),
 		})
 		.meta({
 			description: [

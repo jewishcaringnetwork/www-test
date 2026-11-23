@@ -5,14 +5,11 @@
  * type; register it in `components`. Types without one render a visible
  * placeholder.
  *
- * `index` is the block's position on the page, which sets its background
- * (`sectionBackground`); components pass it on to `Section`.
+ * `background` comes from the page (`sectionBackgrounds`); components pass it
+ * on to `Section`.
  */
 import type { CollectionEntry } from 'astro:content';
-import {
-	type SectionBackground,
-	sectionBackground,
-} from '~/lib/section-background';
+import type { SectionBackground } from '~/lib/section-background';
 import Cards from './cards.astro';
 import Contact from './contact.astro';
 import Cta from './cta.astro';
@@ -25,7 +22,7 @@ type Block = CollectionEntry<'pages'>['data']['blocks'][number];
 
 interface Props {
 	block: Block;
-	index: number;
+	background: SectionBackground;
 }
 
 type Components = {
@@ -44,11 +41,8 @@ const components: Components = {
 	cta: Cta,
 };
 
-const { block, index } = Astro.props;
+const { block, background } = Astro.props;
 const Component = components[block.type] ?? Placeholder;
 ---
 
-<Component
-	block={block as never}
-	background={sectionBackground(block, index)}
-/>
+<Component block={block as never} background={background} />

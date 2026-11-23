@@ -81,8 +81,7 @@ check-in, what to bring, house rules), never the house's amenities.
 
 ## Color blocking (11/23/2026)
 
-Sections are set apart by background: automatic paper and white alternation,
-plus at most one blue band. Rules:
+Landing pages get paper and white bands; other pages stay on paper. Rules:
 [../design/color-blocking.md](../design/color-blocking.md).
 
 ## Hero layout (11/16/2026)
