@@ -6,6 +6,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import Placeholder from './placeholder.astro';
+import Prose from './prose.astro';
 
 type Block = CollectionEntry<'pages'>['data']['blocks'][number];
 
@@ -19,7 +20,9 @@ type Components = {
 	}) => unknown;
 };
 
-const components: Components = {};
+const components: Components = {
+	prose: Prose,
+};
 
 const { block } = Astro.props;
 const Component = components[block.type] ?? Placeholder;

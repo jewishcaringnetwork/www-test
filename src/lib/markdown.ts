@@ -13,6 +13,11 @@ import { hrefSchema } from '../schemas/shared.ts';
 export interface MarkdownOptions {
 	/** Allow ## and ### headings. Off for fields like FAQ answers. */
 	headings?: boolean;
+	/**
+	 * Shift heading levels down by this much, for Markdown under a heading the
+	 * component renders: 1 turns ## into h3 and ### into h4.
+	 */
+	headingOffset?: 0 | 1;
 }
 
 type Node = {
@@ -98,5 +103,13 @@ export function renderMarkdown(
 			`Markdown not allowed in "${start}…": ${problems.join(' ')}`,
 		);
 	}
-	return markdownToHtml(source, { features }).html;
+	const html = markdownToHtml(source, { features }).html;
+	const offset = options.headingOffset ?? 0;
+	// Source HTML is rejected above, so every <hN> tag here is generated.
+	return offset
+		? html.replace(
+			/<(\/?)h([23])>/g,
+			(_, slash, level) => `<${slash}h${Number(level) + offset}>`,
+		)
+		: html;
 }

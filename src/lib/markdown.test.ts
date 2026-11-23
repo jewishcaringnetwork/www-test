@@ -23,6 +23,13 @@ describe('renderMarkdown', () => {
 		assert.match(html, /the “Strength of Jordan,” -- ok/);
 	});
 
+	it('shifts heading levels with headingOffset', () => {
+		const html = renderMarkdown('## Two\n\n### Three', {
+			headingOffset: 1,
+		}).replace(/\n/g, '');
+		assert.match(html, /<h3>Two<\/h3><h4>Three<\/h4>/);
+	});
+
 	it('throws on anything else', () => {
 		assert.throws(() => renderMarkdown('<b>hi</b>'), /Not allowed: HTML/);
 	});
