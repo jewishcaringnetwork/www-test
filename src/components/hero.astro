@@ -3,6 +3,11 @@
  * The landing-page header (see `hierarchy.hero`): display heading, lead, up to
  * two buttons, a quiet link, and a photo beside the text when there is one.
  * Its heading is the page's only h1.
+ *
+ * Coded pages (the 404) can fill two optional slots: `eyebrow`, shown above
+ * the heading, and `actions`, which replaces the buttons built from
+ * `hero.actions` (for buttons the content schema can't describe, like one with
+ * an icon). Content pages never use them.
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
@@ -29,6 +34,7 @@ const brands = {
 	},
 };
 const brand = hero.brand && brands[hero.brand];
+const slottedActions = Astro.slots.has('actions');
 ---
 
 <style>
@@ -144,9 +150,15 @@ const brand = hero.brand && brands[hero.brand];
 				height="auto"
 			/>
 		)}
+		<slot name="eyebrow" />
 		<h1 class="text-display" dir="auto">{hero.heading}</h1>
 		<p class="lead | text-large" dir="auto">{hero.lead}</p>
-		{hero.actions.length > 0 && (
+		{slottedActions && (
+			<div class="actions | cluster">
+				<slot name="actions" />
+			</div>
+		)}
+		{!slottedActions && hero.actions.length > 0 && (
 			<div class="actions | cluster">
 				{hero.actions.map((action) => (
 					<Button href={action.href} variant={action.variant}>
