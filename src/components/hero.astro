@@ -1,0 +1,151 @@
+---
+/**
+ * The landing-page header (see `hierarchy.hero`): display heading, lead, up to
+ * two buttons, a quiet link, and a photo beside the text when there is one.
+ * Its heading is the page's only h1.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Button from '~/components/button.astro';
+import Icon from '~/components/icon.astro';
+
+type Hero = Extract<
+	CollectionEntry<'pages'>['data']['header'],
+	{ type: 'hero' }
+>;
+
+interface Props {
+	hero: Hero;
+}
+
+const { hero } = Astro.props;
+---
+
+<style>
+	.hero {
+		--container-size: 75rem;
+
+		padding-block: var(--space-2xl);
+		padding-inline: var(--space-l);
+
+		@media (max-width: 60rem) {
+			padding-block: var(--space-xl);
+			padding-inline: var(--space-s);
+		}
+
+		:is(h1, p) {
+			margin-block-end: 0;
+		}
+	}
+
+	h1 {
+		color: var(--color-brand-blue);
+	}
+
+	.lead {
+		max-inline-size: 40rem;
+		color: var(--color-text-secondary);
+	}
+
+	/* With a photo: text gets the wider column so the heading stays short */
+	.hero:has(> .media) {
+		display: grid;
+		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+		align-items: center;
+		gap: var(--space-2xl);
+
+		@media (max-width: 60rem) {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-l);
+		}
+	}
+
+	.text {
+		--stack-gap: var(--space-s);
+	}
+
+	/* Without a photo: centered, so the text doesn't hug one side */
+	.hero:not(:has(> .media)) .text {
+		--stack-halign: center;
+
+		text-align: center;
+
+		.actions {
+			justify-content: center;
+		}
+
+		.quiet {
+			align-self: center;
+		}
+	}
+
+	.actions {
+		--cluster-gap: var(--space-xs);
+
+		margin-block-start: var(--space-xs);
+	}
+
+	.quiet {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	/*
+	 * Brand color shows (with the alt text) if the photo fails to load. Height
+	 * is capped at half the viewport so the next section shows below the fold.
+	 */
+	.media {
+		inline-size: min(100%, 50svh * 4 / 3);
+		justify-self: end;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		border-radius: var(--radius-l);
+		background: var(--color-surface-brand);
+		color: var(--color-text-on-brand);
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+		}
+	}
+</style>
+
+<header class="hero | container">
+	<div class="text | stack">
+		<h1 class="text-display" dir="auto">{hero.heading}</h1>
+		<p class="lead | text-large" dir="auto">{hero.lead}</p>
+		{hero.actions.length > 0 && (
+			<div class="actions | cluster">
+				{hero.actions.map((action) => (
+					<Button href={action.href} variant={action.variant}>
+						{action.label}
+					</Button>
+				))}
+			</div>
+		)}
+		{hero.link && (
+			<a class="quiet" href={hero.link.href}>
+				{hero.link.label}
+				<Icon name="arrow-right" size={16} />
+			</a>
+		)}
+	</div>
+	{hero.image && (
+		<div class="media">
+			<Image
+				src={hero.image.src}
+				alt={hero.image.alt}
+				widths={[480, 720, 960, 1200]}
+				sizes="(max-width: 60rem) 100vw, 36rem"
+				loading="eager"
+				fetchpriority="high"
+			/>
+		</div>
+	)}
+</header>

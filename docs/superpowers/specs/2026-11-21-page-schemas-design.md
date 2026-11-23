@@ -17,9 +17,9 @@ and the MCP tool input schemas, so every field carries a `.meta({ description
 - **Fixed per-page schemas** — tightest design control, but ~13 schemas and
   every new page needs a developer. Defeats the point of editing through MCP.
 - **Blocks with guardrails (chosen)** — open blocks plus rules enforced by the
-  schema: structurally where possible (hero as a field, capped lists), and in
-  the field descriptions where structure can't (hierarchy and prominence,
-  below).
+  schema: structurally where possible (the page header as a field, capped
+  lists), and in the field descriptions where structure can't (hierarchy and
+  prominence, below).
 
 ## Hierarchy and prominence
 
@@ -27,12 +27,12 @@ The site's design depends on a clear hierarchy (`docs/claude/3-hierarchy.md`):
 few things are loud, so the loud things work. Audience order is donors,
 volunteers, families, and families must never be more than one click from help.
 The schemas can't enforce most of this, so the descriptions must say it plainly
-and repeatedly — at the page, hero, block and action level:
+and repeatedly — at the page, header, block and action level:
 
-- **Split hero** is the most prominent element on the site. It is for top-level
-  destination pages only (today: home, Tikva House). Every other page uses the
-  simple hero. Adding a split hero to an ordinary page weakens the ones that
-  need it.
+- **Hero** is the most prominent element on the site. It is for landing pages
+  only (today: home, Tikva House). Every other page, including section overviews
+  like About, uses the plain header. Adding a hero to an ordinary page weakens
+  the ones that need it.
 - **Buttons** are for the one or two actions a section exists for. `donate`
   (gold) is the loudest; `secondary` is for the second action; a quiet need is a
   plain `link`, not a button.
@@ -61,13 +61,14 @@ renders only the site name in `<title>` for `index`.
 
 ### Page
 
-- `title` — 3–60 chars, used in `<title>` and as the hero heading fallback.
-- `description` — optional, 50–160 chars; SEO, falls back to `site.description`.
-- `hero` — required, discriminated on `layout`, default `simple`:
-  - `simple`: heading? (falls back to `title`), lead? (10–300).
-  - `split`: heading, lead, image? (absent → brand-color panel), actions 0–2,
-    link? (the quiet text link, e.g. "Need support?").
-- `blocks` — 0–12 blocks after the hero, discriminated on `type`.
+- `title` — 3–60 chars, used in `<title>` and as the header heading fallback.
+- `description` — optional, 50–160 chars, for search results; when omitted, the
+  page has no description meta tag.
+- `header` — required, discriminated on `type`, default `header`:
+  - `header`: heading? (falls back to `title`), lead? (10–300).
+  - `hero` (landing pages): heading, lead, image? (absent → text only), actions
+    0–2, link? (the quiet text link, e.g. "Need support?").
+- `blocks` — 0–12 blocks after the header, discriminated on `type`.
 - `noindex` — optional boolean.
 
 ### Granularity
@@ -129,7 +130,7 @@ teasers back to back. Prominence is handled by descriptions (above).
 
 - `src/schemas/shared.ts` — link, action, image, markdown, icon, header,
   hierarchy description strings.
-- `src/schemas/blocks.ts` — hero + block schemas.
+- `src/schemas/blocks.ts` — header + block schemas.
 - `src/schemas/page.ts` — page, story, person schemas.
 - `src/content.config.ts` — collections.
 

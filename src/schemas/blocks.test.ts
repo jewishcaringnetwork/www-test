@@ -1,7 +1,7 @@
 import { z } from 'astro/zod';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { blockSchema, heroSchema } from './blocks.ts';
+import { blockSchema, headerSchema } from './blocks.ts';
 import type { SchemaFns } from './shared.ts';
 
 const fns = {
@@ -9,7 +9,7 @@ const fns = {
 	reference: () => z.string(),
 } as unknown as SchemaFns;
 
-const hero = heroSchema(fns);
+const header = headerSchema(fns);
 const block = blockSchema(fns);
 
 const img = { src: './a.jpg', alt: 'The Tikva House kitchen' };
@@ -29,30 +29,30 @@ const ok = (schema: z.ZodType, data: unknown) => {
 const bad = (schema: z.ZodType, data: unknown) =>
 	assert.equal(schema.safeParse(data).success, false);
 
-describe('heroSchema', () => {
-	it('defaults to the simple layout', () => {
-		assert.deepEqual(ok(hero, {}), { layout: 'simple' });
+describe('headerSchema', () => {
+	it('defaults to the plain header', () => {
+		assert.deepEqual(ok(header, {}), { type: 'header' });
 	});
 
-	it('split needs a heading', () => {
-		bad(hero, {
-			layout: 'split',
+	it('hero needs a heading', () => {
+		bad(header, {
+			type: 'hero',
 			lead: 'When serious illness strikes, the whole family is affected.',
 		});
 	});
 
-	it('split allows at most two actions', () => {
-		bad(hero, {
-			layout: 'split',
+	it('hero allows at most two actions', () => {
+		bad(header, {
+			type: 'hero',
 			heading: 'Caring for the whole family',
 			lead: 'When serious illness strikes, the whole family is affected.',
 			actions: [action, action, action],
 		});
 	});
 
-	it('split defaults actions to []', () => {
-		const data = ok(hero, {
-			layout: 'split',
+	it('hero defaults actions to []', () => {
+		const data = ok(header, {
+			type: 'hero',
 			heading: 'Caring for the whole family',
 			lead: 'When serious illness strikes, the whole family is affected.',
 		});

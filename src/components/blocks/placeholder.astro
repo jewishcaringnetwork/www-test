@@ -1,0 +1,48 @@
+---
+/**
+ * Stand-in for a block type with no component yet. Shows the type and its
+ * section heading so a page can be reviewed before every block is built.
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	block: CollectionEntry<'pages'>['data']['blocks'][number];
+}
+
+const { block } = Astro.props;
+const heading = 'heading' in block ? block.heading : undefined;
+---
+
+<style>
+	section {
+		--container-size: 75rem;
+
+		padding-block: var(--space-l);
+		padding-inline: var(--space-l);
+
+		@media (max-width: 60rem) {
+			padding-inline: var(--space-s);
+		}
+	}
+
+	.box {
+		--stack-gap: var(--space-3xs);
+
+		padding: var(--space-m);
+		border: 2px dashed var(--color-border-strong);
+		border-radius: var(--radius-l);
+		background: var(--color-surface-sunken);
+		color: var(--color-text-secondary);
+
+		:is(p, h2) {
+			margin-block-end: 0;
+		}
+	}
+</style>
+
+<section class="container" data-placeholder={block.type}>
+	<div class="box | stack">
+		<p class="text-label">Placeholder: {block.type} block (not built yet)</p>
+		{heading && <h2 class="text-h3" dir="auto">{heading}</h2>}
+	</div>
+</section>

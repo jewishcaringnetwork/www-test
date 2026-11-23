@@ -26,6 +26,9 @@ importers:
       astro:
         specifier: ^7.4.7
         version: 7.4.7(@netlify/blobs@11.1.9(supports-color@11.0.0))(@types/node@26.6.6)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.1)
+      satteri:
+        specifier: ^0.11.7
+        version: 0.11.7
     devDependencies:
       '@sugarcube-sh/cli':
         specifier: ^0.1.28

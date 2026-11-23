@@ -32,52 +32,52 @@ const card = {
 
 describe('pageSchema', () => {
 	it('fills defaults', () => {
-		const data = ok(page, { title: 'Contact us', hero: {} });
+		const data = ok(page, { title: 'Contact us', header: {} });
 		assert.deepEqual(data.blocks, []);
-		assert.equal(data.hero.layout, 'simple');
+		assert.equal(data.header.type, 'header');
 	});
 
 	it('allows a $schema key for editor validation', () => {
 		ok(page, {
 			$schema: '../../.astro/collections/pages.schema.json',
 			title: 'Contact us',
-			hero: {},
+			header: {},
 		});
 	});
 
 	it('keeps the image consent rule on overridden image descriptions', () => {
 		const json = JSON.stringify(z.toJSONSchema(page, { io: 'input' }));
 		const hits = json.match(/written consent/g) ?? [];
-		// every image field: split hero, mediaText, contact, logos
+		// every image field: hero, mediaText, contact, logos
 		assert.ok(hits.length >= 4, `found ${hits.length}`);
 	});
 
 	it('states the button rule once per actions list, not on every variant', () => {
 		const json = JSON.stringify(z.toJSONSchema(page, { io: 'input' }));
-		const actionLists = 2; // split hero actions, cta actions
+		const actionLists = 2; // hero actions, cta actions
 		const hits = json.match(/Buttons are for the one or two actions/g) ?? [];
 		assert.ok(hits.length <= actionLists, `found ${hits.length}`);
 	});
 
-	it('tells the model where hero buttons live', () => {
+	it('tells the model where header buttons live', () => {
 		const result = page.safeParse({
 			title: 'Volunteer',
-			hero: { actions: [] },
+			header: { actions: [] },
 		});
 		assert.equal(result.success, false);
 		const json = JSON.stringify(z.toJSONSchema(page, { io: 'input' }));
 		assert.match(
 			json,
-			/no image, buttons or link; those exist only on the split layout/,
+			/no image, buttons or link; those exist only on the hero/,
 		);
 	});
 
-	it('requires a hero', () => bad(page, { title: 'Contact us' }));
+	it('requires a header', () => bad(page, { title: 'Contact us' }));
 
 	it('caps blocks at 12', () => {
 		bad(page, {
 			title: 'Services',
-			hero: {},
+			header: {},
 			blocks: Array(13).fill({ type: 'prose', markdown: 'Hi' }),
 		});
 	});
@@ -85,7 +85,7 @@ describe('pageSchema', () => {
 	it('rejects a too-short description', () => {
 		bad(page, {
 			title: 'Services',
-			hero: {},
+			header: {},
 			description: 'Too short for SEO.',
 		});
 	});
@@ -93,8 +93,8 @@ describe('pageSchema', () => {
 	it('accepts the approved home page shape', () => {
 		ok(page, {
 			title: 'Home',
-			hero: {
-				layout: 'split',
+			header: {
+				type: 'hero',
 				heading: 'When serious illness strikes, the entire family is affected.',
 				lead:
 					'Our programs are designed to help each family member. Always free.',

@@ -18,12 +18,12 @@ const actions = (min: number, max: number) =>
 		description: `${hierarchy.actions} ${hierarchy.whenUnsure}`,
 	});
 
-// Hero
+// Page header: a plain header or a landing-page hero
 
-export const heroSchema = (fns: SchemaFns) => {
-	const simple = z
+export const headerSchema = (fns: SchemaFns) => {
+	const header = z
 		.strictObject({
-			layout: z.literal('simple').default('simple'),
+			type: z.literal('header').default('header'),
 			heading: text(3, 70).optional().meta({
 				description: 'Page heading. Omit to use the page title.',
 			}),
@@ -33,12 +33,12 @@ export const heroSchema = (fns: SchemaFns) => {
 		})
 		.meta({
 			description:
-				'The standard page opener: heading and optional lead. Use this for almost every page. It has no image, buttons or link; those exist only on the split layout, which is reserved for top-level destination pages.',
+				'The standard page opener: heading and optional lead. Use this for almost every page, including section overviews like About. It has no image, buttons or link; those exist only on the hero, which is reserved for landing pages.',
 		});
 
-	const split = z
+	const hero = z
 		.strictObject({
-			layout: z.literal('split'),
+			type: z.literal('hero'),
 			heading: text(3, 70).meta({
 				description:
 					'The page\'s main message, e.g. "When serious illness strikes, the entire family is affected."',
@@ -48,16 +48,16 @@ export const heroSchema = (fns: SchemaFns) => {
 			}),
 			image: imageSchema(
 				fns,
-				'Photo shown beside the text in a 4:3 frame. Omit to show a brand-color panel.',
+				'Photo shown beside the text in a 4:3 frame. Omit for a text-only hero.',
 			).optional(),
 			actions: actions(0, 2).default([]),
 			link: linkSchema.optional(),
 		})
-		.meta({ description: `${hierarchy.splitHero} ${hierarchy.audience}` });
+		.meta({ description: `${hierarchy.hero} ${hierarchy.audience}` });
 
-	return z.discriminatedUnion('layout', [simple, split]).meta({
+	return z.discriminatedUnion('type', [header, hero]).meta({
 		description:
-			`Page opener. Use "simple" unless this is a top-level destination page. ${hierarchy.whenUnsure}`,
+			`Page opener. Use "header" unless this is a landing page. ${hierarchy.whenUnsure}`,
 	});
 };
 
