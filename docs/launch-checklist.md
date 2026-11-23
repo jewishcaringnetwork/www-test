@@ -1,7 +1,23 @@
 # Launch checklist
 
 Work that must be done before the Phase 4 site replaces the WordPress site.
-Decisions behind these are in `docs/adr/`.
+Decisions behind these are in `docs/adr/`. Tracked in
+jewishcaringnetwork/www-test#36.
+
+Launch has two steps. **Ready** means v1 is built and tested on the Netlify URL
+(the "v1: ready to go live" milestone, due 11/25). **Live** is the DNS cutover,
+done separately afterwards.
+
+## Ready
+
+- [ ] Everything in the "v1: ready to go live" milestone is closed.
+- [ ] Prototype-only code removed: jewishcaringnetwork/www-test#35
+- [ ] Redirect map from every old WordPress URL to its new page:
+      jewishcaringnetwork/www-test#34
+- [ ] Titles, meta descriptions, OG image and favicon on every page.
+- [ ] Accessibility pass: keyboard, focus, contrast, form labels.
+- [ ] Lighthouse on Home, Tikva House and Ways to Give.
+- [ ] Client signs off on v1 at the Netlify URL.
 
 ## Repo
 
@@ -9,17 +25,20 @@ Decisions behind these are in `docs/adr/`.
       `website`), then `git remote set-url origin` on each checkout.
 - [ ] Set `GH_REPO` on the Netlify site to the new slug; confirm the site is
       still linked to the repo.
-- [ ] Remove prototype-only code (for example `src/pages/test/`).
 
-## Content
+## Live
 
-- [ ] Load launch content from the Phase 2 content draft. Use the WordPress dump
-      only for old URLs, media and family stories.
-- [ ] Redirect map from every old WordPress URL to its new page.
+- [ ] Full WordPress backup (database plus `wp-content`) kept.
+- [ ] Remove `noindex`; add a production `robots.txt` and sitemap.
+- [ ] DNS: record the current records first; don't touch MX/email; lower the TTL
+      a day ahead.
+- [ ] Add the custom domain in Netlify and confirm SSL is issued.
+- [ ] Forms tested end to end in production.
+- [ ] Donate embed tested in production.
+- [ ] Redirects spot-checked on the live domain.
+- [ ] Old hosting kept running for 2 weeks as a fallback.
 
-## Staff editing
+## After launch
 
-- [ ] Finish the setup and open items in
-      `docs/superpowers/specs/2026-11-21-mcp-server-design.md` (GitHub App,
-      ruleset on `main`, Netlify env vars, testing).
-- [ ] JCN's Claude Team Owner adds the MCP connector.
+- Staff editing through Claude is deferred (ADR 7):
+  jewishcaringnetwork/www-test#41

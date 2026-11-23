@@ -2,6 +2,8 @@
 
 - Status: accepted
 - Date: 2026-11-21
+- Amended by: [ADR 7](0007-v1-without-staff-editing.md) (staff editing deferred
+  past v1)
 
 ## Context
 
