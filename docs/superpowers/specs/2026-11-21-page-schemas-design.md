@@ -62,7 +62,8 @@ renders only the site name in `<title>` for `index`.
 ### Page
 
 - `title` — 3–60 chars, used in `<title>` and as the hero heading fallback.
-- `description` — optional, 50–160 chars; SEO, falls back to `site.description`.
+- `description` — optional, 50–160 chars, for search results; when omitted, the
+  page has no description meta tag.
 - `hero` — required, discriminated on `layout`, default `simple`:
   - `simple`: heading? (falls back to `title`), lead? (10–300).
   - `split`: heading, lead, image? (absent → text only), actions 0–2, link? (the

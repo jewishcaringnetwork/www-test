@@ -17,7 +17,7 @@ export const pageSchema = (fns: SchemaFns) =>
 			}),
 			description: text(50, 160).optional().meta({
 				description:
-					'One-sentence summary for search engines. Omit to use the site description.',
+					'One-sentence summary for search engines. Omit to let them write a snippet from the page.',
 			}),
 			noindex: z.boolean().optional().meta({
 				description: 'Hide this page from search engines.',
