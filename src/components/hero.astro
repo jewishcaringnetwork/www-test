@@ -47,10 +47,10 @@ const { hero } = Astro.props;
 		color: var(--color-text-secondary);
 	}
 
-	/* Two columns only when there is a photo; without one, text alone */
+	/* With a photo: text gets the wider column so the heading stays short */
 	.hero:has(> .media) {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 		align-items: center;
 		gap: var(--space-2xl);
 
@@ -62,6 +62,21 @@ const { hero } = Astro.props;
 
 	.text {
 		--stack-gap: var(--space-s);
+	}
+
+	/* Without a photo: centered, so the text doesn't hug one side */
+	.hero:not(:has(> .media)) .text {
+		--stack-halign: center;
+
+		text-align: center;
+
+		.actions {
+			justify-content: center;
+		}
+
+		.quiet {
+			align-self: center;
+		}
 	}
 
 	.actions {
@@ -80,8 +95,13 @@ const { hero } = Astro.props;
 		font-weight: var(--font-weight-medium);
 	}
 
-	/* Brand color shows (with the alt text) if the photo fails to load */
+	/*
+	 * Brand color shows (with the alt text) if the photo fails to load. Height
+	 * is capped at half the viewport so the next section shows below the fold.
+	 */
 	.media {
+		inline-size: min(100%, 50svh * 4 / 3);
+		justify-self: end;
 		aspect-ratio: 4 / 3;
 		overflow: hidden;
 		border-radius: var(--radius-l);
