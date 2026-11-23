@@ -4,3 +4,14 @@
 [dev]
 targetPort = 3000
 autoLaunch = false
+
+# frame-src only, so far: it governs iframes and nothing else, since no
+# default-src or child-src is set. Fonts, scripts, styles and images are
+# unaffected. A full CSP is a separate job.
+# - jewishcaringnetwork.admirepro.app: the donation form on /donate (ADR 6)
+# - app.netlify.com: the Netlify Drawer on deploy previews
+[[headers]]
+for = "/*"
+
+[headers.values]
+Content-Security-Policy = "frame-src 'self' https://jewishcaringnetwork.admirepro.app https://app.netlify.com"

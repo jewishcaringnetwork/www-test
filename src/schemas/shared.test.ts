@@ -44,6 +44,9 @@ describe('hrefSchema', () => {
 		const ok of [
 			'/about',
 			'/donate?fund=tikva-house',
+			'/donate?fund=food-shabbos-packages',
+			'/donate',
+			'/donate#form',
 			'https://example.org',
 			'tel:+14105341033',
 			'mailto:info@tikvahouse.org',
@@ -64,6 +67,9 @@ describe('hrefSchema', () => {
 			'/\\/evil.com',
 			'tel:-',
 			'tel:+',
+			'/donate?fund=Tikva%20House',
+			'/donate?fund=building-fund',
+			'/donate?fund=',
 		]
 	) {
 		it(`rejects ${bad}`, () =>

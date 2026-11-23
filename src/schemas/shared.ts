@@ -1,6 +1,7 @@
 import { icons } from '@phosphor-icons/core';
 import { z } from 'astro/zod';
 import type { ImageFunction } from 'astro:content';
+import { fundSlugs } from './funds.ts';
 
 /**
  * Astro's schema helpers, passed in rather than imported, so these schemas can
@@ -77,9 +78,20 @@ export const hrefSchema = z
 		/^(\/(?![\/\\])[^\s]*|https:\/\/[^\s]+|tel:\+?\d[\d-]*\d|mailto:[^\s@]+@[^\s@]+)$/,
 		'Use a site path like /about, a full https:// URL, tel:+14106026075, or mailto:name@example.org',
 	)
+	.refine(
+		(href) => {
+			if (!href.startsWith('/donate?')) return true;
+			const query = href.slice('/donate?'.length).split('#')[0];
+			const fund = new URLSearchParams(query).get('fund');
+			return fund === null || fundSlugs.includes(fund);
+		},
+		`Unknown fund. Use one of: ${fundSlugs.join(', ')}.`,
+	)
 	.meta({
 		description:
-			'Link target: a site path starting with / (query strings allowed, e.g. /donate?fund=tikva-house), an https:// URL, a tel: number, or a mailto: address.',
+			`Link target: a site path starting with / (query strings allowed), an https:// URL, a tel: number, or a mailto: address. To preselect a fund on the donation form, link to /donate?fund=<fund>, e.g. /donate?fund=tikva-house. Funds: ${
+				fundSlugs.join(', ')
+			}.`,
 	});
 
 export const linkSchema = z
