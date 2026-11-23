@@ -25,14 +25,14 @@ const { block } = Astro.props;
 ---
 
 <style>
-	.grid {
+	.deck {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
 		gap: var(--space-m);
 	}
 
 	/* Two or four cards: two columns, so none is left alone on a row */
-	.grid:is([data-count='2'], [data-count='4']) {
+	.deck:is([data-count='2'], [data-count='4']) {
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
 		max-inline-size: 56rem;
 	}
@@ -113,7 +113,7 @@ const { block } = Astro.props;
 </style>
 
 <Section type="cards" heading={block.heading} intro={block.intro}>
-	<ul role="list" class="grid" data-count={block.items.length}>
+	<ul role="list" class="deck" data-count={block.items.length}>
 		{block.items.map((item) => (
 			<li class="card | stack">
 				{item.icon && (
