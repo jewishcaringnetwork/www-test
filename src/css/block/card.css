@@ -8,7 +8,7 @@
  * (shadow.s is for clickable cards).
  *
  * A card is always a light surface, even on a blue section band, which swaps
- * the text tokens for on-brand ones (src/components/blocks/section.astro).
+ * the text tokens for on-brand ones (src/css/block/section.css).
  * The card sets them back to the values in src/tokens/color.json.
  */
 

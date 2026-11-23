@@ -61,7 +61,7 @@ const title = [Astro.props.title || [], site.name].flat().join(' | ');
 		<div id="root" class="cover">
 			<Banner />
 			<Header />
-			<main id="main" data-grow>
+			<main id="main" class="page | stack" data-grow>
 				<slot />
 			</main>
 			<Footer />

@@ -1,23 +1,12 @@
 ---
 /**
  * The frame every block sits in: a full-width `<section>` painted with its
- * `background`, holding the page's container and rhythm, plus the shared
- * section header (`heading` + `intro`) when there is one. The heading is
- * always an h2: blocks sit under the page's h1, and content never picks a
- * level.
+ * `background`, holding the page's container, plus the shared section header
+ * (`heading` + `intro`) when there is one. The heading is always an h2:
+ * blocks sit under the page's h1, and content never picks a level.
  *
- * Color blocking (`color.section.*` tokens; rules in
- * docs/design/color-blocking.md). The page picks each block's background
- * (`sectionBackgrounds`); content never does.
- *
- * - `paper`: the page itself. No band.
- * - `white`: a quiet band, edged top and bottom, since white is barely
- *   lighter than paper. Only on landing pages.
- * - `blue`: kept for a future block it suits (e.g. impact numbers), at most
- *   once per page; no block uses it yet. It swaps the text tokens for their
- *   on-brand versions, so the block's text, headings and links follow
- *   without knowing about bands. A `.card` inside switches them back
- *   (src/css/block/card.css).
+ * The page picks each block's background (`sectionBackgrounds`; rules in
+ * docs/design/color-blocking.md). Styles: src/css/block/section.css.
  */
 import type { HTMLAttributes } from 'astro/types';
 import type { SectionBackground } from '~/lib/section-background';
@@ -51,79 +40,17 @@ const id = heading
 	: undefined;
 ---
 
-<style>
-	section {
-		padding-block: var(--space-xl);
-		color: var(--color-text-primary);
-
-		@media (max-width: 60rem) {
-			padding-block: var(--space-l);
-		}
-
-		&[data-background='white'] {
-			border-block: 1px solid var(--color-border-subtle);
-			background: var(--color-section-white);
-		}
-
-		&[data-background='blue'] {
-			--color-text-primary: var(--color-text-on-brand);
-			--color-text-secondary: var(--color-text-on-brand-secondary);
-			--color-text-heading: var(--color-text-on-brand);
-			--color-text-link: var(--color-text-link-on-brand);
-			--color-focus-ring: var(--color-brand-gold);
-
-			background: var(--color-section-blue);
-		}
-	}
-
-	.inner {
-		--container-size: 75rem;
-		--stack-gap: var(--space-l);
-
-		/* Same edges as the hero and header, which pad inside the container */
-		padding-inline: var(--space-l);
-
-		@media (max-width: 60rem) {
-			padding-inline: var(--space-s);
-		}
-
-		/*
-		 * Reading measure: 2.5 to 3 lowercase alphabets per line. One alphabet
-		 * of the body font (system-ui) is about 22ch, so 60ch is about 2.7.
-		 */
-		&[data-narrow] > :global(*) {
-			max-inline-size: 60ch;
-		}
-	}
-
-	.header {
-		--stack-gap: var(--space-2xs);
-
-		:is(h2, p) {
-			margin-block-end: 0;
-		}
-	}
-
-	h2 {
-		color: var(--color-text-heading);
-	}
-
-	.intro {
-		max-inline-size: 40rem;
-		color: var(--color-text-secondary);
-	}
-</style>
-
 <section
-	class={cn}
+	class:list={['section', cn]}
 	data-block={type}
 	data-background={background}
+	data-narrow={narrow}
 	aria-labelledby={id}
 	{...rest}
 >
-	<div class="inner | stack container" data-narrow={narrow}>
+	<div class="stack container">
 		{(heading || intro) && (
-			<div class="header | stack">
+			<div class="section-header | stack">
 				{heading && <h2 id={id} class="text-h2" dir="auto">{heading}</h2>}
 				{intro && <p class="intro | text-large" dir="auto">{intro}</p>}
 			</div>

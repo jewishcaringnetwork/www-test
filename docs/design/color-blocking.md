@@ -48,7 +48,7 @@ Links on blue are white like the body text, so they are always underlined.
   and lists the self-contained block types. Add a new block type there when its
   component puts its content in cards or panels.
 - `src/pages/[...slug].astro` calls it and passes each block its background;
-  `src/components/blocks/section.astro` paints it; `src/css/block/card.css`
-  resets the text tokens inside cards.
+  `src/css/block/section.css` paints it; `src/css/block/card.css` resets the
+  text tokens inside cards.
 - To give a future block the blue variant, return `blue` for it from
   `sectionBackgrounds()` and keep rule 5's once-per-page limit.

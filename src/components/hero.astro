@@ -41,11 +41,12 @@ const slottedActions = Astro.slots.has('actions');
 	.hero {
 		--container-size: 75rem;
 
-		padding-block: var(--space-2xl);
+		/* The space below is the page's (src/css/block/page.css) */
+		padding-block-start: var(--space-2xl);
 		padding-inline: var(--space-l);
 
 		@media (max-width: 60rem) {
-			padding-block: var(--space-xl);
+			padding-block-start: var(--space-xl);
 			padding-inline: var(--space-s);
 		}
 
