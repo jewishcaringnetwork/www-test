@@ -42,9 +42,12 @@ const id = heading
 			padding-inline: var(--space-s);
 		}
 
-		/* Same left edge as the page header, at a reading measure */
+		/*
+		 * Reading measure: 2.5 to 3 lowercase alphabets per line. One alphabet
+		 * of the body font (system-ui) is about 22ch, so 60ch is about 2.7.
+		 */
 		&[data-narrow] > :global(*) {
-			max-inline-size: 46rem;
+			max-inline-size: 60ch;
 		}
 	}
 
