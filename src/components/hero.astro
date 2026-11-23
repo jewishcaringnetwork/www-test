@@ -54,12 +54,8 @@ const { hero, title } = Astro.props;
 
 	/* Split */
 
-	.split-band {
-		background: var(--color-surface-card);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
-	.split {
+	/* Two columns only when there is a photo; without one, text alone */
+	.split:has(> .media) {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		align-items: center;
@@ -91,11 +87,13 @@ const { hero, title } = Astro.props;
 		font-weight: var(--font-weight-medium);
 	}
 
+	/* Brand color shows (with the alt text) if the photo fails to load */
 	.media {
 		aspect-ratio: 4 / 3;
 		overflow: hidden;
 		border-radius: var(--radius-l);
 		background: var(--color-surface-brand);
+		color: var(--color-text-on-brand);
 
 		img {
 			inline-size: 100%;
@@ -113,40 +111,37 @@ const { hero, title } = Astro.props;
 )}
 
 {hero.layout === 'split' && (
-	<header class="split-band">
-		<div class="hero split | container">
-			<div class="text | stack">
-				<h1 class="text-display" dir="auto">{hero.heading}</h1>
-				<p class="lead | text-large" dir="auto">{hero.lead}</p>
-				{hero.actions.length > 0 && (
-					<div class="actions | cluster">
-						{hero.actions.map((action) => (
-							<Button href={action.href} variant={action.variant}>
-								{action.label}
-							</Button>
-						))}
-					</div>
-				)}
-				{hero.link && (
-					<a class="quiet" href={hero.link.href}>
-						{hero.link.label}
-						<Icon name="arrow-right" size={16} />
-					</a>
-				)}
-			</div>
-			{hero.image && (
-				<div class="media">
-					<Image
-						src={hero.image.src}
-						alt={hero.image.alt}
-						widths={[480, 720, 960, 1200]}
-						sizes="(max-width: 60rem) 100vw, 36rem"
-						loading="eager"
-						fetchpriority="high"
-					/>
+	<header class="hero split | container">
+		<div class="text | stack">
+			<h1 class="text-display" dir="auto">{hero.heading}</h1>
+			<p class="lead | text-large" dir="auto">{hero.lead}</p>
+			{hero.actions.length > 0 && (
+				<div class="actions | cluster">
+					{hero.actions.map((action) => (
+						<Button href={action.href} variant={action.variant}>
+							{action.label}
+						</Button>
+					))}
 				</div>
 			)}
-			{!hero.image && <div class="media" aria-hidden="true" />}
+			{hero.link && (
+				<a class="quiet" href={hero.link.href}>
+					{hero.link.label}
+					<Icon name="arrow-right" size={16} />
+				</a>
+			)}
 		</div>
+		{hero.image && (
+			<div class="media">
+				<Image
+					src={hero.image.src}
+					alt={hero.image.alt}
+					widths={[480, 720, 960, 1200]}
+					sizes="(max-width: 60rem) 100vw, 36rem"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			</div>
+		)}
 	</header>
 )}

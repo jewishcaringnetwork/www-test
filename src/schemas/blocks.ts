@@ -48,7 +48,7 @@ export const heroSchema = (fns: SchemaFns) => {
 			}),
 			image: imageSchema(
 				fns,
-				'Photo shown beside the text in a 4:3 frame. Omit to show a brand-color panel.',
+				'Photo shown beside the text in a 4:3 frame. Omit for a text-only hero.',
 			).optional(),
 			actions: actions(0, 2).default([]),
 			link: linkSchema.optional(),

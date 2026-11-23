@@ -65,8 +65,8 @@ renders only the site name in `<title>` for `index`.
 - `description` — optional, 50–160 chars; SEO, falls back to `site.description`.
 - `hero` — required, discriminated on `layout`, default `simple`:
   - `simple`: heading? (falls back to `title`), lead? (10–300).
-  - `split`: heading, lead, image? (absent → brand-color panel), actions 0–2,
-    link? (the quiet text link, e.g. "Need support?").
+  - `split`: heading, lead, image? (absent → text only), actions 0–2, link? (the
+    quiet text link, e.g. "Need support?").
 - `blocks` — 0–12 blocks after the hero, discriminated on `type`.
 - `noindex` — optional boolean.
 
