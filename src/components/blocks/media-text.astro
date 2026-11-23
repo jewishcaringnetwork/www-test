@@ -3,10 +3,9 @@
  * Text beside one or two photos (e.g. Tikva House's "What's included").
  * The heading is an h2; `##` in the Markdown becomes h3 under it.
  *
- * Two photos overlap: the first large, the second smaller and offset over
- * its corner, so the pair reads as one picture of a place rather than a
- * gallery. On narrow screens the text comes first and the photos sit
- * side by side below it.
+ * Two photos sit side by side, the second set lower, with no overlap, so
+ * each shows whole. On narrow screens the text comes first and the photos
+ * sit level, side by side below it.
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
@@ -81,52 +80,31 @@ const id = `media-text-${
 			aspect-ratio: 4 / 3;
 		}
 
-		/* Two photos: the second overlaps the first's lower corner */
+		/*
+		 * Two photos: side by side, the second set lower, so the pair reads as
+		 * one picture of a place. Nothing overlaps or crops, so each photo
+		 * shows whole on every device.
+		 */
 		&[data-count='2'] {
-			grid-template-columns: repeat(12, minmax(0, 1fr));
-			grid-template-rows: repeat(12, auto);
-			padding-block-end: var(--space-l);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: start;
+			gap: var(--space-s);
 
-			img:first-child {
-				grid-column: 1 / 11;
-				grid-row: 1 / 10;
-				aspect-ratio: 4 / 3;
+			/* Each photo at its own aspect ratio (from Astro's width/height), uncropped */
+			img {
+				block-size: auto;
+				aspect-ratio: auto;
 			}
 
 			img:last-child {
-				grid-column: 7 / 13;
-				grid-row: 7 / 13;
-				aspect-ratio: 1;
-				border: var(--space-2xs) solid var(--color-surface-page);
-				border-radius: calc(var(--radius-l) + var(--space-2xs));
-			}
-		}
-
-		[data-side='start'] &[data-count='2'] {
-			img:first-child {
-				grid-column: 3 / 13;
+				margin-block-start: var(--space-2xl);
 			}
 
-			img:last-child {
-				grid-column: 1 / 7;
-			}
-		}
-
-		@media (max-width: 60rem) {
-			&[data-count='2'],
-			[data-side='start'] &[data-count='2'] {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-				grid-template-rows: auto;
+			@media (max-width: 60rem) {
 				gap: var(--space-xs);
-				padding: 0;
 
-				img:first-child,
 				img:last-child {
-					grid-column: auto;
-					grid-row: auto;
-					aspect-ratio: 1;
-					border: 0;
-					border-radius: var(--radius-l);
+					margin-block-start: 0;
 				}
 			}
 		}
