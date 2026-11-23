@@ -2,11 +2,12 @@
 /**
  * Every page in `content/pages/`: the file path is the URL, so
  * `content/pages/about/history.json` is `/about/history`. A page is the base
- * layout, its hero (the page header) and its blocks; there is no separate
- * page layout. Home stays on `index.astro` for now.
+ * layout, its header (plain, or a hero on landing pages) and its blocks;
+ * there is no separate page layout. Home stays on `index.astro` for now.
  */
 import { getCollection } from 'astro:content';
 import Block from '~/components/blocks/block.astro';
+import Header from '~/components/header.astro';
 import Hero from '~/components/hero.astro';
 import Layout from '~/layouts/base.astro';
 
@@ -19,10 +20,12 @@ export async function getStaticPaths() {
 }
 
 const { page } = Astro.props;
-const { title, description, noindex, hero, blocks } = page.data;
+const { title, description, noindex, header, blocks } = page.data;
 ---
 
 <Layout title={title} description={description} ignore={noindex}>
-	<Hero hero={hero} title={title} />
+	{header.type === 'hero'
+		? <Hero hero={header} />
+		: <Header header={header} title={title} />}
 	{blocks.map((block) => <Block block={block} />)}
 </Layout>

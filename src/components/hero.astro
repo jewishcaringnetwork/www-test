@@ -1,21 +1,24 @@
 ---
 /**
- * The page header: every page opens with one hero, and its heading is the
- * page's only h1. `simple` is for almost every page; `split` is reserved for
- * top-level destination pages (see `hierarchy.splitHero`).
+ * The landing-page header (see `hierarchy.hero`): display heading, lead, up to
+ * two buttons, a quiet link, and a photo beside the text when there is one.
+ * Its heading is the page's only h1.
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Button from '~/components/button.astro';
 import Icon from '~/components/icon.astro';
 
+type Hero = Extract<
+	CollectionEntry<'pages'>['data']['header'],
+	{ type: 'hero' }
+>;
+
 interface Props {
-	hero: CollectionEntry<'pages'>['data']['hero'];
-	/** Page title, the heading when a simple hero has none. */
-	title: string;
+	hero: Hero;
 }
 
-const { hero, title } = Astro.props;
+const { hero } = Astro.props;
 ---
 
 <style>
@@ -44,18 +47,8 @@ const { hero, title } = Astro.props;
 		color: var(--color-text-secondary);
 	}
 
-	/* Simple */
-
-	.simple {
-		--stack-gap: var(--space-xs);
-
-		padding-block-end: var(--space-l);
-	}
-
-	/* Split */
-
 	/* Two columns only when there is a photo; without one, text alone */
-	.split:has(> .media) {
+	.hero:has(> .media) {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		align-items: center;
@@ -103,45 +96,36 @@ const { hero, title } = Astro.props;
 	}
 </style>
 
-{hero.layout === 'simple' && (
-	<header class="hero simple | stack container">
-		<h1 class="text-h1" dir="auto">{hero.heading ?? title}</h1>
-		{hero.lead && <p class="lead | text-large" dir="auto">{hero.lead}</p>}
-	</header>
-)}
-
-{hero.layout === 'split' && (
-	<header class="hero split | container">
-		<div class="text | stack">
-			<h1 class="text-display" dir="auto">{hero.heading}</h1>
-			<p class="lead | text-large" dir="auto">{hero.lead}</p>
-			{hero.actions.length > 0 && (
-				<div class="actions | cluster">
-					{hero.actions.map((action) => (
-						<Button href={action.href} variant={action.variant}>
-							{action.label}
-						</Button>
-					))}
-				</div>
-			)}
-			{hero.link && (
-				<a class="quiet" href={hero.link.href}>
-					{hero.link.label}
-					<Icon name="arrow-right" size={16} />
-				</a>
-			)}
-		</div>
-		{hero.image && (
-			<div class="media">
-				<Image
-					src={hero.image.src}
-					alt={hero.image.alt}
-					widths={[480, 720, 960, 1200]}
-					sizes="(max-width: 60rem) 100vw, 36rem"
-					loading="eager"
-					fetchpriority="high"
-				/>
+<header class="hero | container">
+	<div class="text | stack">
+		<h1 class="text-display" dir="auto">{hero.heading}</h1>
+		<p class="lead | text-large" dir="auto">{hero.lead}</p>
+		{hero.actions.length > 0 && (
+			<div class="actions | cluster">
+				{hero.actions.map((action) => (
+					<Button href={action.href} variant={action.variant}>
+						{action.label}
+					</Button>
+				))}
 			</div>
 		)}
-	</header>
-)}
+		{hero.link && (
+			<a class="quiet" href={hero.link.href}>
+				{hero.link.label}
+				<Icon name="arrow-right" size={16} />
+			</a>
+		)}
+	</div>
+	{hero.image && (
+		<div class="media">
+			<Image
+				src={hero.image.src}
+				alt={hero.image.alt}
+				widths={[480, 720, 960, 1200]}
+				sizes="(max-width: 60rem) 100vw, 36rem"
+				loading="eager"
+				fetchpriority="high"
+			/>
+		</div>
+	)}
+</header>

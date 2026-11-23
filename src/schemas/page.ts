@@ -1,5 +1,5 @@
 import { z } from 'astro/zod';
-import { blockSchema, heroSchema } from './blocks.ts';
+import { blockSchema, headerSchema } from './blocks.ts';
 import { hierarchy, imageSchema, type SchemaFns, text } from './shared.ts';
 
 /** Astro generates JSON Schemas for editors; data files may point at them. */
@@ -13,7 +13,7 @@ export const pageSchema = (fns: SchemaFns) =>
 			$schema: editorSchema,
 			title: text(3, 60).meta({
 				description:
-					'Page name, used in the browser tab and as the heading when the hero has none.',
+					'Page name, used in the browser tab and as the heading when the header has none.',
 			}),
 			description: text(50, 160).optional().meta({
 				description:
@@ -22,10 +22,10 @@ export const pageSchema = (fns: SchemaFns) =>
 			noindex: z.boolean().optional().meta({
 				description: 'Hide this page from search engines.',
 			}),
-			hero: heroSchema(fns),
+			header: headerSchema(fns),
 			blocks: z.array(blockSchema(fns)).max(12).default([]).meta({
 				description:
-					'Page sections after the hero, top to bottom. Order by priority: the first sections get the most attention.',
+					'Page sections after the header, top to bottom. Order by priority: the first sections get the most attention.',
 			}),
 		})
 		.meta({

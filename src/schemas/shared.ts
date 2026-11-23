@@ -21,8 +21,8 @@ export const hierarchy = {
 	whenUnsure: 'When unsure, prefer the quieter option.',
 	audience:
 		'Audience order across the site is donors, then volunteers, then families. Families must never be more than one click from help.',
-	splitHero:
-		'The split hero is the most prominent element on the site. It is reserved for top-level destination pages (currently the home page and Tikva House). Every other page uses the simple hero: adding a split hero to an ordinary page weakens the pages that rely on it.',
+	hero:
+		'The hero is the most prominent element on the site. It is reserved for landing pages, whose job is to move a visitor to act (currently the home page and Tikva House). Every other page, including section overviews like About, uses the plain header: adding a hero to an ordinary page weakens the pages that rely on it.',
 	actions:
 		'Buttons are for the one or two actions this section exists for. "donate" is the loudest style and is reserved for giving; "primary" is the main action; "secondary" is a second, lesser action. Do not add buttons to fill space.',
 	quietLink:
