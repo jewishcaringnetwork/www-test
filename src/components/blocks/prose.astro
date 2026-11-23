@@ -6,6 +6,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import { renderMarkdown } from '~/lib/markdown';
+import './markdown.css';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -21,77 +22,6 @@ const { block } = Astro.props;
 const html = renderMarkdown(block.markdown);
 ---
 
-<style>
-	.prose {
-		:global(> *) {
-			margin-block: 0;
-		}
-
-		:global(> * + *) {
-			margin-block-start: var(--space-s);
-		}
-
-		/* More room above a heading than below it, so it groups with its text */
-		:global(> * + :is(h2, h3)) {
-			margin-block-start: var(--space-xl);
-		}
-
-		:global(> h2 + h3) {
-			margin-block-start: var(--space-m);
-		}
-
-		:global(> :is(h2, h3) + *) {
-			margin-block-start: var(--space-xs);
-		}
-
-		:global(h2) {
-			font-family: var(--font-family-heading);
-			font-size: var(--font-size-2xl);
-			font-weight: var(--font-weight-semibold);
-			line-height: var(--leading-tight, 1.2);
-			text-wrap: balance;
-			color: var(--color-brand-blue);
-		}
-
-		:global(h3) {
-			font-family: var(--font-family-heading);
-			font-size: var(--font-size-xl);
-			font-weight: var(--font-weight-medium);
-			line-height: var(--leading-tight, 1.2);
-			text-wrap: balance;
-		}
-
-		:global(:is(ul, ol)) {
-			padding-inline-start: 1.25em;
-		}
-
-		:global(li) {
-			line-height: var(--leading-normal, 1.5);
-			padding-inline-start: var(--space-3xs);
-		}
-
-		:global(li + li) {
-			margin-block-start: var(--space-3xs);
-		}
-
-		:global(li::marker) {
-			color: var(--color-brand-blue);
-		}
-
-		/* Long lists of short items (Services) read faster in two columns */
-		@media (min-width: 40rem) {
-			:global(ul:has(> li:nth-child(6))) {
-				columns: 2;
-				column-gap: var(--space-l);
-			}
-
-			:global(ul:has(> li:nth-child(6)) > li) {
-				break-inside: avoid;
-			}
-		}
-	}
-</style>
-
 <Section type="prose" narrow>
-	<div class="prose" dir="auto" set:html={html} />
+	<div class="markdown" dir="auto" set:html={html} />
 </Section>

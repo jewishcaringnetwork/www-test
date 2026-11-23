@@ -1,0 +1,78 @@
+/**
+ * Rendered Markdown (`renderMarkdown`) inside a block: wrap it in
+ * `.markdown`. Shared by every block with a `markdown` field so body text
+ * looks the same everywhere.
+ */
+.markdown {
+	> * {
+		margin-block: 0;
+	}
+
+	> * + * {
+		margin-block-start: var(--space-s);
+	}
+
+	/* More room above a heading than below it, so it groups with its text */
+	> * + :is(h2, h3, h4) {
+		margin-block-start: var(--space-xl);
+	}
+
+	> :is(h2, h3) + :is(h3, h4) {
+		margin-block-start: var(--space-m);
+	}
+
+	> :is(h2, h3, h4) + * {
+		margin-block-start: var(--space-xs);
+	}
+
+	:is(h2, h3, h4) {
+		font-family: var(--font-family-heading);
+		line-height: var(--leading-tight, 1.2);
+		text-wrap: balance;
+	}
+
+	h2 {
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-brand-blue);
+	}
+
+	h3 {
+		font-size: var(--font-size-xl);
+		font-weight: var(--font-weight-medium);
+	}
+
+	h4 {
+		font-size: var(--font-size-l);
+		font-weight: var(--font-weight-medium);
+	}
+
+	:is(ul, ol) {
+		padding-inline-start: 1.25em;
+	}
+
+	li {
+		line-height: var(--leading-normal, 1.5);
+		padding-inline-start: var(--space-3xs);
+	}
+
+	li + li {
+		margin-block-start: var(--space-3xs);
+	}
+
+	li::marker {
+		color: var(--color-brand-blue);
+	}
+
+	/* Long lists of short items (Services, amenities) read faster in columns */
+	@media (min-width: 40rem) {
+		ul:has(> li:nth-child(6)) {
+			columns: 2;
+			column-gap: var(--space-l);
+
+			> li {
+				break-inside: avoid;
+			}
+		}
+	}
+}

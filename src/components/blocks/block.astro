@@ -6,6 +6,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import Cards from './cards.astro';
+import MediaText from './media-text.astro';
 import People from './people.astro';
 import Placeholder from './placeholder.astro';
 import Prose from './prose.astro';
@@ -26,6 +27,7 @@ const components: Components = {
 	prose: Prose,
 	people: People,
 	cards: Cards,
+	mediaText: MediaText,
 };
 
 const { block } = Astro.props;

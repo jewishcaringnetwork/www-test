@@ -56,6 +56,21 @@
 					}
 				}
 			]
+		},
+		{
+			"type": "mediaText",
+			"heading": "What's included",
+			"markdown": "Seven private suites, each with a private bath and kitchenette.\n\n- Stocked kosher pantry\n- Shabbos meals\n- Communal kitchen & dining area\n- Laundry room\n- Playroom\n- Library\n- Wireless internet\n- Guest common room",
+			"images": [
+				{
+					"src": "../../images/tikva-house-suite.jpg",
+					"alt": "A guest suite with a made bed, dark wood floors and a kitchenette"
+				},
+				{
+					"src": "../../images/tikva-house-shabbos-table.jpg",
+					"alt": "A table set for a Shabbos meal in the guest common room"
+				}
+			]
 		}
 	]
 }

@@ -1,0 +1,153 @@
+---
+/**
+ * Text beside one or two photos (e.g. Tikva House's "What's included").
+ * The heading is an h2; `##` in the Markdown becomes h3 under it.
+ *
+ * Two photos overlap: the first large, the second smaller and offset over
+ * its corner, so the pair reads as one picture of a place rather than a
+ * gallery. On narrow screens the text comes first and the photos sit
+ * side by side below it.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { renderMarkdown } from '~/lib/markdown';
+import './markdown.css';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'mediaText' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+const html = renderMarkdown(block.markdown, { headingOffset: 1 });
+const id = `media-text-${
+	block.heading.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-')
+}`;
+---
+
+<style>
+	.split {
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+		grid-template-areas: 'text media';
+		align-items: center;
+		gap: var(--space-2xl);
+
+		&[data-side='start'] {
+			grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+			grid-template-areas: 'media text';
+		}
+
+		@media (max-width: 60rem) {
+			&,
+			&[data-side='start'] {
+				grid-template-columns: minmax(0, 1fr);
+				grid-template-areas: 'text' 'media';
+				gap: var(--space-l);
+			}
+		}
+	}
+
+	.text {
+		--stack-gap: var(--space-s);
+
+		grid-area: text;
+
+		h2 {
+			margin-block-end: 0;
+			color: var(--color-brand-blue);
+		}
+	}
+
+	.media {
+		grid-area: media;
+		display: grid;
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			border-radius: var(--radius-l);
+			background: var(--color-surface-sunken);
+		}
+
+		/* One photo: a plain 4:3 frame */
+		&[data-count='1'] img {
+			aspect-ratio: 4 / 3;
+		}
+
+		/* Two photos: the second overlaps the first's lower corner */
+		&[data-count='2'] {
+			grid-template-columns: repeat(12, minmax(0, 1fr));
+			grid-template-rows: repeat(12, auto);
+			padding-block-end: var(--space-l);
+
+			img:first-child {
+				grid-column: 1 / 11;
+				grid-row: 1 / 10;
+				aspect-ratio: 4 / 3;
+			}
+
+			img:last-child {
+				grid-column: 7 / 13;
+				grid-row: 7 / 13;
+				aspect-ratio: 1;
+				border: var(--space-2xs) solid var(--color-surface-page);
+				border-radius: calc(var(--radius-l) + var(--space-2xs));
+			}
+		}
+
+		[data-side='start'] &[data-count='2'] {
+			img:first-child {
+				grid-column: 3 / 13;
+			}
+
+			img:last-child {
+				grid-column: 1 / 7;
+			}
+		}
+
+		@media (max-width: 60rem) {
+			&[data-count='2'],
+			[data-side='start'] &[data-count='2'] {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				grid-template-rows: auto;
+				gap: var(--space-xs);
+				padding: 0;
+
+				img:first-child,
+				img:last-child {
+					grid-column: auto;
+					grid-row: auto;
+					aspect-ratio: 1;
+					border: 0;
+					border-radius: var(--radius-l);
+				}
+			}
+		}
+	}
+</style>
+
+<Section type="mediaText" aria-labelledby={id}>
+	<div class="split" data-side={block.imageSide}>
+		<div class="text | stack">
+			<h2 id={id} class="text-h2" dir="auto">{block.heading}</h2>
+			<div class="markdown" dir="auto" set:html={html} />
+		</div>
+		<div class="media" data-count={block.images.length}>
+			{block.images.map((image) => (
+				<Image
+					src={image.src}
+					alt={image.alt}
+					widths={[400, 640, 960, 1280]}
+					sizes="(max-width: 60rem) 100vw, 36rem"
+				/>
+			))}
+		</div>
+	</div>
+</Section>
