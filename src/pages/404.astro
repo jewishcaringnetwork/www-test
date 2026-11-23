@@ -1,8 +1,19 @@
 ---
+import type { ComponentProps } from 'astro/types';
 import Button from '~/components/button.astro';
+import Hero from '~/components/hero.astro';
 import Icon from '~/components/icon.astro';
 import { type NavLink, org, telHref } from '~/config';
 import Layout from '~/layouts/base.astro';
+
+const hero: ComponentProps<typeof Hero>['hero'] = {
+	type: 'hero',
+	heading: "We can't find that page",
+	lead:
+		"The link may be out of date, or the page may have moved. Can't find what you're looking for? Call us. We're glad to help.",
+	// filled by the actions slot below, so the Call button can have an icon
+	actions: [],
+};
 
 const moreLinks: NavLink[] = [
 	{ label: 'Services', href: '/services' },
@@ -14,51 +25,28 @@ const moreLinks: NavLink[] = [
 ---
 
 <style>
-	.not-found {
-		--stack-gap: var(--space-m);
-		--stack-halign: center;
+	.status {
+		margin-block-end: 0;
+		color: var(--color-text-secondary);
+	}
 
-		max-inline-size: 40rem;
-		margin-inline: auto;
-		padding-block: var(--space-3xl);
+	.more {
+		--container-size: 40rem;
+		--stack-gap: var(--space-2xs);
+
+		padding-block-end: var(--space-3xl);
 		padding-inline: var(--space-l);
 		text-align: center;
 
 		@media (max-width: 60rem) {
-			padding-block: var(--space-2xl);
+			padding-block-end: var(--space-2xl);
 			padding-inline: var(--space-s);
 		}
 
-		:is(p, h1, h2) {
+		h2 {
 			margin-block-end: 0;
+			color: var(--color-text-secondary);
 		}
-	}
-
-	.status,
-	.lead,
-	.more h2 {
-		color: var(--color-text-secondary);
-	}
-
-	h1 {
-		color: var(--color-brand-blue);
-	}
-
-	.lead {
-		max-inline-size: 34rem;
-	}
-
-	.actions {
-		--cluster-gap: var(--space-xs);
-
-		justify-content: center;
-		margin-block-start: var(--space-l);
-	}
-
-	.more {
-		--stack-gap: var(--space-2xs);
-
-		margin-block-start: var(--space-xl);
 
 		ul {
 			--cluster-gap: var(--space-3xs) var(--space-m);
@@ -77,27 +65,20 @@ const moreLinks: NavLink[] = [
 </style>
 
 <Layout title="Page not found" ignore>
-	<div class="not-found | stack">
-		<p class="status | text-label">Error 404</p>
-		<h1 class="text-display">We can't find that page</h1>
-		<p class="lead | text-large">
-			The link may be out of date, or the page may have moved. Can't find what
-			you're looking for? Call us. We're glad to help.
-		</p>
-		<div class="actions | cluster">
+	<Hero hero={hero}>
+		<p slot="eyebrow" class="status | text-label">Error 404</p>
+		<Fragment slot="actions">
 			<Button variant="primary" href={telHref(org.phone)}>
 				<Icon slot="icon" name="phone" />Call {org.phone}
 			</Button>
 			<Button variant="secondary" href="/">Go to the home page</Button>
-		</div>
+		</Fragment>
+	</Hero>
 
-		<nav class="more | stack" aria-labelledby="more-heading">
-			<h2 id="more-heading">Or try one of these:</h2>
-			<ul role="list" class="cluster">
-				{moreLinks.map(({ label, href }) => (
-					<li><a href={href}>{label}</a></li>
-				))}
-			</ul>
-		</nav>
-	</div>
+	<nav class="more | stack container" aria-labelledby="more-heading">
+		<h2 id="more-heading">Or try one of these:</h2>
+		<ul role="list" class="cluster">
+			{moreLinks.map(({ label, href }) => <li><a href={href}>{label}</a></li>)}
+		</ul>
+	</nav>
 </Layout>
