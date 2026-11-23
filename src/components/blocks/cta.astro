@@ -11,7 +11,6 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import Button from '~/components/button.astro';
-import Icon from '~/components/icon.astro';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -55,11 +54,6 @@ const id = `cta-${
 			.text {
 				color: var(--color-blue-100);
 			}
-
-			a:not(.btn) {
-				color: var(--color-text-on-brand);
-				--outline-color: var(--color-brand-gold);
-			}
 		}
 
 		&[data-tone='subtle'] {
@@ -90,21 +84,13 @@ const id = `cta-${
 		}
 	}
 
-	/* Buttons and the quiet link share one row, wrapping when narrow */
+	/* One or two buttons in a row, wrapping when narrow. No quiet link: a
+	 * second, lesser action is a secondary button. */
 	.do {
 		--cluster-gap: var(--space-xs) var(--space-m);
 		--cluster-valign: center;
 
 		flex: 0 1 auto;
-	}
-
-	.quiet {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-3xs);
-		min-block-size: 44px;
-		font-family: var(--font-family-heading);
-		font-weight: var(--font-weight-medium);
 	}
 </style>
 
@@ -135,12 +121,6 @@ const id = `cta-${
 					{action.label}
 				</Button>
 			))}
-			{block.link && (
-				<a class="quiet" href={block.link.href} dir="auto">
-					{block.link.label}
-					<Icon name="arrow-right" size={16} />
-				</a>
-			)}
 		</div>
 	</div>
 </Section>

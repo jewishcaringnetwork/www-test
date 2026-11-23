@@ -167,7 +167,6 @@ const cta = z
 		heading: text(3, 70),
 		text: text(10, 250).optional(),
 		actions: actions(1, 2),
-		link: linkSchema.optional(),
 		tone: z.enum(['brand', 'subtle']).default('brand').meta({
 			description:
 				'brand: colored band for the main ask. subtle: quieter, e.g. for support or a secondary ask.',

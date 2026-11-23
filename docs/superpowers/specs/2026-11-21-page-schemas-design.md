@@ -106,7 +106,7 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
 | `cards`     | header, items (2–6: title, text, icon?, link?), link?                     | Services teaser                       |
 | `stats`     | header, items (2–4: value, label)                                         | Impact                                |
 | `faq`       | header, items (1–12: question, answer markdown)                           | Plan Your Stay                        |
-| `cta`       | heading, text?, actions (1–2), link?, tone `brand\|subtle`                | Donate / volunteer / support teasers  |
+| `cta`       | heading, text?, actions (1–2), tone `brand\|subtle`                       | Donate / volunteer / support teasers  |
 | `contact`   | header, name, address, phone, email?, image?, link?                       | Tikva "Request a Stay", Contact page  |
 | `form`      | header, form `contact\|volunteer\|tehillim\|story\|donate`, confirmation? | Forms (fields live in code)           |
 | `logos`     | header, items (1–24: name, image, href?), link?                           | Corporate sponsors                    |
