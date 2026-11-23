@@ -1,7 +1,7 @@
 allowBuilds:
   dprint: true
   esbuild: true
-  netlify-cli: true
+  netlify-cli: false
   unix-dgram: false
 trustPolicyExclude:
   # (2026-11-20): Netlify bug, they're aware, see https://github.com/withastro/astro/blob/f70283dc/pnpm-workspace.yaml#L78
