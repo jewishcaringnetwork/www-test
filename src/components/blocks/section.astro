@@ -1,31 +1,30 @@
 ---
 /**
- * The frame every block sits in: a full-width `<section>` painted with the
- * block's `background`, holding the page's container and rhythm, plus the
- * shared section header (`heading` + `intro`) when there is one. The heading
- * is always an h2: blocks sit under the page's h1, and content never picks a
+ * The frame every block sits in: a full-width `<section>` painted with its
+ * `background`, holding the page's container and rhythm, plus the shared
+ * section header (`heading` + `intro`) when there is one. The heading is
+ * always an h2: blocks sit under the page's h1, and content never picks a
  * level.
  *
- * Backgrounds (`color.section.*` tokens; see `hierarchy.background`):
+ * Color blocking (`color.section.*` tokens; rules in
+ * docs/claude/3-hierarchy.md). Content never picks paper or white: they come
+ * from the block's position (`sectionBackground`).
  *
  * - `paper`: the page itself. No band.
  * - `white`: a quiet band, edged top and bottom, since white is barely
  *   lighter than paper.
- * - `gold`: a pale gold tint, never the Donate button's gold. The schema
- *   keeps Donate buttons off it.
- * - `blue`: the loud band. It swaps the text tokens for their on-brand
- *   versions, so every block's text, headings and links follow without
- *   knowing about bands. A `.card` inside switches them back
- *   (src/css/block/card.css).
+ * - `blue`: the one emphasis band a page may have (`band: "blue"`). It swaps
+ *   the text tokens for their on-brand versions, so every block's text,
+ *   headings and links follow without knowing about bands. A `.card` inside
+ *   switches them back (src/css/block/card.css).
  */
 import type { HTMLAttributes } from 'astro/types';
-
-type Background = 'paper' | 'white' | 'gold' | 'blue';
+import type { SectionBackground } from '~/lib/section-background';
 
 interface Props extends HTMLAttributes<'section'> {
 	/** Block type, for styling hooks and debugging. */
 	type: string;
-	background?: Background;
+	background?: SectionBackground;
 	heading?: string;
 	intro?: string;
 	/** Narrow measure for reading text (prose) instead of the full grid. */
@@ -65,15 +64,6 @@ const id = heading
 		&[data-background='white'] {
 			border-block: 1px solid var(--color-border-subtle);
 			background: var(--color-section-white);
-
-			/* One edge between two white bands, not two */
-			& + & {
-				border-block-start: 0;
-			}
-		}
-
-		&[data-background='gold'] {
-			background: var(--color-section-gold);
 		}
 
 		&[data-background='blue'] {

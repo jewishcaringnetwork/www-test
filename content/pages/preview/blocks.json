@@ -9,12 +9,10 @@
 	"blocks": [
 		{
 			"type": "prose",
-			"background": "white",
 			"markdown": "## Our Mission\n\nThe Jewish Caring Network, formed in 1996, is a non-profit, 501(c)(3) organization dedicated to providing a full range of support services to families facing life-threatening, lifelong, and serious illnesses while preserving their privacy and their dignity.\n\nWhen serious illness strikes, the entire family is affected. The Jewish Caring Network’s programs, activities, and services are designed to help each family member. It is our hope that we can enrich our families’ lives, providing support, strength and the knowledge that the Jewish community is standing by them throughout the duration of their difficult journey.\n\nEach family’s situation is individually assessed, enabling us to cater to their specific needs. All of the programs and services we provide are free of charge and include, but not limited to the following: nursing care funds, respite care, Big Brother/Big Sister programs, Sunday Funday program, summer camp assistance, groceries and prepared meals, tutoring, birthday and holiday gifts, counseling and grief counseling. Numerous other services are also available to our families.\n\nWhen families feel overwhelmed and alone, the Jewish Caring Network reaches out with a helping hand and a loving heart. The Jewish Caring Network is an organization comprised of caring, compassionate individuals who are sensitive to the unique needs of each individual they help."
 		},
 		{
 			"type": "prose",
-			"background": "blue",
 			"markdown": "All the services the Jewish Caring Network provides are free of charge and include, but are not limited to:\n\n## Education\n\n- Educational & Tutorial Program Support\n- Dinner - Lecture Series\n- Individual & Group Counseling\n- Bereavement Counseling\n\n## Healthcare\n\n- Nursing Care\n- Hospital Visitation, Meals & Packages\n- Women's Rejuvenating Retreats\n\n## Family Support\n\n- Shabbat & Jewish Holiday Packages\n- Complete Shabbat Meals\n- Parent's Night Out\n- Support Dinner-Lecture Series\n- Day & Weekend Respite Retreats\n- Women's Rejuvenating Retreats\n- Tickets to Concerts, Plays, Amusement Parks, & Sporting Events\n- Individual & Group Counseling\n- Bereavement Counseling\n\n## Children's Services\n\n- Summer Camp Assistance\n- Birthday Gifts & Parties\n- Big Brother/Big Sister Program\n- Educational & Tutorial Program\n\n## Household Help\n\n- Cleaning & Laundry Assistance\n- Babysitting\n- Groceries & Prepared Meals\n\n## Travel & Holidays\n\n- Passover Retreat Program\n- Journey to Jerusalem\n- Sunday Funday Program\n- Tickets to Concerts, Plays, Amusement Parks and Sporting Events\n- Day & Weekend Family Respite Retreats"
 		},
 		{
@@ -23,13 +21,11 @@
 		},
 		{
 			"type": "people",
-			"background": "gold",
 			"heading": "Board of Directors",
 			"group": "board"
 		},
 		{
 			"type": "cards",
-			"background": "white",
 			"intro": "JCN runs on the kindness of our community. There’s a place for everyone.",
 			"items": [
 				{
@@ -76,7 +72,7 @@
 		},
 		{
 			"type": "contact",
-			"background": "blue",
+			"band": "blue",
 			"heading": "Request a Stay",
 			"intro": "Please call the Tikva House at (410) 534-1033. Our team will be glad to discuss further.",
 			"name": "The Tikva House",
@@ -99,7 +95,6 @@
 		},
 		{
 			"type": "cta",
-			"background": "white",
 			"tone": "brand",
 			"heading": "Keep the lights on at Tikva House",
 			"text": "Your gift helps a family rest close to the one they love.",
@@ -113,7 +108,6 @@
 		},
 		{
 			"type": "cta",
-			"background": "gold",
 			"tone": "subtle",
 			"heading": "Facing a diagnosis? You don’t have to do this alone.",
 			"text": "Reach out confidentially. We’re here for your whole family.",

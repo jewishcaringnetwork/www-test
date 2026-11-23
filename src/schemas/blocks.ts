@@ -9,7 +9,7 @@ import {
 	linkText,
 	markdown,
 	type SchemaFns,
-	sectionBackground,
+	sectionBand,
 	sectionHeader,
 	text,
 } from './shared.ts';
@@ -72,7 +72,7 @@ export const headerSchema = (fns: SchemaFns) => {
 const prose = z
 	.strictObject({
 		type: z.literal('prose'),
-		...sectionBackground,
+		...sectionBand,
 		markdown: markdown(5000),
 	})
 	.meta({ description: 'General text: paragraphs, subheadings and lists.' });
@@ -81,7 +81,7 @@ const mediaText = (fns: SchemaFns) =>
 	z
 		.strictObject({
 			type: z.literal('mediaText'),
-			...sectionBackground,
+			...sectionBand,
 			heading: text(3, 70),
 			markdown: markdown(2000),
 			images: z.array(imageSchema(fns)).min(1).max(2),
@@ -95,7 +95,7 @@ const mediaText = (fns: SchemaFns) =>
 const cards = z
 	.strictObject({
 		type: z.literal('cards'),
-		...sectionBackground,
+		...sectionBand,
 		...sectionHeader,
 		items: z
 			.array(
@@ -130,7 +130,7 @@ const cards = z
 const stats = z
 	.strictObject({
 		type: z.literal('stats'),
-		...sectionBackground,
+		...sectionBand,
 		...sectionHeader,
 		items: z
 			.array(
@@ -154,7 +154,7 @@ const stats = z
 const faq = z
 	.strictObject({
 		type: z.literal('faq'),
-		...sectionBackground,
+		...sectionBand,
 		...sectionHeader,
 		items: z
 			.array(
@@ -174,7 +174,7 @@ const faq = z
 const cta = z
 	.strictObject({
 		type: z.literal('cta'),
-		...sectionBackground,
+		...sectionBand,
 		heading: text(3, 70),
 		text: text(10, 250).optional(),
 		actions: actions(1, 2),
@@ -183,20 +183,10 @@ const cta = z
 				'brand: colored band for the main ask. subtle: quieter, e.g. for support or a secondary ask.',
 		}),
 	})
-	.refine(
-		(cta) =>
-			cta.background !== 'gold'
-			|| !cta.actions.some((action) => action.variant === 'donate'),
-		{
-			path: ['background'],
-			message:
-				"A Donate button can't sit on a gold background: gold is reserved for the button itself. Use another background.",
-		},
-	)
-	.refine((cta) => !(cta.tone === 'brand' && cta.background === 'blue'), {
-		path: ['background'],
+	.refine((cta) => !(cta.tone === 'brand' && cta.band === 'blue'), {
+		path: ['band'],
 		message:
-			'A brand CTA is already a blue panel and would disappear on a blue background. Use another background, or tone "subtle".',
+			'A brand CTA is already a blue panel and would disappear in a blue band. Remove the band, or use tone "subtle".',
 	})
 	.meta({ description: `${hierarchy.cta} ${hierarchy.whenUnsure}` });
 
@@ -204,7 +194,7 @@ const contact = (fns: SchemaFns) =>
 	z
 		.strictObject({
 			type: z.literal('contact'),
-			...sectionBackground,
+			...sectionBand,
 			...sectionHeader,
 			name: text(2, 80).meta({
 				description: 'Name of the place, e.g. "The Tikva House".',
@@ -223,7 +213,7 @@ const contact = (fns: SchemaFns) =>
 const form = z
 	.strictObject({
 		type: z.literal('form'),
-		...sectionBackground,
+		...sectionBand,
 		...sectionHeader,
 		form: z.enum(['contact', 'volunteer', 'tehillim', 'story', 'donate']).meta({
 			description: 'Which form to show. Fields are fixed in code.',
@@ -238,7 +228,7 @@ const logos = (fns: SchemaFns) =>
 	z
 		.strictObject({
 			type: z.literal('logos'),
-			...sectionBackground,
+			...sectionBand,
 			...sectionHeader,
 			items: z
 				.array(
@@ -258,7 +248,7 @@ const stories = (fns: SchemaFns) =>
 	z
 		.strictObject({
 			type: z.literal('stories'),
-			...sectionBackground,
+			...sectionBand,
 			...sectionHeader,
 			count: z.int().min(1).max(6).default(3).meta({
 				description:
@@ -274,7 +264,7 @@ const stories = (fns: SchemaFns) =>
 const people = z
 	.strictObject({
 		type: z.literal('people'),
-		...sectionBackground,
+		...sectionBand,
 		...sectionHeader,
 		group: z.enum(['leadership', 'board', 'staff']),
 	})

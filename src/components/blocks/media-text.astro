@@ -11,6 +11,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { renderMarkdown } from '~/lib/markdown';
 import './markdown.css';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -20,9 +21,10 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 const html = renderMarkdown(block.markdown, { headingOffset: 1 });
 const id = `media-text-${
 	block.heading.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-')
@@ -111,7 +113,7 @@ const id = `media-text-${
 	}
 </style>
 
-<Section type="mediaText" background={block.background} aria-labelledby={id}>
+<Section type="mediaText" background={background} aria-labelledby={id}>
 	<div class="split" data-side={block.imageSide}>
 		<div class="text | stack">
 			<h2 id={id} class="text-h2" dir="auto">{block.heading}</h2>

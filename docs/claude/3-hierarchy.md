@@ -79,6 +79,31 @@ check-in, what to bring, house rules), never the house's amenities.
   that page has no job; its policies/guidelines could move to Plan Your Stay.
   Raise with the client before changing the approved list.
 
+## Color blocking (11/23/2026)
+
+Sections are set apart by background, after the reference site's color blocking
+(#21). Paper is the page's background and stays the base; white and blue are
+bands on it.
+
+1. **The header or hero is always paper.**
+2. **Plain sections alternate automatically:** paper, white, paper, … by
+   position, starting with paper so the page background carries on into the
+   content. Content never picks paper or white, so neighbours can't match.
+3. **One emphasis band: blue** (`band: "blue"` on the block), for the page's one
+   key moment, e.g. impact numbers. At most one per page (enforced).
+4. **Blue is never the last section** (enforced): the footer is dark blue, and
+   the two would run together.
+5. **No brand CTA in a blue band** (enforced): its blue panel would vanish. A
+   subtle CTA is fine.
+6. **No gold band.** Gold is a secondary accent (and the Donate button's fill),
+   not a section background.
+7. Cards and panels stay white on every band; on a blue band their text switches
+   back to the light-surface colors.
+
+Contrast on the blue band: body and headings white (7.5:1), supporting text
+blue.100 (5.9:1), links white and underlined (`text.link-on-brand`, 7.5:1),
+focus ring brand gold (4.3:1).
+
 ## Hero layout (11/16/2026)
 
 Split layout on both pages: text and buttons left, photo right in a 4:3 frame

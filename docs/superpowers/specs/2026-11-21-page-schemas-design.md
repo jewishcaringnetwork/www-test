@@ -81,11 +81,12 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
   block.
 - Every block that can have a title uses the same optional section header —
   `heading` + `intro` — defined once in `shared.ts`.
-- Every block has a `background` (`paper` default, `white`, `gold`, `blue`),
-  also defined once in `shared.ts` (`sectionBackground`), so neighbouring
-  sections read as separate (#21). It isn't called `tone` because `cta` already
-  uses `tone` for its own panel. The schema keeps Donate buttons off `gold` and
-  brand CTAs off `blue`.
+- Section backgrounds are mostly not content (#21): plain sections alternate
+  paper and white by position, worked out at render time. Every block has one
+  optional field, `band: "blue"`, defined once in `shared.ts` (`sectionBand`).
+  The page schema allows at most one blue band and never on the last block; the
+  CTA schema keeps brand CTAs out of it. Rules: `docs/claude/3-hierarchy.md`,
+  "Color blocking".
 - The schema stays flat (no recursive blocks), so the JSON Schema the MCP server
   exposes stays simple.
 

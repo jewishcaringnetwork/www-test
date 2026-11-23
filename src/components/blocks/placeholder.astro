@@ -2,16 +2,18 @@
 /**
  * Stand-in for a block type with no component yet. Shows the type and its
  * section heading so a page can be reviewed before every block is built.
- * It sits in the block's `background` like a real block would.
+ * It sits on its section background like a real block would.
  */
 import type { CollectionEntry } from 'astro:content';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 interface Props {
 	block: CollectionEntry<'pages'>['data']['blocks'][number];
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 const heading = 'heading' in block ? block.heading : undefined;
 ---
 
@@ -33,7 +35,7 @@ const heading = 'heading' in block ? block.heading : undefined;
 
 <Section
 	type={block.type}
-	background={block.background}
+	background={background}
 	data-placeholder={block.type}
 >
 	<div class="box | stack">

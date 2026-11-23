@@ -13,6 +13,7 @@
 import type { CollectionEntry } from 'astro:content';
 import Icon from '~/components/icon.astro';
 import Phosphor from '~/components/phosphor.astro';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -22,9 +23,10 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 ---
 
 <style>
@@ -89,7 +91,7 @@ const { block } = Astro.props;
 
 <Section
 	type="cards"
-	background={block.background}
+	background={background}
 	heading={block.heading}
 	intro={block.intro}
 >

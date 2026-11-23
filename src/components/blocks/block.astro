@@ -1,10 +1,18 @@
 ---
 /**
  * Renders one page block by its `type`. Each type gets its own component in
- * this folder, taking `{ block }` narrowed to that type; register it in
- * `components`. Types without one render a visible placeholder.
+ * this folder, taking `{ block, background }` with `block` narrowed to that
+ * type; register it in `components`. Types without one render a visible
+ * placeholder.
+ *
+ * `index` is the block's position on the page, which sets its background
+ * (`sectionBackground`); components pass it on to `Section`.
  */
 import type { CollectionEntry } from 'astro:content';
+import {
+	type SectionBackground,
+	sectionBackground,
+} from '~/lib/section-background';
 import Cards from './cards.astro';
 import Contact from './contact.astro';
 import Cta from './cta.astro';
@@ -17,11 +25,13 @@ type Block = CollectionEntry<'pages'>['data']['blocks'][number];
 
 interface Props {
 	block: Block;
+	index: number;
 }
 
 type Components = {
 	[T in Block['type']]?: (props: {
 		block: Extract<Block, { type: T }>;
+		background: SectionBackground;
 	}) => unknown;
 };
 
@@ -34,8 +44,11 @@ const components: Components = {
 	cta: Cta,
 };
 
-const { block } = Astro.props;
+const { block, index } = Astro.props;
 const Component = components[block.type] ?? Placeholder;
 ---
 
-<Component block={block as never} />
+<Component
+	block={block as never}
+	background={sectionBackground(block, index)}
+/>

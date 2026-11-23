@@ -155,47 +155,31 @@ describe('blockSchema', () => {
 		});
 	});
 
-	describe('background', () => {
-		it('defaults every block to paper', () => {
+	describe('band', () => {
+		it('is optional on every block', () => {
 			for (const data of Object.values(minimal)) {
-				assert.equal(ok(block, data).background, 'paper');
+				assert.equal(ok(block, data).band, undefined);
 			}
 		});
 
-		it('accepts every tone on every block', () => {
-			const subtle = { ...minimal.cta, tone: 'subtle' };
-			for (const data of [...Object.values(minimal), subtle]) {
-				for (const background of ['paper', 'white', 'gold', 'blue']) {
-					// The two CTA conflicts are covered below
-					if (data.type === 'cta' && background !== 'paper') continue;
-					ok(block, { ...data, background });
-				}
+		it('accepts blue on every block but a brand CTA', () => {
+			for (const data of Object.values(minimal)) {
+				if (data.type === 'cta') continue;
+				ok(block, { ...data, band: 'blue' });
+			}
+			ok(block, { ...minimal.cta, tone: 'subtle', band: 'blue' });
+		});
+
+		it('rejects other colors, including the automatic ones', () => {
+			for (const band of ['gold', 'white', 'paper', '#145693']) {
+				bad(block, { ...minimal.prose, band });
 			}
 		});
 
-		it('rejects unknown backgrounds', () => {
-			bad(block, { ...minimal.prose, background: 'green' });
-			bad(block, { ...minimal.prose, background: '#eebd2a' });
-		});
-
-		it('keeps Donate buttons off gold', () => {
-			const primary = { ...action, label: 'Volunteer', variant: 'primary' };
-			const result = block.safeParse({ ...minimal.cta, background: 'gold' });
+		it('keeps a brand CTA out of a blue band', () => {
+			const result = block.safeParse({ ...minimal.cta, band: 'blue' });
 			assert.equal(result.success, false);
-			assert.deepEqual(result.error?.issues[0]?.path, ['background']);
-			bad(block, {
-				...minimal.cta,
-				tone: 'subtle',
-				background: 'gold',
-				actions: [primary, action],
-			});
-			ok(block, { ...minimal.cta, background: 'gold', actions: [primary] });
-			ok(block, { ...minimal.cta, background: 'white' });
-		});
-
-		it('keeps a brand CTA off blue', () => {
-			bad(block, { ...minimal.cta, background: 'blue' });
-			ok(block, { ...minimal.cta, tone: 'subtle', background: 'blue' });
+			assert.deepEqual(result.error?.issues[0]?.path, ['band']);
 		});
 	});
 });

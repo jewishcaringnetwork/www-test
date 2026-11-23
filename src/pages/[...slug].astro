@@ -27,5 +27,5 @@ const { title, description, noindex, header, blocks } = page.data;
 	{header.type === 'hero'
 		? <Hero hero={header} />
 		: <Header header={header} title={title} />}
-	{blocks.map((block) => <Block block={block} />)}
+	{blocks.map((block, index) => <Block block={block} index={index} />)}
 </Layout>

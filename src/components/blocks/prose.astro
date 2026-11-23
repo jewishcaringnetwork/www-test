@@ -7,6 +7,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { renderMarkdown } from '~/lib/markdown';
 import './markdown.css';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -16,12 +17,13 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 const html = renderMarkdown(block.markdown);
 ---
 
-<Section type="prose" background={block.background} narrow>
+<Section type="prose" background={background} narrow>
 	<div class="markdown" dir="auto" set:html={html} />
 </Section>

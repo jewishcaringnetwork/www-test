@@ -10,6 +10,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Icon from '~/components/icon.astro';
 import { telHref } from '~/config';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -19,9 +20,10 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 const { address } = block;
 ---
 
@@ -127,7 +129,7 @@ const { address } = block;
 
 <Section
 	type="contact"
-	background={block.background}
+	background={background}
 	heading={block.heading}
 	intro={block.intro}
 >

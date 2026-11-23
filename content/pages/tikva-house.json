@@ -20,7 +20,6 @@
 	"blocks": [
 		{
 			"type": "mediaText",
-			"background": "white",
 			"heading": "What's included",
 			"markdown": "Seven private suites, each with a private bath and kitchenette.\n\n- Stocked kosher pantry\n- Shabbos meals\n- Communal kitchen & dining area\n- Laundry room\n- Playroom\n- Library\n- Wireless internet\n- Guest common room",
 			"images": [
@@ -54,7 +53,6 @@
 		},
 		{
 			"type": "cta",
-			"background": "white",
 			"tone": "brand",
 			"heading": "Keep the lights on at Tikva House",
 			"text": "Your gift helps a family rest close to the one they love.",

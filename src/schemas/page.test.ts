@@ -153,3 +153,33 @@ describe('personSchema', () => {
 	it('rejects a fractional order', () =>
 		bad(person, { name: 'Keren Traub', group: 'board', order: 1.5 }));
 });
+
+describe('pageSchema color blocking', () => {
+	const prose = { type: 'prose', markdown: 'Hello' };
+	const blue = { ...prose, band: 'blue' };
+	const withBlocks = (blocks: unknown[]) => ({
+		title: 'Tikva House',
+		header: {},
+		blocks,
+	});
+
+	it('allows one blue band before the last section', () => {
+		ok(page, withBlocks([prose, blue, prose]));
+		ok(page, withBlocks([blue, prose]));
+	});
+
+	it('allows at most one blue band', () => {
+		const result = page.safeParse(withBlocks([blue, prose, blue, prose]));
+		assert.equal(result.success, false);
+		assert.deepEqual(result.error?.issues.map((i) => i.path), [
+			['blocks', 2, 'band'],
+		]);
+	});
+
+	it('keeps the blue band off the last section', () => {
+		const result = page.safeParse(withBlocks([prose, blue]));
+		assert.equal(result.success, false);
+		assert.deepEqual(result.error?.issues[0]?.path, ['blocks', 1, 'band']);
+		bad(page, withBlocks([blue]));
+	});
+});
