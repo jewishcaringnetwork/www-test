@@ -7,6 +7,7 @@
 	"blocks": [
 		{
 			"type": "people",
+			"background": "white",
 			"group": "leadership"
 		},
 		{
@@ -16,6 +17,7 @@
 		},
 		{
 			"type": "people",
+			"background": "white",
 			"heading": "Staff",
 			"group": "staff"
 		}
