@@ -123,8 +123,8 @@ teasers back to back. Prominence is handled by descriptions (above).
 - **stories**: `title`, `summary` (≤200), `image?`, `date`, `author?` (omit for
   anonymous), `featured` (default false); body is Markdown. Written by families,
   not edited through MCP — minimal descriptions.
-- **people**: `name`, `role?`, `group`, `photo?`, `order` (int ≥ 0), `bio?`
-  (≤500).
+- **people**: `name`, `role?`, `group`, `photo?`, `order` (int ≥ 0). No bios
+  (2026-11-22). A missing photo shows a placeholder.
 
 ### Files
 

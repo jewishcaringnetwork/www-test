@@ -57,13 +57,19 @@ export const personSchema = (fns: SchemaFns) =>
 			$schema: editorSchema,
 			name: text(2, 80),
 			role: text(2, 80).optional().meta({
-				description: 'Title, e.g. "President". Omit if none.',
+				description:
+					'Title or capacity, e.g. "President", "Secretary", "House Manager" or "Advisory". Omit if none.',
 			}),
-			group: z.enum(['leadership', 'board', 'staff']),
-			photo: imageSchema(fns).optional(),
+			group: z.enum(['leadership', 'board', 'staff']).meta({
+				description:
+					'leadership: officers such as the President and CEO. board: board of directors, including advisory members. staff: employees, e.g. a house manager.',
+			}),
+			photo: imageSchema(
+				fns,
+				'Head-and-shoulders portrait, shown square. Omit if there is none; a placeholder keeps the grid aligned.',
+			).optional(),
 			order: z.int().min(0).meta({
 				description: 'Sort position within the group, lowest first.',
 			}),
-			bio: text(10, 500).optional(),
 		})
 		.meta({ description: 'A person shown on the Leadership page.' });

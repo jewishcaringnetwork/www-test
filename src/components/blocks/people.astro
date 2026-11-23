@@ -1,14 +1,14 @@
 ---
 /**
- * People from one group of the `people` collection, sorted by `order`.
- *
- * Two densities from the same data: a group where anyone has a photo or bio
- * (or that is leadership) gets profiles, each name an h3; otherwise it is a
- * roster, a plain list of names in columns. A board of nine reads as a list,
- * not nine boxes.
+ * People from one group of the `people` collection, sorted by `order`, then
+ * name. Every group (leadership, board, staff) uses the same item: a square
+ * portrait, the name as an h3 and an optional role. A person without a photo
+ * gets a placeholder of the same size, so names and roles stay aligned
+ * across a row.
  */
 import { Image } from 'astro:assets';
 import { type CollectionEntry, getCollection } from 'astro:content';
+import Phosphor from '~/components/phosphor.astro';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -28,106 +28,73 @@ const people = (await getCollection(
 ))
 	.map((person) => person.data)
 	.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
-
-const profiles = block.group === 'leadership'
-	|| people.some((person) => person.photo || person.bio);
 ---
 
 <style>
-	/* Profiles: each person under a gold rule, the leadership marker */
-	.profiles {
-		--grid-gap: var(--space-l) var(--space-xl);
-		--grid-item-min: 14rem;
+	.people {
+		--grid-gap: var(--space-l) var(--space-m);
+		--grid-item-min: 9rem;
+		--grid-item-max: 13rem;
 	}
 
-	.profile {
+	.person {
 		--stack-gap: var(--space-3xs);
-
-		padding-block-start: var(--space-s);
-		border-block-start: 3px solid var(--color-brand-gold);
 
 		:is(h3, p) {
 			margin-block-end: 0;
 		}
 	}
 
-	.photo {
+	/* Photo and placeholder share one frame, so a missing photo keeps the row */
+	.portrait {
+		display: grid;
+		place-items: center;
 		inline-size: 100%;
-		max-inline-size: 12rem;
 		aspect-ratio: 1;
 		margin-block-end: var(--space-xs);
+		overflow: hidden;
 		border-radius: var(--radius-l);
-		object-fit: cover;
 		background: var(--color-surface-sunken);
+		color: var(--color-text-subtle);
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			/* Faces sit in the upper part of a portrait */
+			object-position: 50% 25%;
+		}
 	}
 
 	h3 {
+		font-size: var(--font-size-l);
 		color: var(--color-brand-blue);
 	}
 
 	.role {
-		font-family: var(--font-family-heading);
-		font-weight: var(--font-weight-medium);
 		color: var(--color-text-secondary);
-	}
-
-	.bio {
-		margin-block-start: var(--space-2xs);
-	}
-
-	/* Roster: names in columns, a hairline between rows */
-	.roster {
-		columns: 3 14rem;
-		column-gap: var(--space-xl);
-		max-inline-size: 60rem;
-
-		li {
-			break-inside: avoid;
-			padding-block: var(--space-2xs);
-			border-block-end: 1px solid var(--color-border-subtle);
-		}
-
-		.role {
-			font-size: var(--font-size-s);
-		}
 	}
 </style>
 
 <Section type="people" heading={block.heading} intro={block.intro}>
-	{profiles
-		? (
-		 <ul role="list" class="profiles | grid">
-			 {people.map((person) => (
-				 <li class="profile | stack">
-					 {person.photo && (
+	<ul role="list" class="people | grid">
+		{people.map((person) => (
+			<li class="person | stack">
+				<div class="portrait">
+					{person.photo
+						? (
 						 <Image
-							 class="photo"
 							 src={person.photo.src}
 							 alt={person.photo.alt}
-							 widths={[192, 384]}
-							 sizes="12rem"
+							 widths={[208, 416]}
+							 sizes="13rem"
 						 />
-					 )}
-					 <h3 class="text-h3" dir="auto">{person.name}</h3>
-					 {person.role && <p class="role" dir="auto">{person.role}</p>}
-					 {person.bio && <p class="bio" dir="auto">{person.bio}</p>}
-				 </li>
-			 ))}
-		 </ul>
-	 )
-		: (
-		 <ul role="list" class="roster">
-			 {people.map((person) => (
-				 <li dir="auto">
-					 {person.name}
-					 {person.role && (
-						 <>
-							 {' '}
-							 <span class="role">({person.role})</span>
-						 </>
-					 )}
-				 </li>
-			 ))}
-		 </ul>
-	 )}
+					 )
+						: <Phosphor name="user" weight="light" size={56} />}
+				</div>
+				<h3 class="text-h3" dir="auto">{person.name}</h3>
+				{person.role && <p class="role" dir="auto">{person.role}</p>}
+			</li>
+		))}
+	</ul>
 </Section>
