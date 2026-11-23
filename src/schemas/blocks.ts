@@ -40,6 +40,10 @@ export const headerSchema = (fns: SchemaFns) => {
 	const hero = z
 		.strictObject({
 			type: z.literal('hero'),
+			brand: z.enum(['tikva-house']).optional().meta({
+				description:
+					'Program logo shown above the heading, for a landing page about that program (e.g. "tikva-house" on the Tikva House page). Omit on pages about JCN as a whole; the site header already shows the JCN logo.',
+			}),
 			heading: text(3, 70).meta({
 				description:
 					'The page\'s main message, e.g. "When serious illness strikes, the entire family is affected."',

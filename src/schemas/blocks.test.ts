@@ -50,6 +50,16 @@ describe('headerSchema', () => {
 		});
 	});
 
+	it('hero brand is a known program logo, not a path', () => {
+		const hero = {
+			type: 'hero',
+			heading: 'Families come to Baltimore for care',
+			lead: 'A private place to rest, close to the hospital.',
+		};
+		ok(header, { ...hero, brand: 'tikva-house' });
+		bad(header, { ...hero, brand: './logo.svg' });
+	});
+
 	it('hero defaults actions to []', () => {
 		const data = ok(header, {
 			type: 'hero',

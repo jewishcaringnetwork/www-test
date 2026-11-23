@@ -1,0 +1,68 @@
+{
+	"title": "Tikva House",
+	"header": {
+		"type": "hero",
+		"brand": "tikva-house",
+		"heading": "Families come to Baltimore for care from around the world.",
+		"lead": "At the Rabbi Ephraim & Etti Rubin Tikva House, they find a private place to rest, kosher food that's ready when they are, and other families who understand what they’re going through.",
+		"image": {
+			"src": "../images/tikva-house-exterior.jpg",
+			"alt": "The Tikva House, a three-story brick row house on Washington Street"
+		},
+		"actions": [
+			{
+				"label": "Request a stay",
+				"href": "/tikva-house#contact-request-a-stay",
+				"variant": "primary"
+			}
+		]
+	},
+	"blocks": [
+		{
+			"type": "mediaText",
+			"heading": "What's included",
+			"markdown": "Seven private suites, each with a private bath and kitchenette.\n\n- Stocked kosher pantry\n- Shabbos meals\n- Communal kitchen & dining area\n- Laundry room\n- Playroom\n- Library\n- Wireless internet\n- Guest common room",
+			"images": [
+				{
+					"src": "../images/tikva-house-suite.jpg",
+					"alt": "A guest suite with a made bed, dark wood floors and a kitchenette"
+				},
+				{
+					"src": "../images/tikva-house-shabbos-table.jpg",
+					"alt": "A table set for a Shabbos meal in the guest common room"
+				}
+			]
+		},
+		{
+			"type": "contact",
+			"heading": "Request a Stay",
+			"intro": "Please call the Tikva House at (410) 534-1033. Our team will be glad to discuss further.",
+			"name": "The Tikva House",
+			"address": {
+				"street": "529 N. Washington Street",
+				"city": "Baltimore",
+				"state": "MD",
+				"zip": "21205"
+			},
+			"phone": "410-534-1033",
+			"email": "info@tikvahouse.org",
+			"image": {
+				"src": "../images/tikva-house-exterior.jpg",
+				"alt": "The Tikva House, a three-story brick row house on Washington Street"
+			}
+		},
+		{
+			"type": "cta",
+			"tone": "brand",
+			"heading": "Keep the lights on at Tikva House",
+			"text": "Your gift helps a family rest close to the one they love.",
+			"actions": [
+				{
+					"label": "Support Tikva House",
+					"href": "/donate?fund=tikva-house",
+					"variant": "donate"
+				}
+			]
+		}
+	]
+}

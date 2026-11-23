@@ -1,0 +1,18 @@
+{
+	"title": "Leadership",
+	"header": {
+		"type": "header",
+		"lead": "\"We are the music makers, and we are the dreamers of dreams\" — Arthur O’Shaughnessy"
+	},
+	"blocks": [
+		{
+			"type": "people",
+			"group": "leadership"
+		},
+		{
+			"type": "people",
+			"heading": "Board of Directors",
+			"group": "board"
+		}
+	]
+}

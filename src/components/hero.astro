@@ -6,6 +6,7 @@
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import TikvaHouseLogo from '~/assets/logos/tikva-house-logo-color.svg';
 import Button from '~/components/button.astro';
 import Icon from '~/components/icon.astro';
 
@@ -19,6 +20,15 @@ interface Props {
 }
 
 const { hero } = Astro.props;
+
+/** Program logos a hero can show above its heading, by `brand`. */
+const brands = {
+	'tikva-house': {
+		Logo: TikvaHouseLogo,
+		label: 'The Rabbi Ephraim & Etti Rubin Tikva House',
+	},
+};
+const brand = hero.brand && brands[hero.brand];
 ---
 
 <style>
@@ -40,6 +50,13 @@ const { hero } = Astro.props;
 
 	h1 {
 		color: var(--color-brand-blue);
+	}
+
+	/* Program logo above the heading; the extra space sets it apart from the h1 */
+	.brand {
+		inline-size: min(20rem, 80%);
+		block-size: auto;
+		margin-block-end: var(--space-xs);
 	}
 
 	.lead {
@@ -118,6 +135,15 @@ const { hero } = Astro.props;
 
 <header class="hero | container">
 	<div class="text | stack">
+		{brand && (
+			<brand.Logo
+				class="brand"
+				role="img"
+				aria-label={brand.label}
+				width={320}
+				height="auto"
+			/>
+		)}
 		<h1 class="text-display" dir="auto">{hero.heading}</h1>
 		<p class="lead | text-large" dir="auto">{hero.lead}</p>
 		{hero.actions.length > 0 && (

@@ -1,0 +1,38 @@
+{
+	"title": "Get Involved",
+	"header": {
+		"type": "header",
+		"lead": "JCN runs on the kindness of our community. There’s a place for everyone."
+	},
+	"blocks": [
+		{
+			"type": "cards",
+			"items": [
+				{
+					"title": "Volunteer",
+					"text": "Lend a hand, a heart, or a few hours.",
+					"icon": "hand-heart",
+					"link": {
+						"href": "/get-involved/volunteer"
+					}
+				},
+				{
+					"title": "Say tehillim",
+					"text": "Submit a name to be included on the JCN Tehillim list.",
+					"icon": "book-open-text",
+					"link": {
+						"href": "/get-involved/tehillim"
+					}
+				},
+				{
+					"title": "Donate",
+					"text": "Every gift reaches a family facing serious illness — through meals, care, respite or a home at Tikva House.",
+					"icon": "hand-coins",
+					"link": {
+						"href": "/donate"
+					}
+				}
+			]
+		}
+	]
+}
