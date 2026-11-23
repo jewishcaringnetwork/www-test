@@ -95,7 +95,7 @@
 		{
 			"type": "cta",
 			"tone": "brand",
-			"heading": "Keep the lights on at Tikva House.",
+			"heading": "Keep the lights on at Tikva House",
 			"text": "Your gift helps a family rest close to the one they love.",
 			"actions": [
 				{
@@ -108,7 +108,7 @@
 		{
 			"type": "cta",
 			"tone": "subtle",
-			"heading": "Facing a diagnosis? You don’t have to do this alone.",
+			"heading": "Facing a diagnosis? You don’t have to do this alone",
 			"text": "Reach out confidentially. We’re here for your whole family.",
 			"actions": [
 				{

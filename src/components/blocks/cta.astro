@@ -90,15 +90,12 @@ const id = `cta-${
 		}
 	}
 
+	/* Buttons and the quiet link share one row, wrapping when narrow */
 	.do {
-		--stack-gap: var(--space-2xs);
-		--stack-halign: start;
+		--cluster-gap: var(--space-xs) var(--space-m);
+		--cluster-valign: center;
 
 		flex: 0 1 auto;
-	}
-
-	.actions {
-		--cluster-gap: var(--space-xs);
 	}
 
 	.quiet {
@@ -127,19 +124,17 @@ const id = `cta-${
 				</p>
 			)}
 		</div>
-		<div class="do | stack">
-			<div class="actions | cluster">
-				{block.actions.map((action) => (
-					<Button
-						href={action.href}
-						variant={action.variant}
-						inverse={brand || undefined}
-						dir="auto"
-					>
-						{action.label}
-					</Button>
-				))}
-			</div>
+		<div class="do | cluster">
+			{block.actions.map((action) => (
+				<Button
+					href={action.href}
+					variant={action.variant}
+					inverse={brand || undefined}
+					dir="auto"
+				>
+					{action.label}
+				</Button>
+			))}
 			{block.link && (
 				<a class="quiet" href={block.link.href} dir="auto">
 					{block.link.label}
