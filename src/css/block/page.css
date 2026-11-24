@@ -19,13 +19,13 @@
 		padding-block-end: var(--space-2xl);
 	}
 
-	/* The page title introduces what follows, so the first section sits closer */
+	/*
+	 * The page title introduces what follows: the first section sits no
+	 * further from it than sections sit from each other, and further than
+	 * the groups inside a section (Markdown headings: space-l).
+	 */
 	> .page-header + * {
 		--stack-gap: var(--space-xl);
-
-		@media (max-width: 60rem) {
-			--stack-gap: var(--space-l);
-		}
 	}
 }
 
