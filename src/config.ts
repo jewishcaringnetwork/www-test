@@ -49,13 +49,13 @@ export const mainNav: NavMenu[] = [
 		overview: { label: 'All ways to help', href: '/get-involved' },
 		items: [
 			{ label: 'Volunteer', href: '/get-involved/volunteer' },
-			{ label: 'Ways to Give', href: '/donate' },
+			{ label: 'Donate', href: '/donate' },
 		],
 	},
 ];
 
 export const footerLinks: NavLink[] = [
-	{ label: 'Ways to Give', href: '/donate' },
+	{ label: 'Donate', href: '/donate' },
 	{ label: 'Volunteer', href: '/get-involved/volunteer' },
 	{ label: 'Tikva House', href: '/tikva-house' },
 	{ label: 'Family Stories', href: '/family-stories' },

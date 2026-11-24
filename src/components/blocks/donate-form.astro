@@ -1,0 +1,155 @@
+---
+/**
+ * JCN's Admire donation form in an iframe (docs/adr/0006). Gifts, receipts
+ * and the form's look are Admire's.
+ *
+ * Fund preselect: `/donate?fund=tikva-house` preselects "Tikva House" in the
+ * form's Funds dropdown. The page is static, so a small inline script reads
+ * the query and sets the iframe `src`. Only slugs from `funds.ts` get
+ * through; anything else leaves the plain form.
+ *
+ * Size: Admire has no resize script and the frame is cross-origin, so the
+ * frame's size is fixed per layout. Admire's page is `min-height: 100vh`, so
+ * any sideways overflow in the frame adds both scrollbars. Measured 11/23:
+ *
+ * - Width: from about 540 to 690px of frame width, Admire's card sits
+ *   off-centre and overflows by up to 40px. So the frame is at most 520px
+ *   wide (narrow layout) until the container fits the wide layout at 704px.
+ *   The narrow layout still overflows by 2-4px, even on Admire's own page;
+ *   phones overlay their scrollbars, so that's a 2px sideways pan there.
+ *   Desktop browsers with classic scrollbars show both in a narrow window.
+ * - Centring: in the wide layout Admire centres a 510px box and lets its
+ *   600px card overflow it to the right, so the card sits 45px right of
+ *   centre. The frame is 90px wider than the panel and shifted left by that
+ *   much, with the panel clipping it, which centres the card. Nothing in the
+ *   frame starts within 90px of its left edge.
+ * - Height, as it renders in the embed (Cloudflare check included): about
+ *   1250px wide and 1400px narrow by default, and 168px more with "Monthly"
+ *   and "Enter address manually". The frame starts at the default height,
+ *   so there's no empty band under the form. The first time focus moves
+ *   into the frame (a click or Tab), it grows to fit the expanded form; the
+ *   parent page can't see inside the frame, so it can't grow on the exact
+ *   click. Anything taller scrolls inside the frame rather than being cut
+ *   off, so `scrolling` stays on.
+ *
+ * Re-measure if Admire changes the form.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Phosphor from '~/components/phosphor.astro';
+import { donateEmbedSrc, funds, fundSlug } from '~/schemas/funds';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'form' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+const src = donateEmbedSrc();
+const srcBySlug = Object.fromEntries(
+	funds.map((fund) => [fundSlug(fund), donateEmbedSrc(fund)]),
+);
+---
+
+<style>
+	.embed {
+		--admire-offset: 90px;
+
+		container-type: inline-size;
+		max-inline-size: 704px;
+	}
+
+	.panel {
+		overflow: clip;
+		max-inline-size: 520px;
+		border-radius: var(--radius-l);
+		/* A light panel while the form loads, close to Admire's own */
+		background: var(--color-surface-card);
+
+		@container (min-width: 704px) {
+			max-inline-size: none;
+		}
+	}
+
+	iframe {
+		display: block;
+		inline-size: 100%;
+		block-size: 1410px;
+		border: 0;
+
+		&[data-engaged] {
+			block-size: 1590px;
+		}
+
+		@container (min-width: 704px) {
+			/* Physical left: Admire's offset doesn't flip with our direction */
+			inline-size: calc(100% + var(--admire-offset));
+			margin-left: calc(-1 * var(--admire-offset));
+			block-size: 1260px;
+
+			&[data-engaged] {
+				block-size: 1440px;
+			}
+		}
+	}
+
+	.fallback {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-3xs);
+		margin-block-end: 0;
+		color: var(--color-text-secondary);
+
+		a {
+			display: inline-flex;
+			align-items: center;
+			gap: var(--space-3xs);
+			min-block-size: 44px;
+		}
+	}
+</style>
+
+<Section type="form" heading={block.heading} intro={block.intro}>
+	<div class="embed">
+		<div class="panel">
+			<iframe
+				data-donate-embed
+				title="Donation form"
+				src={src}
+				allow="payment"
+			></iframe>
+		</div>
+	</div>
+	<p class="fallback | text-body">
+		Form not loading?
+		<a data-donate-fallback href={src} target="_blank" rel="noopener">
+			Open the donation form in a new tab
+			<Phosphor name="arrow-square-out" size={16} />
+		</a>
+	</p>
+</Section>
+
+<script is:inline define:vars={{ srcBySlug }}>
+	const frame = document.querySelector('[data-donate-embed]');
+	const fund = new URLSearchParams(location.search).get('fund');
+	const src = Object.hasOwn(srcBySlug, fund ?? '') ? srcBySlug[fund] : null;
+	if (src) {
+		frame.src = src;
+		document.querySelector('[data-donate-fallback]').href = src;
+	}
+
+	// Focus moving into the frame blurs this window; make room for the form
+	// to expand (Monthly, manual address) before it does.
+	const engage = () =>
+		setTimeout(() => {
+			if (document.activeElement !== frame) return;
+			frame.dataset.engaged = '';
+			removeEventListener('blur', engage);
+		});
+	addEventListener('blur', engage);
+</script>

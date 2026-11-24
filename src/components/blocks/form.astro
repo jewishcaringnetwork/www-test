@@ -1,0 +1,24 @@
+---
+/**
+ * An embedded form, by `form`. Only the donation form is built so far; the
+ * others render the placeholder until they are.
+ */
+import type { CollectionEntry } from 'astro:content';
+import DonateForm from './donate-form.astro';
+import Placeholder from './placeholder.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'form' }
+>;
+
+interface Props {
+	block: Block;
+}
+
+const { block } = Astro.props;
+---
+
+{block.form === 'donate'
+	? <DonateForm block={block} />
+	: <Placeholder block={block} />}

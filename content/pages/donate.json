@@ -1,0 +1,15 @@
+{
+	"title": "Donate",
+	"description": "Give to the Jewish Caring Network. Every gift reaches a family facing serious illness — through meals, care, respite or a home at Tikva House.",
+	"header": {
+		"type": "header",
+		"heading": "Support the Jewish Caring Network",
+		"lead": "Every gift reaches a family facing serious illness — through meals, care, respite or a home at Tikva House."
+	},
+	"blocks": [
+		{
+			"type": "form",
+			"form": "donate"
+		}
+	]
+}
