@@ -17,15 +17,18 @@ under their parent and posts sit at the top level.
   counterpart: History & Mission to `/about/history`, a fund or campaign page to
   `/donate`, the wish list to `/get-involved`.
 - An old URL with no counterpart has no rule and 404s: the 5K, news and events,
-  the old blog posts, resources and videos, the shop, caring journals, the HTML
-  sitemap and the legal pages. If one of these comes back, it needs no redirect.
+  the old blog posts, resources and videos, the shop, caring journals and the
+  legal pages. If one of these comes back, it needs no redirect.
 - The Tehillim List is deferred, not removed (www-test#37). Its new page can
   keep `/get-involved/tehillim-list`. When it lands, point
   `/get-involved/tehillim-list/submit-an-entry` and `/tehillim/*` (one page per
   name) at it.
-- Yoast's `/sitemap_index.xml` and WordPress's `/wp-sitemap.xml` go to
-  `/sitemap-index.xml`, the index that `@astrojs/sitemap` writes. The sitemap
-  itself is a launch-checklist item.
+- Tikva House giving pages go to `/donate?fund=tikva-house`, which preselects
+  the Tikva House fund. Other old fund pages go to plain `/donate`: their names
+  don't match an Admire fund one to one.
+- The old HTML `/sitemap` page, Yoast's `/sitemap_index.xml` and WordPress's
+  `/wp-sitemap.xml` go to `/sitemap-index.xml`, the index that
+  `@astrojs/sitemap` writes. The sitemap itself is a launch-checklist item.
 - Attachment pages (one per uploaded image) and `/wp-content/uploads/`
   files 404.
 - Netlify skips a redirect when a page exists at its `from` path.

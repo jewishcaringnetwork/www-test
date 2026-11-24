@@ -16,7 +16,7 @@
 /staff-member/*              /about/leadership   301
 
 # Tikva House
-/the-tikva-house/give-to-tikva-house   /donate        301
+/the-tikva-house/give-to-tikva-house   /donate?fund=tikva-house   301
 /the-tikva-house/*                     /tikva-house   301
 
 # Giving. /donate was the old front page; only its child pages move.
@@ -26,9 +26,10 @@
 /get-involved/donate               /donate   301
 /get-involved/shop-amazon-smile    /donate   301
 /funds-programs                    /donate   301
+/funds/the-tikva-house             /donate?fund=tikva-house   301
 /funds/*                           /donate   301
 /fund-donate                       /donate   301
-/tikva-funds                       /donate   301
+/tikva-funds                       /donate?fund=tikva-house   301
 /thank-you                         /donate   301
 /cancel                            /donate   301
 /rhyk2026                          /donate   301
@@ -51,6 +52,8 @@
 # Contact
 /contact/thank-you   /contact   301
 
-# Yoast's XML sitemap index and WordPress's own, to Astro's sitemap index
+# The old HTML sitemap page, Yoast's XML sitemap index and WordPress's own,
+# to Astro's sitemap index
+/sitemap             /sitemap-index.xml   301
 /sitemap_index.xml   /sitemap-index.xml   301
 /wp-sitemap.xml      /sitemap-index.xml   301
