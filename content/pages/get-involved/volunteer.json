@@ -13,6 +13,19 @@
 			"type": "form",
 			"heading": "Sign up",
 			"form": "volunteer"
+		},
+		{
+			"type": "cta",
+			"tone": "subtle",
+			"heading": "Not ready to volunteer?",
+			"text": "There are other ways to contribute.",
+			"actions": [
+				{
+					"label": "Make a gift",
+					"href": "/donate",
+					"variant": "donate"
+				}
+			]
 		}
 	]
 }
