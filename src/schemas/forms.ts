@@ -48,6 +48,10 @@ export const fieldSchema = z
 			description:
 				"Lets browsers fill in the visitor's own details. Only for fields about the visitor.",
 		}),
+		autocapitalize: z.enum(['words']).optional().meta({
+			description:
+				'Phone keyboards start each word with a capital, for names and titles. Omit for everything else: text fields already capitalize each sentence.',
+		}),
 	})
 	.refine((f) => !f.required || f.missing, {
 		message: 'A required field needs a "missing" message.',
@@ -139,6 +143,7 @@ const name = {
 	required: true,
 	missing: 'Enter your name.',
 	autocomplete: 'name',
+	autocapitalize: 'words',
 } as const;
 
 const email = {
@@ -207,6 +212,7 @@ export const netlifyForms = {
 				type: 'text',
 				required: true,
 				missing: 'Enter a title for your story.',
+				autocapitalize: 'words',
 			},
 			{
 				name: 'story',
