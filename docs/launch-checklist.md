@@ -15,8 +15,10 @@ done separately afterwards.
 - [ ] Redirect map from every old WordPress URL to its new page:
       jewishcaringnetwork/www-test#34
 - [ ] Titles, meta descriptions, OG image and favicon on every page.
-- [ ] Accessibility pass: keyboard, focus, contrast, form labels.
-- [ ] Lighthouse on Home, Tikva House and Donate.
+- [ ] Accessibility pass: the manual checklist in
+      jewishcaringnetwork/www-test#67 (keyboard, screen reader, zoom and reflow,
+      alt text).
+- [ ] Lighthouse performance on Home, Tikva House and Donate.
 - [ ] Client signs off on v1 at the Netlify URL.
 
 ## Repo
@@ -41,3 +43,5 @@ done separately afterwards.
 
 - Staff editing through Claude is deferred (ADR 7):
   jewishcaringnetwork/www-test#41
+- Automated accessibility tests (axe with Playwright) in CI:
+  jewishcaringnetwork/www-test#67
