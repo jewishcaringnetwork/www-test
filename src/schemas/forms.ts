@@ -218,7 +218,7 @@ export const netlifyForms = {
 			{
 				// Unticked keeps the name private, so missing it is the safe way
 				name: 'show-name',
-				label: 'Show my name with my story',
+				label: 'Show my name with the story',
 				type: 'checkbox',
 			},
 		],
