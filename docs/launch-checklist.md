@@ -29,7 +29,6 @@ done separately afterwards.
 ## Live
 
 - [ ] Full WordPress backup (database plus `wp-content`) kept.
-- [ ] Remove `noindex`.
 - [ ] DNS: record the current records first; don't touch MX/email; lower the TTL
       a day ahead.
 - [ ] Add the custom domain in Netlify and confirm SSL is issued.
