@@ -13,8 +13,10 @@
  * interior reads on the dark footer and the light Donate page alike.
  *
  * The text printed on the badges is a few pixels tall, so each badge has a
- * live-text caption with the rater, level and year. The caption is the
- * link's whole name ("Candid Gold Seal 2026"), so the image's alt is empty.
+ * live-text caption with the rater and year. The level (gold, three stars)
+ * reads from the artwork, so it's in the caption for screen readers only.
+ * The caption is the link's whole name ("Candid Gold Seal 2026"), so the
+ * image's alt is empty.
  *
  * Colour follows the surrounding text. Set `--rating-star` for the stars
  * and `--rating-size` for the badge height (default 96px).
@@ -100,6 +102,15 @@ const navigator = charityNavigator && {
 		font-weight: var(--font-weight-semibold);
 	}
 
+	.visually-hidden {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
 	.text-badge {
 		display: flex;
 		flex-direction: column;
@@ -127,11 +138,8 @@ const navigator = charityNavigator && {
 					<img src={candidSeal.src} alt="" width="96" height="96" />{' '}
 					<span class="caption | text-small">
 						<span class="rater">Candid</span>{' '}
-						<span>
-							{candidSeal.level}{' '}
-							<span aria-hidden="true">·</span>{' '}
-							{candidSeal.year}
-						</span>
+						<span class="visually-hidden">{candidSeal.level}</span>{' '}
+						<span>{candidSeal.year}</span>
 					</span>
 				</a>
 			</li>
@@ -150,11 +158,8 @@ const navigator = charityNavigator && {
 							 />{' '}
 							 <span class="caption | text-small">
 								 <span class="rater">Charity Navigator</span>{' '}
-								 <span>
-									 {navigator.level}{' '}
-									 <span aria-hidden="true">·</span>{' '}
-									 {navigator.year}
-								 </span>
+								 <span class="visually-hidden">{navigator.level}</span>{' '}
+								 <span>{navigator.year}</span>
 							 </span>
 						 </>
 					 )
