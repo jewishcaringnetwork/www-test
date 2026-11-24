@@ -12,7 +12,7 @@ export type SectionBackground = 'paper' | 'white' | 'blue';
  * they always stay on paper. Add a block type here when its component puts
  * its content in cards or panels.
  */
-const selfContained = new Set(['cards', 'contact', 'cta']);
+const selfContained = new Set(['cards', 'contact', 'cta', 'form']);
 
 /**
  * The block type that gets the blue band, for emphasis. At most one per page:

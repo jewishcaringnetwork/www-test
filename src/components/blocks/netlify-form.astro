@@ -1,0 +1,407 @@
+---
+/**
+ * A Netlify Forms form: contact, volunteer or story (fields in
+ * src/schemas/forms.ts). Netlify finds the form in the built HTML at deploy
+ * (`data-netlify`), stores each submission and emails staff; the recipient
+ * is set in the Netlify UI, not here.
+ *
+ * - Spam: a honeypot field (`bot-field`) that people never see; Netlify
+ *   drops any submission that fills it. Akismet filters the rest.
+ * - Validation is client-side only (issue #30): required fields, email
+ *   and phone format (`phonePattern`), and "at least one of" groups such
+ *   as phone or email. Errors
+ *   show under each label and focus moves to the first one.
+ * - Sending: the script posts the form URL-encoded to `/` and shows the
+ *   confirmation in place, or an alert above the button if it fails, with
+ *   the form left filled in. Without JavaScript the browser posts the form
+ *   itself: required fields and email and phone format still hold (not the groups),
+ *   and Netlify shows its own thank-you page.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Button from '~/components/button.astro';
+import Phosphor from '~/components/phosphor.astro';
+import { org, telHref } from '~/config';
+import type { SectionBackground } from '~/lib/section-background';
+import {
+	type FormGroup,
+	type NetlifyFormName,
+	netlifyForms,
+} from '~/schemas/forms';
+import FormField from './form-field.astro';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'form' }
+>;
+
+interface Props {
+	block: Block & { form: NetlifyFormName };
+	background: SectionBackground;
+}
+
+const { block, background } = Astro.props;
+const name = block.form;
+const def = netlifyForms[name];
+const headingId = block.heading ? `${name}-form-heading` : undefined;
+/** Id prefix for a group's hint and error lines. */
+const groupId = (group: FormGroup) => `${name}-${group.fields[0]!.name}-group`;
+---
+
+<style>
+	/* One card holds the heading, the form, and the confirmation after */
+	.netlify-form {
+		--stack-gap: var(--space-l);
+
+		max-inline-size: 40rem;
+		padding: var(--space-xl);
+
+		@media (max-width: 48rem) {
+			padding: var(--space-m);
+		}
+	}
+
+	.form-header {
+		--stack-gap: var(--space-2xs);
+
+		:is(h2, p) {
+			margin-block-end: 0;
+		}
+
+		h2 {
+			color: var(--color-text-heading);
+		}
+
+		p {
+			color: var(--color-text-secondary);
+		}
+	}
+
+	/* The script toggles `hidden`; the flex and stack rules would undo it */
+	[hidden] {
+		display: none !important;
+	}
+
+	/* A flex gap, not a .stack: the stack's --stack-gap would also set the
+	   form's own distance from the heading. Hidden inputs, the honeypot and
+	   an empty alert take no gap. */
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-m);
+	}
+
+	fieldset {
+		--stack-gap: var(--space-m);
+
+		margin: 0;
+		padding: 0;
+		border: 0;
+		min-inline-size: 0;
+
+		/* Same size as the field labels (form-field.astro) */
+		legend {
+			padding: 0;
+			font-size: var(--font-size-m);
+		}
+
+		.lead {
+			--stack-gap: var(--space-3xs);
+
+			p {
+				margin-block-end: 0;
+			}
+		}
+	}
+
+	.hint {
+		color: var(--color-text-secondary);
+	}
+
+	.error {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		color: var(--color-status-danger);
+
+		&[hidden] {
+			display: none;
+		}
+	}
+
+	/* Off-screen, not display: none, so form-filling bots still see it */
+	.honeypot {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.alert {
+		display: flex;
+		gap: var(--space-xs);
+		padding: var(--space-s) var(--space-m);
+		border: 1px solid var(--color-status-danger);
+		border-radius: var(--radius-m);
+		background: var(--color-status-danger-bg);
+		color: var(--color-status-danger);
+
+		&:empty {
+			display: none;
+		}
+
+		p {
+			margin-block-end: 0;
+		}
+
+		a {
+			color: inherit;
+		}
+	}
+
+	.sent {
+		display: flex;
+		gap: var(--space-s);
+		align-items: flex-start;
+		padding: var(--space-m);
+		border: 1px solid var(--color-status-success);
+		border-radius: var(--radius-m);
+		background: var(--color-status-success-bg);
+		color: var(--color-status-success);
+
+		&:focus-visible {
+			outline: 2px solid var(--color-focus-ring);
+			outline-offset: 2px;
+		}
+
+		p {
+			margin-block-end: 0;
+		}
+	}
+</style>
+
+<Section type="form" background={background} aria-labelledby={headingId}>
+	<div class="netlify-form | card stack">
+		{(block.heading || block.intro) && (
+			<div class="form-header | stack">
+				{block.heading && (
+					<h2 id={headingId} class="text-h3" dir="auto">{block.heading}</h2>
+				)}
+				{block.intro && <p class="text-body" dir="auto">{block.intro}</p>}
+			</div>
+		)}
+		<form
+			name={name}
+			method="POST"
+			data-netlify="true"
+			netlify-honeypot="bot-field"
+			data-netlify-form
+			aria-labelledby={headingId}
+			aria-label={headingId ? undefined : def.title}
+		>
+			{def.fields.map((item) =>
+				'fields' in item
+					? (
+					<fieldset
+						class="stack"
+						data-require-one
+						data-missing={item.missing}
+						data-error-id={`${groupId(item)}-error`}
+						aria-describedby={`${groupId(item)}-hint ${groupId(item)}-error`}
+					>
+						<legend class="text-label" dir="auto">{item.legend}</legend>
+						<div class="lead | stack">
+							<p
+								id={`${groupId(item)}-hint`}
+								class="hint | text-small"
+								dir="auto"
+							>
+								{item.hint}
+							</p>
+							<p
+								id={`${groupId(item)}-error`}
+								class="error | text-small"
+								hidden
+							>
+								<Phosphor name="warning-circle" size={20} />
+								<span data-error-text></span>
+							</p>
+						</div>
+						{item.fields.map((field) => (
+							<FormField
+								field={field}
+								form={name}
+								groupError={`${groupId(item)}-error`}
+							/>
+						))}
+					</fieldset>
+				)
+					: <FormField field={item} form={name} />
+			)}
+			<div class="alert | text-body" role="alert" data-send-error></div>
+			<template data-send-error-content>
+				<Phosphor name="warning-circle" size={24} />
+				<p>
+					Sorry, that didn’t send. Please try again in a moment, or call us
+					at{' '}
+					<a href={telHref(org.phone)}>{org.phone}</a>.
+				</p>
+			</template>
+			<div>
+				<Button variant="primary" type="submit" data-submit>
+					{def.submit}
+				</Button>
+			</div>
+			<input type="hidden" name="form-name" value={name} />
+			<input
+				type="hidden"
+				name="subject"
+				value={`${def.title}: new submission from the website`}
+			/>
+			<div class="honeypot" aria-hidden="true">
+				<label>
+					Leave this empty
+					<input name="bot-field" tabindex="-1" autocomplete="off" />
+				</label>
+			</div>
+		</form>
+		<div
+			class="sent | text-body"
+			tabindex="-1"
+			data-sent
+			hidden
+		>
+			<Phosphor name="check-circle" size={24} />
+			<p dir="auto">{block.confirmation ?? def.confirmation}</p>
+		</div>
+	</div>
+</Section>
+
+<script>
+	type Control = HTMLInputElement | HTMLTextAreaElement;
+
+	const problem = (control: Control) => {
+		const { validity, dataset } = control;
+		if (validity.valueMissing) return dataset.missing ?? null;
+		if (validity.typeMismatch || validity.patternMismatch) {
+			return dataset.invalid ?? null;
+		}
+		return null;
+	};
+
+	/** Sets the owner's error line and marks `invalid` among `controls`. */
+	const show = (
+		owner: HTMLElement,
+		message: string | null,
+		controls: Control[],
+		invalid: Control[],
+	) => {
+		const error = document.getElementById(owner.dataset.errorId ?? '');
+		if (error) {
+			error.hidden = !message;
+			error.querySelector('[data-error-text]')!.textContent = message ?? '';
+		}
+		for (const control of controls) {
+			if (invalid.includes(control)) {
+				control.setAttribute('aria-invalid', 'true');
+			} else control.removeAttribute('aria-invalid');
+		}
+	};
+
+	/** Shows or clears every error; returns the first control to fix. */
+	const validate = (form: HTMLFormElement): Control | null => {
+		let first: Control | null = null;
+		const owners = form.querySelectorAll<HTMLElement>(
+			'[data-field]:not([data-grouped]), [data-require-one]',
+		);
+		for (const owner of owners) {
+			if (owner instanceof HTMLFieldSetElement) {
+				const controls = [
+					...owner.querySelectorAll<Control>('[data-field]'),
+				];
+				const empty = controls.every((c) => !c.value.trim());
+				const wrong = controls.find((c) => problem(c));
+				const message = empty
+					? owner.dataset.missing ?? null
+					: wrong
+					? problem(wrong)
+					: null;
+				const invalid = empty ? controls : wrong ? [wrong] : [];
+				show(owner, message, controls, invalid);
+				first ??= invalid[0] ?? null;
+			} else {
+				const control = owner as Control;
+				const message = problem(control);
+				show(control, message, [control], message ? [control] : []);
+				if (message) first ??= control;
+			}
+		}
+		return first;
+	};
+
+	for (
+		const form of document.querySelectorAll<HTMLFormElement>(
+			'form[data-netlify-form]',
+		)
+	) {
+		const wrapper = form.parentElement!;
+		const sent = wrapper.querySelector<HTMLElement>('[data-sent]')!;
+		const alert = form.querySelector<HTMLElement>('[data-send-error]')!;
+		const alertContent = form.querySelector<HTMLTemplateElement>(
+			'[data-send-error-content]',
+		)!;
+		const button = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+		const label = button.textContent;
+		let tried = false;
+		let sending = false;
+
+		// Our messages replace the browser's bubbles; without this script the
+		// browser's own checks still run.
+		form.noValidate = true;
+
+		const recheck = () => {
+			if (tried) validate(form);
+		};
+		form.addEventListener('input', recheck);
+		form.addEventListener('change', recheck);
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			if (sending) return;
+			tried = true;
+			const first = validate(form);
+			if (first) {
+				first.focus();
+				return;
+			}
+
+			sending = true;
+			button.setAttribute('aria-disabled', 'true');
+			button.textContent = 'Sending…';
+			alert.replaceChildren();
+			try {
+				const body = new URLSearchParams();
+				for (const [key, value] of new FormData(form)) {
+					if (typeof value === 'string') body.append(key, value);
+				}
+				const response = await fetch('/', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					body: body.toString(),
+				});
+				if (!response.ok) throw new Error(`HTTP ${response.status}`);
+				form.hidden = true;
+				sent.hidden = false;
+				sent.focus();
+			} catch {
+				alert.replaceChildren(alertContent.content.cloneNode(true));
+			} finally {
+				sending = false;
+				button.removeAttribute('aria-disabled');
+				button.textContent = label;
+			}
+		});
+	}
+</script>

@@ -1,0 +1,18 @@
+{
+	"title": "Volunteer",
+	"header": {
+		"type": "header",
+		"lead": "Lend a hand, a heart, or a few hours."
+	},
+	"blocks": [
+		{
+			"type": "prose",
+			"markdown": "Volunteers cook and deliver meals, visit in the hospital, mentor children, help at Tikva House, and power our events. Tell us what you enjoy and when you’re free — we’ll find the right fit."
+		},
+		{
+			"type": "form",
+			"heading": "Sign up",
+			"form": "volunteer"
+		}
+	]
+}
