@@ -1,0 +1,56 @@
+# Old WordPress URLs that have a v1 counterpart. Notes and the source of the
+# slugs: docs/wordpress-redirects.md. Old URLs with no counterpart are left
+# out on purpose, so they 404.
+#
+# Netlify uses the first rule that matches and ignores trailing slashes, so
+# exact paths come before each section's catch-all. A `/section/*` rule also
+# matches `/section` itself, so sections whose path is still a v1 route
+# (/donate, /get-involved, /contact) list their old children one by one.
+
+# About JCN
+/about-jcn/history-mission   /about/history      301
+/about-jcn/board-staff       /about/leadership   301
+/about-jcn/services          /services           301
+/about-jcn/*                 /about              301
+/service/*                   /services           301
+/staff-member/*              /about/leadership   301
+
+# Tikva House
+/the-tikva-house/give-to-tikva-house   /donate        301
+/the-tikva-house/*                     /tikva-house   301
+
+# Giving. /donate was the old front page; only its child pages move.
+/donate/4459-2                     /donate   301
+/donate/4464-2                     /donate   301
+/donate/bringing-sholom            /donate   301
+/get-involved/donate               /donate   301
+/get-involved/shop-amazon-smile    /donate   301
+/funds-programs                    /donate   301
+/funds/*                           /donate   301
+/fund-donate                       /donate   301
+/tikva-funds                       /donate   301
+/thank-you                         /donate   301
+/cancel                            /donate   301
+/rhyk2026                          /donate   301
+/rhyk2026-new                      /donate   301
+/recuring-donation-demo            /donate   301
+/fundraising-campaign-2026         /donate   301
+
+# Get Involved. The Tehillim List (/get-involved/tehillim-list) is deferred,
+# not removed (www-test#37), so it has no rule.
+/get-involved/become-a-corporate-sponsor   /get-involved   301
+/get-involved/fundraising-opportunities    /get-involved   301
+/get-involved/give-to-our-wish-list        /get-involved   301
+/get-involved/ways-support-jcn             /get-involved   301
+
+# Family stories
+/inspiration/personal-stories/share-your-story   /family-stories/share   301
+/inspiration/*                                   /family-stories         301
+/the-fine-family-interview                       /family-stories         301
+
+# Contact
+/contact/thank-you   /contact   301
+
+# Yoast's XML sitemap index and WordPress's own, to Astro's sitemap index
+/sitemap_index.xml   /sitemap-index.xml   301
+/wp-sitemap.xml      /sitemap-index.xml   301
