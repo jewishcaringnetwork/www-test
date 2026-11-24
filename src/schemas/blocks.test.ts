@@ -72,17 +72,6 @@ describe('headerSchema', () => {
 });
 
 describe('blockSchema', () => {
-	const location = {
-		name: 'The Tikva House',
-		address: {
-			street: '529 N. Washington Street',
-			city: 'Baltimore',
-			state: 'MD',
-			zip: '21205',
-		},
-		phone: '410-534-1033',
-		email: 'info@tikvahouse.org',
-	};
 	const minimal = {
 		prose: { type: 'prose', markdown: 'Hello' },
 		mediaText: {
@@ -102,7 +91,18 @@ describe('blockSchema', () => {
 			items: [{ question: 'Is parking free?', answer: 'Yes.' }],
 		},
 		cta: { type: 'cta', heading: 'How your gift helps', actions: [action] },
-		contact: { type: 'contact', locations: [location] },
+		contact: {
+			type: 'contact',
+			name: 'The Tikva House',
+			address: {
+				street: '529 N. Washington Street',
+				city: 'Baltimore',
+				state: 'MD',
+				zip: '21205',
+			},
+			phone: '410-534-1033',
+			email: 'info@tikvahouse.org',
+		},
 		form: { type: 'form', form: 'volunteer' },
 		logos: { type: 'logos', items: [{ name: 'Sponsor', image: img }] },
 		stories: { type: 'stories' },
@@ -139,21 +139,24 @@ describe('blockSchema', () => {
 	});
 
 	it('validates contact phone format', () => {
+		bad(block, { ...minimal.contact, phone: '410.534.1033' });
+	});
+
+	it('shows up to two places beside a form', () => {
+		const { type: _, image: __, ...place } = minimal.contact as Record<
+			string,
+			unknown
+		>;
+		const form = { type: 'form', form: 'contact' };
+		ok(block, { ...form, locations: [place] });
+		ok(block, { ...form, locations: [place, place] });
+		bad(block, { ...form, locations: [] });
+		bad(block, { ...form, locations: [place, place, place] });
+		bad(block, { ...form, locations: [{ ...place, phone: '410.534.1033' }] });
 		bad(block, {
-			type: 'contact',
-			locations: [{ ...location, phone: '410.534.1033' }],
+			...form,
+			locations: [{ ...place, link: { label: 'Plan', href: '/x' } }],
 		});
-	});
-
-	it('takes one or two contact locations', () => {
-		ok(block, { type: 'contact', locations: [location, location] });
-		bad(block, { type: 'contact', locations: [] });
-		bad(block, { type: 'contact', locations: [location, location, location] });
-	});
-
-	it('keeps contact details inside a location', () => {
-		bad(block, { type: 'contact', ...location });
-		bad(block, { ...minimal.contact, phone: '410-534-1033' });
 	});
 
 	it('allows a card link without a label', () => {

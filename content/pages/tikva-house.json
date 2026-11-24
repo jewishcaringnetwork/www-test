@@ -37,23 +37,19 @@
 			"type": "contact",
 			"heading": "Request a Stay",
 			"intro": "Please call the Tikva House at (410) 534-1033. Our team will be glad to discuss further.",
-			"locations": [
-				{
-					"name": "The Tikva House",
-					"address": {
-						"street": "529 N. Washington Street",
-						"city": "Baltimore",
-						"state": "MD",
-						"zip": "21205"
-					},
-					"phone": "410-534-1033",
-					"email": "info@tikvahouse.org",
-					"image": {
-						"src": "../images/tikva-house-library.jpg",
-						"alt": "A sitting area with a sofa, a round glass coffee table and tall bookshelves"
-					}
-				}
-			]
+			"name": "The Tikva House",
+			"address": {
+				"street": "529 N. Washington Street",
+				"city": "Baltimore",
+				"state": "MD",
+				"zip": "21205"
+			},
+			"phone": "410-534-1033",
+			"email": "info@tikvahouse.org",
+			"image": {
+				"src": "../images/tikva-house-library.jpg",
+				"alt": "A sitting area with a sofa, a round glass coffee table and tall bookshelves"
+			}
 		},
 		{
 			"type": "cta",

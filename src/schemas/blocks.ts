@@ -205,36 +205,30 @@ const cta = z
 	})
 	.meta({ description: `${hierarchy.cta} ${hierarchy.whenUnsure}` });
 
-const location = (fns: SchemaFns) =>
-	z
-		.strictObject({
-			name: text(2, 80).meta({
-				description: 'Name of the place, e.g. "The Tikva House".',
-			}),
-			address: addressSchema,
-			phone: phoneSchema.meta({
-				description: 'Phone formatted like 410-534-1033. Shown as tap-to-call.',
-			}),
-			email: z.email().max(100).optional(),
-			image: imageSchema(fns, 'Photo of the place, e.g. its exterior.')
-				.optional(),
-			link: linkSchema.optional(),
-		})
-		.meta({ description: 'Contact details for one location.' });
+// Name, address, phone and email of one place: a contact panel, or a place
+// listed beside a form
+const place = {
+	name: text(2, 80).meta({
+		description: 'Name of the place, e.g. "The Tikva House".',
+	}),
+	address: addressSchema,
+	phone: phoneSchema.meta({
+		description: 'Phone formatted like 410-534-1033. Shown as tap-to-call.',
+	}),
+	email: z.email().max(100).optional(),
+};
 
 const contact = (fns: SchemaFns) =>
 	z
 		.strictObject({
 			type: z.literal('contact'),
 			...sectionHeader,
-			locations: z.array(location(fns)).min(1).max(2).meta({
-				description:
-					'One or two places. Two sit side by side on wide screens, so list every location a page needs in one block instead of repeating the block.',
-			}),
+			...place,
+			image: imageSchema(fns, 'Photo of the place, e.g. its exterior.')
+				.optional(),
+			link: linkSchema.optional(),
 		})
-		.meta({
-			description: 'Address, phone and email for one or two locations.',
-		});
+		.meta({ description: 'Contact details for one location.' });
 
 const form = z
 	.strictObject({
@@ -248,6 +242,15 @@ const form = z
 			description:
 				"Message shown in place of the form after it is sent. Omit to use the form's default; set it only when this page needs a different reply, e.g. a timeframe.",
 		}),
+		locations: z
+			.array(z.strictObject(place).meta({ description: 'One place.' }))
+			.min(1)
+			.max(2)
+			.optional()
+			.meta({
+				description:
+					'Places people can also call, write to or visit, listed in a quieter column beside the form (below it on phones), e.g. both addresses on the Contact page. The form stays the main thing. Omit on other pages, and for one place with a photo or link use a contact block instead. Ignored by "donate".',
+			}),
 	})
 	.meta({ description: 'A form visitors fill in and send to JCN.' });
 

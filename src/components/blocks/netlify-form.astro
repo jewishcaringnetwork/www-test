@@ -11,6 +11,9 @@
  *   and phone format (`phonePattern`), and "at least one of" groups such
  *   as phone or email. Errors
  *   show under each label and focus moves to the first one.
+ * - Places (`locations`, the Contact page's addresses) sit in a quieter
+ *   column beside the form card on wide screens and below it on phones:
+ *   the form stays the main thing, the addresses are reference.
  * - Sending: the script posts the form URL-encoded to `/` and shows the
  *   confirmation in place, or an alert above the button if it fails, with
  *   the form left filled in. Without JavaScript the browser posts the form
@@ -49,6 +52,74 @@ const groupId = (group: FormGroup) => `${name}-${group.fields[0]!.name}-group`;
 ---
 
 <style>
+	/*
+	 * The form card leads; places, when there are any, sit beside it on
+	 * wide screens and below it on phones
+	 */
+	.layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-xl) var(--space-2xl);
+		align-items: start;
+
+		@media (min-width: 60rem) {
+			&:has(> .places) {
+				grid-template-columns: minmax(0, 40rem) minmax(0, 1fr);
+			}
+		}
+	}
+
+	/*
+	 * Plain text on the page, not cards, so they read as reference next to
+	 * the form. On wide screens they start level with the form's heading
+	 * (the card's padding); a rule parts them.
+	 */
+	.places {
+		display: grid;
+		gap: var(--space-l);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@media (min-width: 60rem) {
+			padding-block-start: var(--space-xl);
+		}
+
+		li + li {
+			padding-block-start: var(--space-l);
+			border-block-start: 1px solid var(--color-border-subtle);
+		}
+	}
+
+	.place {
+		--stack-gap: var(--space-2xs);
+
+		:is(h2, address, p) {
+			margin-block-end: 0;
+		}
+
+		h2 {
+			color: var(--color-text-heading);
+			font-family: var(--font-family-heading);
+			font-weight: var(--font-weight-medium);
+		}
+
+		address {
+			font-style: normal;
+		}
+
+		a {
+			overflow-wrap: anywhere;
+
+			/* Stacked links: tall enough to tap apart */
+			@media (pointer: coarse) {
+				display: inline-flex;
+				align-items: center;
+				min-block-size: 44px;
+			}
+		}
+	}
+
 	/* One card holds the heading, the form, and the confirmation after */
 	.netlify-form {
 		--stack-gap: var(--space-l);
@@ -183,99 +254,125 @@ const groupId = (group: FormGroup) => `${name}-${group.fields[0]!.name}-group`;
 </style>
 
 <Section type="form" background={background} aria-labelledby={headingId}>
-	<div class="netlify-form | card stack">
-		{(block.heading || block.intro) && (
-			<div class="form-header | stack">
-				{block.heading && (
-					<h2 id={headingId} class="text-h3" dir="auto">{block.heading}</h2>
-				)}
-				{block.intro && <p class="text-body" dir="auto">{block.intro}</p>}
-			</div>
-		)}
-		<form
-			name={name}
-			method="POST"
-			data-netlify="true"
-			netlify-honeypot="bot-field"
-			data-netlify-form
-			aria-labelledby={headingId}
-			aria-label={headingId ? undefined : def.title}
-		>
-			{def.fields.map((item) =>
-				'fields' in item
-					? (
-					<fieldset
-						class="stack"
-						data-require-one
-						data-missing={item.missing}
-						data-error-id={`${groupId(item)}-error`}
-						aria-describedby={`${groupId(item)}-hint ${groupId(item)}-error`}
-					>
-						<legend class="text-label" dir="auto">{item.legend}</legend>
-						<div class="lead | stack">
-							<p
-								id={`${groupId(item)}-hint`}
-								class="hint | text-small"
-								dir="auto"
-							>
-								{item.hint}
-							</p>
-							<p
-								id={`${groupId(item)}-error`}
-								class="error | text-small"
-								hidden
-							>
-								<Phosphor name="warning-circle" size={20} />
-								<span data-error-text></span>
-							</p>
-						</div>
-						{item.fields.map((field) => (
-							<FormField
-								field={field}
-								form={name}
-								groupError={`${groupId(item)}-error`}
-							/>
-						))}
-					</fieldset>
-				)
-					: <FormField field={item} form={name} />
+	<div class="layout">
+		<div class="netlify-form | card stack">
+			{(block.heading || block.intro) && (
+				<div class="form-header | stack">
+					{block.heading && (
+						<h2 id={headingId} class="text-h3" dir="auto">{block.heading}</h2>
+					)}
+					{block.intro && <p class="text-body" dir="auto">{block.intro}</p>}
+				</div>
 			)}
-			<div class="alert | text-body" role="alert" data-send-error></div>
-			<template data-send-error-content>
-				<Phosphor name="warning-circle" size={24} />
-				<p>
-					Sorry, that didn’t send. Please try again in a moment, or call us
-					at{' '}
-					<a href={telHref(org.phone)}>{org.phone}</a>.
-				</p>
-			</template>
-			<div>
-				<Button variant="primary" type="submit" data-submit>
-					{def.submit}
-				</Button>
+			<form
+				name={name}
+				method="POST"
+				data-netlify="true"
+				netlify-honeypot="bot-field"
+				data-netlify-form
+				aria-labelledby={headingId}
+				aria-label={headingId ? undefined : def.title}
+			>
+				{def.fields.map((item) =>
+					'fields' in item
+						? (
+						<fieldset
+							class="stack"
+							data-require-one
+							data-missing={item.missing}
+							data-error-id={`${groupId(item)}-error`}
+							aria-describedby={`${groupId(item)}-hint ${groupId(item)}-error`}
+						>
+							<legend class="text-label" dir="auto">{item.legend}</legend>
+							<div class="lead | stack">
+								<p
+									id={`${groupId(item)}-hint`}
+									class="hint | text-small"
+									dir="auto"
+								>
+									{item.hint}
+								</p>
+								<p
+									id={`${groupId(item)}-error`}
+									class="error | text-small"
+									hidden
+								>
+									<Phosphor name="warning-circle" size={20} />
+									<span data-error-text></span>
+								</p>
+							</div>
+							{item.fields.map((field) => (
+								<FormField
+									field={field}
+									form={name}
+									groupError={`${groupId(item)}-error`}
+								/>
+							))}
+						</fieldset>
+					)
+						: <FormField field={item} form={name} />
+				)}
+				<div class="alert | text-body" role="alert" data-send-error></div>
+				<template data-send-error-content>
+					<Phosphor name="warning-circle" size={24} />
+					<p>
+						Sorry, that didn’t send. Please try again in a moment, or call us
+						at{' '}
+						<a href={telHref(org.phone)}>{org.phone}</a>.
+					</p>
+				</template>
+				<div>
+					<Button variant="primary" type="submit" data-submit>
+						{def.submit}
+					</Button>
+				</div>
+				<input type="hidden" name="form-name" value={name} />
+				<input
+					type="hidden"
+					name="subject"
+					value={`${def.title}: new submission from the website`}
+				/>
+				<div class="honeypot" aria-hidden="true">
+					<label>
+						Leave this empty
+						<input name="bot-field" tabindex="-1" autocomplete="off" />
+					</label>
+				</div>
+			</form>
+			<div
+				class="sent | text-body"
+				tabindex="-1"
+				data-sent
+				hidden
+			>
+				<Phosphor name="check-circle" size={24} />
+				<p dir="auto">{block.confirmation ?? def.confirmation}</p>
 			</div>
-			<input type="hidden" name="form-name" value={name} />
-			<input
-				type="hidden"
-				name="subject"
-				value={`${def.title}: new submission from the website`}
-			/>
-			<div class="honeypot" aria-hidden="true">
-				<label>
-					Leave this empty
-					<input name="bot-field" tabindex="-1" autocomplete="off" />
-				</label>
-			</div>
-		</form>
-		<div
-			class="sent | text-body"
-			tabindex="-1"
-			data-sent
-			hidden
-		>
-			<Phosphor name="check-circle" size={24} />
-			<p dir="auto">{block.confirmation ?? def.confirmation}</p>
 		</div>
+		{block.locations && (
+			<ul role="list" class="places">
+				{block.locations.map((place) => (
+					<li class="place | stack">
+						<h2 class="text-large" dir="auto">{place.name}</h2>
+						<address class="stack text-body">
+							<p>
+								{place.address.street}<br />
+								{place.address.city}, {place.address.state} {place.address.zip}
+							</p>
+							<p>
+								<a href={telHref(place.phone)}>{place.phone}</a>
+								{place.email && (
+									<>
+										<br />
+										<a href={`mailto:${place.email}`}>{place.email}</a>
+									</>
+								)}
+							</p>
+						</address>
+					</li>
+				))}
+			</ul>
+		)}
 	</div>
 </Section>
 

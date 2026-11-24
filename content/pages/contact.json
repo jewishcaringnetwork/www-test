@@ -6,7 +6,9 @@
 	},
 	"blocks": [
 		{
-			"type": "contact",
+			"type": "form",
+			"heading": "Send us a message",
+			"form": "contact",
 			"locations": [
 				{
 					"name": "Jewish Caring Network",
@@ -31,11 +33,6 @@
 					"email": "info@tikvahouse.org"
 				}
 			]
-		},
-		{
-			"type": "form",
-			"heading": "Send us a message",
-			"form": "contact"
 		}
 	]
 }
