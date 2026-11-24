@@ -9,7 +9,7 @@
  * line, and are never marked "(optional)".
  */
 import Phosphor from '~/components/phosphor.astro';
-import type { FormField } from '~/schemas/forms';
+import { formatErrors, type FormField, phonePattern } from '~/schemas/forms';
 
 interface Props {
 	field: FormField;
@@ -37,7 +37,11 @@ const control = {
 	'aria-describedby': describedBy,
 	'data-field': true,
 	'data-grouped': grouped || undefined,
+	pattern: field.type === 'tel' ? phonePattern : undefined,
 	'data-missing': field.missing,
+	'data-invalid': field.type === 'email' || field.type === 'tel'
+		? formatErrors[field.type]
+		: undefined,
 	'data-error-id': errorId,
 };
 ---
@@ -94,16 +98,17 @@ const control = {
 		resize: vertical;
 	}
 
-	/* Checkbox: box first, label beside it, hint under the label */
+	/* Checkbox: box first, label beside it, hint under the label. Sized to
+	   the text, so a yes/no option stays quieter than the fields. */
 	.checkbox {
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr);
-		column-gap: var(--space-xs);
+		gap: 0 var(--space-2xs);
 		align-items: center;
 
 		input {
-			inline-size: 1.5rem;
-			block-size: 1.5rem;
+			inline-size: 1.125rem;
+			block-size: 1.125rem;
 			margin: 0;
 			accent-color: var(--color-brand-blue);
 
@@ -113,10 +118,9 @@ const control = {
 			}
 		}
 
+		/* Padding widens the click target without spacing out the hint */
 		label {
-			display: flex;
-			align-items: center;
-			min-block-size: 44px;
+			padding-block: var(--space-3xs);
 		}
 
 		.hint {

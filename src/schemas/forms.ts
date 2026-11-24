@@ -108,6 +108,28 @@ export type FormField = z.infer<typeof fieldSchema>;
 export type FormGroup = z.infer<typeof groupSchema>;
 export type FormDefinition = z.infer<typeof formSchema>;
 
+/**
+ * A phone number: 10 to 15 digits, optionally with a leading +, spaces,
+ * dashes, dots or brackets, e.g. 410-602-6075, (410) 602 6075 or
+ * +972 2 555 1234. An HTML `pattern` (whole value, `v` flag), so browsers
+ * enforce it even without the form's script.
+ */
+export const phonePattern = String
+	.raw`\+?[\s\(\)\.\-]*(?:\d[\s\(\)\.\-]*){10,15}`;
+
+/** Errors for answers in the wrong format, by field type. */
+export const formatErrors = {
+	email: 'Enter an email address like name@example.com.',
+	tel: 'Enter a phone number like 410-602-6075.',
+} as const;
+
+const phone = {
+	name: 'phone',
+	label: 'Phone',
+	type: 'tel',
+	autocomplete: 'tel',
+} as const;
+
 const define = (form: z.input<typeof formSchema>) => formSchema.parse(form);
 
 const name = {
@@ -159,12 +181,7 @@ export const netlifyForms = {
 				hint: 'A phone number, an email, or both.',
 				missing: 'Enter a phone number or an email address.',
 				fields: [
-					{
-						name: 'phone',
-						label: 'Phone',
-						type: 'tel',
-						autocomplete: 'tel',
-					},
+					phone,
 					{ ...email, required: false, missing: undefined },
 				],
 			},
@@ -182,13 +199,8 @@ export const netlifyForms = {
 		title: 'Share Your Story',
 		fields: [
 			name,
-			{
-				name: 'anonymous',
-				label: 'Stay anonymous',
-				type: 'checkbox',
-				hint: 'If we share your story, we won’t use your name.',
-			},
 			email,
+			phone,
 			{
 				name: 'title',
 				label: 'Story title',
@@ -202,6 +214,12 @@ export const netlifyForms = {
 				type: 'textarea',
 				required: true,
 				missing: 'Enter your story.',
+			},
+			{
+				// Unticked keeps the name private, so missing it is the safe way
+				name: 'show-name',
+				label: 'Show my name with my story',
+				type: 'checkbox',
 			},
 		],
 		submit: 'Send',

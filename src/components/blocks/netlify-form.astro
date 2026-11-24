@@ -8,12 +8,13 @@
  * - Spam: a honeypot field (`bot-field`) that people never see; Netlify
  *   drops any submission that fills it. Akismet filters the rest.
  * - Validation is client-side only (issue #30): required fields, email
- *   format, and "at least one of" groups such as phone or email. Errors
+ *   and phone format (`phonePattern`), and "at least one of" groups such
+ *   as phone or email. Errors
  *   show under each label and focus moves to the first one.
  * - Sending: the script posts the form URL-encoded to `/` and shows the
  *   confirmation in place, or an alert above the button if it fails, with
  *   the form left filled in. Without JavaScript the browser posts the form
- *   itself: required fields and email format still hold (not the groups),
+ *   itself: required fields and email and phone format still hold (not the groups),
  *   and Netlify shows its own thank-you page.
  */
 import type { CollectionEntry } from 'astro:content';
@@ -252,12 +253,11 @@ const groupId = (group: FormGroup) => `${name}-${group.fields[0]!.name}-group`;
 <script>
 	type Control = HTMLInputElement | HTMLTextAreaElement;
 
-	const emailFormat = 'Enter an email address like name@example.com.';
-
 	const problem = (control: Control) => {
-		if (control.validity.valueMissing) return control.dataset.missing ?? null;
-		if (control.validity.typeMismatch && control.type === 'email') {
-			return emailFormat;
+		const { validity, dataset } = control;
+		if (validity.valueMissing) return dataset.missing ?? null;
+		if (validity.typeMismatch || validity.patternMismatch) {
+			return dataset.invalid ?? null;
 		}
 		return null;
 	};

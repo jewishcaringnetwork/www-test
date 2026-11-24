@@ -7,6 +7,7 @@ import {
 	groupSchema,
 	isNetlifyForm,
 	netlifyForms,
+	phonePattern,
 } from './forms.ts';
 
 const name = {
@@ -50,6 +51,14 @@ describe('netlifyForms', () => {
 		const group = netlifyForms.volunteer.fields.find((f) => 'fields' in f);
 		assert.ok(group && 'fields' in group);
 		assert.deepEqual(group.fields.map((f) => f.name), ['phone', 'email']);
+	});
+
+	it('story shows the name only when ticked', () => {
+		const field = netlifyForms.story.fields.find((f) =>
+			'name' in f && f.type === 'checkbox'
+		);
+		assert.ok(field && 'name' in field);
+		assert.equal(field.name, 'show-name');
 	});
 
 	it('knows which forms are Netlify forms', () => {
@@ -139,5 +148,35 @@ describe('duplicateForms', () => {
 		]);
 		assert.equal(errors.length, 1);
 		assert.match(errors[0]!, /contact, about/);
+	});
+});
+
+describe('phonePattern', () => {
+	// As the browser applies an HTML pattern: whole value, v flag
+	const phone = new RegExp(`^(?:${phonePattern})$`, 'v');
+
+	it('accepts common ways of writing a number', () => {
+		for (
+			const v of [
+				'410-602-6075',
+				'(410) 602 6075',
+				'410.602.6075',
+				'4106026075',
+				'+1 410 602 6075',
+				'+972 2 555 1234',
+			]
+		) assert.ok(phone.test(v), v);
+	});
+
+	it('rejects letters, short numbers and punctuation alone', () => {
+		for (
+			const v of [
+				'abc',
+				'410-602',
+				'----------',
+				'410-602-6075 x12',
+				'1'.repeat(16),
+			]
+		) assert.ok(!phone.test(v), v);
 	});
 });
