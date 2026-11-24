@@ -168,7 +168,7 @@ describe('pageSchema', () => {
 	it('converts to JSON Schema for the MCP server', () => {
 		const json = z.toJSONSchema(page, { io: 'input' }) as any;
 		const items = json.properties.blocks.items;
-		assert.equal((items.oneOf ?? items.anyOf).length, 11);
+		assert.equal((items.oneOf ?? items.anyOf).length, 12);
 	});
 });
 

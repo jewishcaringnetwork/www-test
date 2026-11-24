@@ -1,0 +1,79 @@
+{
+	"title": "About Us",
+	"header": {
+		"type": "header",
+		"lead": "The Jewish Caring Network is a non-profit, 501(c)(3) organization dedicated to providing a full range of support services to families facing life-threatening, lifelong, and serious illnesses while preserving their privacy and their dignity."
+	},
+	"blocks": [
+		{
+			"type": "prose",
+			"markdown": "## Our Mission & History\n\n### It began with a friend named Yarden\n\nIn 1996, a friend — Jordan, or Yarden in Hebrew — was diagnosed with cancer. The community responded with meals, visits and fundraising. From that outpouring came a question: what if these resources could be organized to carry other families, too?\n\n[Read more about our history](/about/history)"
+		},
+		{
+			"type": "impact",
+			"heading": "Impact",
+			"intro": "Support that reaches the whole family",
+			"items": [
+				{
+					"value": "30",
+					"label": "years caring for families, since 1996",
+					"source": {
+						"document": "JCN_Impact_Sponsorship_Opportunities.pdf",
+						"date": "2026-11-15"
+					}
+				},
+				{
+					"value": "17,000",
+					"label": "meals provided each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "1,300",
+					"label": "hours of cleaning help and nursing care each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "21,000",
+					"label": "overnight stays at Tikva House in 13 years",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				}
+			]
+		},
+		{
+			"type": "ratings",
+			"heading": "Financials",
+			"intro": "Independently rated by Candid and Charity Navigator."
+		},
+		{
+			"type": "cards",
+			"heading": "More about us",
+			"items": [
+				{
+					"title": "Leadership",
+					"text": "Our President, our CEO and the Board of Directors.",
+					"icon": "users-three",
+					"link": {
+						"href": "/about/leadership"
+					}
+				},
+				{
+					"title": "History",
+					"text": "Our mission, how Gevuras Yarden began, and Gevuras Rina.",
+					"icon": "book-open",
+					"link": {
+						"href": "/about/history"
+					}
+				}
+			]
+		}
+	]
+}

@@ -107,6 +107,7 @@ describe('blockSchema', () => {
 		logos: { type: 'logos', items: [{ name: 'Sponsor', image: img }] },
 		stories: { type: 'stories' },
 		people: { type: 'people', group: 'board' },
+		ratings: { type: 'ratings' },
 	};
 
 	for (const [type, data] of Object.entries(minimal)) {
