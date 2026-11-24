@@ -197,7 +197,7 @@ export const netlifyForms = {
 				hint: 'What you enjoy doing and when you’re free.',
 			},
 		],
-		submit: 'Send message',
+		submit: 'Offer to help',
 		confirmation: 'We’ll be in touch in the next few days with next steps.',
 	}),
 	story: define({
