@@ -16,6 +16,6 @@
 	},
 	"finance": {
 		"candid": { "seal": "gold", "year": 2026 },
-		"charityNavigator": { "stars": 3 }
+		"charityNavigator": { "stars": 3, "year": 2026 }
 	}
 }

@@ -162,7 +162,7 @@ Read more
 ### Financials
 
 - (link to charity navigator)
-- (link to BBB Wise Giving Alliance)
+- (no BBB Wise Giving Alliance: JCN isn't accredited)
 - (links to financial documents)
 
 ## About Us > Leadership

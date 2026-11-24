@@ -5,10 +5,12 @@
  * so no third-party JavaScript loads.
  *
  * Images live in src/assets/charity-ratings/, named by what the content says:
- * `candid-<seal>-<year>.svg` (the seal prints both), and optionally
- * `charity-navigator-<stars>-star.svg|png`. A Candid seal with no matching
- * file fails the build, so the seal can't disagree with the content. Without
- * a Charity Navigator file the rating shows as a text badge.
+ * `candid-<seal>-<year>.svg` and `charity-navigator-<stars>-star-<year>.png`
+ * (each badge prints both). A Candid seal with no matching file fails the
+ * build, so the seal can't disagree with the content. Without a Charity
+ * Navigator file the rating shows as a text badge, which has no year to get
+ * wrong. Use Charity Navigator's transparent full-colour badge: its white
+ * interior reads on the dark footer and the light Donate page alike.
  *
  * Colour follows the surrounding text. Set `--rating-star` for the stars
  * and `--rating-size` for the badge height (default 96px).
@@ -39,8 +41,11 @@ if (candidSeal && !candidSeal.src) {
 }
 
 const navigator = charityNavigator && {
-	label: `Charity Navigator ${charityNavigator.stars}-Star rating`,
-	src: imageFor(`charity-navigator-${charityNavigator.stars}-star`),
+	label:
+		`Charity Navigator ${charityNavigator.stars}-Star Rating ${charityNavigator.year}`,
+	src: imageFor(
+		`charity-navigator-${charityNavigator.stars}-star-${charityNavigator.year}`,
+	),
 };
 ---
 
@@ -108,7 +113,14 @@ const navigator = charityNavigator && {
 			<li>
 				<a href={ratingProfiles.charityNavigator}>
 					{navigator.src
-						? <img src={navigator.src} alt={navigator.label} height="96" />
+						? (
+						 <img
+							 src={navigator.src}
+							 alt={navigator.label}
+							 width="96"
+							 height="96"
+						 />
+					 )
 						: (
 						 <span class="text-badge | text-small">
 							 <span class="stars" aria-hidden="true">
