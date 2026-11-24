@@ -15,3 +15,338 @@ for = "/*"
 
 [headers.values]
 Content-Security-Policy = "frame-src 'self' https://jewishcaringnetwork.admirepro.app https://app.netlify.com"
+
+# Old WordPress URLs to v1 pages, from the posts and pages in the WordPress
+# database dump (2026-10-15). Mapping notes: docs/wordpress-redirects.md.
+#
+# Netlify uses the first rule that matches and ignores trailing slashes, so
+# exact paths come before each section's catch-all. A `/section/*` rule also
+# matches `/section` itself, so sections whose path is still a v1 route
+# (/donate, /get-involved, /contact) list their old children one by one.
+
+# About JCN
+[[redirects]]
+from = "/about-jcn/history-mission"
+to = "/about/history"
+status = 301
+
+[[redirects]]
+from = "/about-jcn/board-staff"
+to = "/about/leadership"
+status = 301
+
+[[redirects]]
+from = "/about-jcn/services"
+to = "/services"
+status = 301
+
+[[redirects]]
+from = "/about-jcn/*"
+to = "/about"
+status = 301
+
+[[redirects]]
+from = "/service/*"
+to = "/services"
+status = 301
+
+[[redirects]]
+from = "/staff-member/*"
+to = "/about/leadership"
+status = 301
+
+# Tikva House (Planning Your Stay is removed)
+[[redirects]]
+from = "/the-tikva-house/give-to-tikva-house"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/the-tikva-house/*"
+to = "/tikva-house"
+status = 301
+
+# Giving. /donate was the old front page; only its child pages move.
+[[redirects]]
+from = "/donate/4459-2"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/donate/4464-2"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/donate/bringing-sholom"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/get-involved/donate"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/funds-programs"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/funds/*"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/fund-donate"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/tikva-funds"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/thank-you"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/cancel"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/rhyk2026"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/rhyk2026-new"
+to = "/donate"
+status = 301
+
+[[redirects]]
+from = "/recuring-donation-demo"
+to = "/donate"
+status = 301
+
+# Get Involved (wish list and Tehillim are removed)
+[[redirects]]
+from = "/get-involved/become-a-corporate-sponsor"
+to = "/get-involved"
+status = 301
+
+[[redirects]]
+from = "/get-involved/fundraising-opportunities"
+to = "/get-involved"
+status = 301
+
+[[redirects]]
+from = "/get-involved/give-to-our-wish-list"
+to = "/get-involved"
+status = 301
+
+[[redirects]]
+from = "/get-involved/shop-amazon-smile"
+to = "/get-involved"
+status = 301
+
+[[redirects]]
+from = "/get-involved/tehillim-list/*"
+to = "/get-involved"
+status = 301
+
+[[redirects]]
+from = "/get-involved/ways-support-jcn"
+to = "/get-involved"
+status = 301
+
+[[redirects]]
+from = "/tehillim/*"
+to = "/get-involved"
+status = 301
+
+# Family stories
+[[redirects]]
+from = "/inspiration/personal-stories/share-your-story"
+to = "/family-stories/share"
+status = 301
+
+[[redirects]]
+from = "/inspiration/*"
+to = "/family-stories"
+status = 301
+
+[[redirects]]
+from = "/the-fine-family-interview"
+to = "/family-stories"
+status = 301
+
+# Contact
+[[redirects]]
+from = "/contact/thank-you"
+to = "/contact"
+status = 301
+
+# Removed sections go to Home, their parent: the 5K, news and events (with
+# the old blog posts and their categories), resources and videos, the shop and
+# the caring journals.
+[[redirects]]
+from = "/jcn-5k-care-run/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/jcn-5k-glow-run/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/news-events/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/category/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/chanukah-toy-drive-2024"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/fundraising-campaign-2026"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/group-of-highschool-girls-from-columbusohio-cleaning-tikva-house-for-passover"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/hershey-park-trip-sukkot-2011"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/mens-5k-care-run-2018"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/womens-5k-care-run-2018"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/mrs-chaya-greenwald-honored"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/mrs-liz-lefkowitz-honored"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/passing-chaiya-drabkin"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/passover-2018"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/rosh-hashana-2018"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/thank-talmudical-academy"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/resources/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/resource/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/user-video/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/caring/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/journal-entries/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/shop/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/product/*"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/cart"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/checkout"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/my-account"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/regester-form"
+to = "/"
+status = 301
+
+# An untitled, empty published page
+[[redirects]]
+from = "/4359-2"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/sitemap"
+to = "/"
+status = 301
+
+# No legal pages yet (src/config.ts legalLinks is empty). These stop applying
+# once a page exists at the same path.
+[[redirects]]
+from = "/privacy-policy"
+to = "/"
+status = 301
+
+[[redirects]]
+from = "/terms-conditions"
+to = "/"
+status = 301
