@@ -23,11 +23,14 @@
  *   centre. The frame is 90px wider than the panel and shifted left by that
  *   much, with the panel clipping it, which centres the card. Nothing in the
  *   frame starts within 90px of its left edge.
- * - Height: 1387px narrow and 1251px wide by default, up to 1555 and 1419px
- *   with "Monthly" and "Enter address manually", plus about 85px for the
- *   Cloudflare check Admire shows only when embedded. The heights below
- *   cover that. Anything taller still scrolls inside the frame rather than
- *   being cut off, so `scrolling` stays on.
+ * - Height, as it renders in the embed (Cloudflare check included): about
+ *   1250px wide and 1400px narrow by default, and 168px more with "Monthly"
+ *   and "Enter address manually". The frame starts at the default height,
+ *   so there's no empty band under the form. The first time focus moves
+ *   into the frame (a click or Tab), it grows to fit the expanded form; the
+ *   parent page can't see inside the frame, so it can't grow on the exact
+ *   click. Anything taller scrolls inside the frame rather than being cut
+ *   off, so `scrolling` stays on.
  *
  * Re-measure if Admire changes the form.
  */
@@ -75,14 +78,22 @@ const srcBySlug = Object.fromEntries(
 	iframe {
 		display: block;
 		inline-size: 100%;
-		block-size: 1660px;
+		block-size: 1410px;
 		border: 0;
+
+		&[data-engaged] {
+			block-size: 1590px;
+		}
 
 		@container (min-width: 704px) {
 			/* Physical left: Admire's offset doesn't flip with our direction */
 			inline-size: calc(100% + var(--admire-offset));
 			margin-left: calc(-1 * var(--admire-offset));
-			block-size: 1520px;
+			block-size: 1260px;
+
+			&[data-engaged] {
+				block-size: 1440px;
+			}
 		}
 	}
 
@@ -124,10 +135,21 @@ const srcBySlug = Object.fromEntries(
 </Section>
 
 <script is:inline define:vars={{ srcBySlug }}>
+	const frame = document.querySelector('[data-donate-embed]');
 	const fund = new URLSearchParams(location.search).get('fund');
 	const src = Object.hasOwn(srcBySlug, fund ?? '') ? srcBySlug[fund] : null;
 	if (src) {
-		document.querySelector('[data-donate-embed]').src = src;
+		frame.src = src;
 		document.querySelector('[data-donate-fallback]').href = src;
 	}
+
+	// Focus moving into the frame blurs this window; make room for the form
+	// to expand (Monthly, manual address) before it does.
+	const engage = () =>
+		setTimeout(() => {
+			if (document.activeElement !== frame) return;
+			frame.dataset.engaged = '';
+			removeEventListener('blur', engage);
+		});
+	addEventListener('blur', engage);
 </script>
