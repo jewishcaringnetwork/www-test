@@ -28,7 +28,10 @@ const { address } = block;
 ---
 
 <style>
-	/* A .card whose photo runs to its edges */
+	/*
+	 * A large .card whose photo runs to its edges: the card's padding moves
+	 * to the details.
+	 */
 	.panel {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
@@ -47,11 +50,7 @@ const { address } = block;
 	.details {
 		--stack-gap: var(--space-m);
 
-		padding: var(--space-xl);
-
-		@media (max-width: 48rem) {
-			padding: var(--space-m);
-		}
+		padding: var(--card-padding);
 
 		/* Bottom only: the top margin is the stack's gap */
 		:is(h3, p, dl, dd) {
@@ -133,7 +132,7 @@ const { address } = block;
 	heading={block.heading}
 	intro={block.intro}
 >
-	<div class="panel | card">
+	<div class="panel | card" data-size="large">
 		<div class="details | stack">
 			<h3 class="text-h3" dir="auto">{block.name}</h3>
 			<dl class="text-body">

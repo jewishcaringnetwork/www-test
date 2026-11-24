@@ -1,13 +1,15 @@
 ---
 /**
- * A call-to-action band for one of the page's main asks (`hierarchy.cta`).
+ * A call-to-action band for one of the page's main asks (`hierarchy.cta`):
+ * a large `.card` (src/css/block/card.css) with the heading and text, then
+ * the buttons below them.
  *
- * - `brand`: the loud one. A brand-blue band, h2 in white, inverse buttons
- *   (the gold donate button keeps its fill). Use sparingly, so it stays loud.
- * - `subtle`: a white `.card` panel (src/css/block/card.css) of the same
- *   shape, with ordinary buttons and a smaller heading, for support or a second ask (e.g. Home's
- *   support teaser). No gold: gold surfaces are for donation prompts, and
- *   the brand-gold fill is the donate button's.
+ * - `brand`: the loud one. The card's brand tone (blue, white text), an h2
+ *   and inverse buttons (the gold donate button keeps its fill). Use
+ *   sparingly, so it stays loud.
+ * - `subtle`: the plain white card, a smaller heading and ordinary buttons,
+ *   for support or a second ask. No gold: the brand-gold fill is the donate
+ *   button's.
  */
 import type { CollectionEntry } from 'astro:content';
 import Button from '~/components/button.astro';
@@ -32,48 +34,9 @@ const id = `cta-${
 ---
 
 <style>
-	.band {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-l) var(--space-xl);
-		/* Both tones share one shape: equal padding on every side, same radius */
-		padding: var(--space-xl);
-		border-radius: var(--radius-xl);
-
-		@media (max-width: 48rem) {
-			padding: var(--space-l);
-		}
-
-		&[data-tone='brand'] {
-			background: var(--color-surface-brand);
-			color: var(--color-text-on-brand);
-
-			h2 {
-				color: var(--color-text-on-brand);
-			}
-
-			.text {
-				color: var(--color-blue-100);
-			}
-		}
-
-		&[data-tone='subtle'] {
-			h2 {
-				color: var(--color-text-heading);
-			}
-
-			.text {
-				color: var(--color-text-secondary);
-			}
-		}
-	}
-
 	.copy {
 		--stack-gap: var(--space-xs);
 
-		flex: 1 1 24rem;
 		max-inline-size: 40rem;
 
 		:is(h2, p) {
@@ -81,18 +44,24 @@ const id = `cta-${
 		}
 	}
 
+	h2 {
+		color: var(--color-text-heading);
+	}
+
+	.text {
+		color: var(--color-text-secondary);
+	}
+
 	/* One or two buttons in a row, wrapping when narrow. No quiet link: a
 	 * second, lesser action is a secondary button. */
 	.do {
 		--cluster-gap: var(--space-xs) var(--space-m);
 		--cluster-valign: center;
-
-		flex: 0 1 auto;
 	}
 </style>
 
 <Section type="cta" background={background} aria-labelledby={id}>
-	<div class:list={['band', !brand && 'card']} data-tone={block.tone}>
+	<div class="band | card stack" data-size="large" data-tone={block.tone}>
 		<div class="copy | stack">
 			<h2
 				id={id}

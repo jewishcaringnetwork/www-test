@@ -1,27 +1,64 @@
 /**
  * Card
- * A white panel that sits on the page: subtle border, large radius. Used by
- * the cards block, the contact panel and the subtle CTA.
+ * A panel that sits on the page: subtle border, rounded corners, its own
+ * padding. Used by the cards block, the contact panel and the CTA band.
+ *
+ * - Default: a small card in a grid (the cards block).
+ * - `data-size="large"`: a section-wide panel (CTA band, contact panel):
+ *   more padding, a larger radius and a wider gap between its parts.
+ * - `data-tone="brand"`: a brand-blue panel with on-brand text, for the
+ *   page's main ask (the brand CTA).
+ *
+ * The card owns its spacing as custom properties, so what's inside follows
+ * without restating it: `--card-padding` (a child that runs to the card's
+ * edges, like the contact photo, can pad itself with it) and `--stack-gap`
+ * for a card that is also a `.stack`. Kochav resets `--stack-gap` one level
+ * down, so it never leaks into stacks nested inside.
  *
  * Cards are not clickable as a whole: links inside them are ordinary links,
  * so card text stays selectable. That's also why cards take no shadow
  * (shadow.s is for clickable cards).
  *
- * A card is always a light surface, even on a blue section band, which swaps
- * the text tokens for on-brand ones (src/css/block/section.css).
- * The card sets them back to the values in src/tokens/color.json.
+ * A light card is always light, even on a blue section band, which swaps
+ * the text tokens for on-brand ones (src/css/block/section.css). The card
+ * sets them back to the values in src/tokens/color.json.
  */
 
 .card {
+	--card-padding: var(--space-m);
+	--card-radius: var(--radius-l);
+	--stack-gap: var(--space-2xs);
 	--color-text-primary: var(--color-neutral-900);
 	--color-text-secondary: var(--color-neutral-600);
 	--color-text-heading: var(--color-brand-blue);
 	--color-text-link: var(--color-brand-blue);
 	--color-focus-ring: var(--color-blue-400);
 
-	padding: var(--space-m);
+	padding: var(--card-padding);
 	border: 1px solid var(--color-border-subtle);
-	border-radius: var(--radius-l);
+	border-radius: var(--card-radius);
 	background: var(--color-surface-card);
 	color: var(--color-text-primary);
+
+	&[data-size='large'] {
+		--card-padding: var(--space-xl);
+		--card-radius: var(--radius-xl);
+		--stack-gap: var(--space-m);
+
+		@media (max-width: 48rem) {
+			--card-padding: var(--space-l);
+		}
+	}
+
+	/* Same text tokens as the blue section band */
+	&[data-tone='brand'] {
+		--color-text-primary: var(--color-text-on-brand);
+		--color-text-secondary: var(--color-text-on-brand-secondary);
+		--color-text-heading: var(--color-text-on-brand);
+		--color-text-link: var(--color-text-link-on-brand);
+		--color-focus-ring: var(--color-brand-gold);
+
+		border-color: transparent;
+		background: var(--color-surface-brand);
+	}
 }
