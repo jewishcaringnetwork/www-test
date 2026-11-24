@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jewishcaringnetwork.org/sitemap-index.xml
