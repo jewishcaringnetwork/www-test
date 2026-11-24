@@ -196,7 +196,7 @@ export const netlifyForms = {
 		confirmation: 'We’ll be in touch in the next few days with next steps.',
 	}),
 	story: define({
-		title: 'Share Your Story',
+		title: 'Story form',
 		fields: [
 			name,
 			email,

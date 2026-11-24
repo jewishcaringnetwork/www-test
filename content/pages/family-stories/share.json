@@ -8,6 +8,7 @@
 	"blocks": [
 		{
 			"type": "form",
+			"heading": "Share your story",
 			"form": "story"
 		}
 	]
