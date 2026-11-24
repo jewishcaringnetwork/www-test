@@ -57,6 +57,11 @@ const control = {
 		:is(label, p) {
 			margin-block-end: 0;
 		}
+
+		/* The label font at body size: never smaller than the answer */
+		> label {
+			font-size: var(--font-size-m);
+		}
 	}
 
 	.hint {
@@ -106,21 +111,55 @@ const control = {
 		gap: 0 var(--space-2xs);
 		align-items: center;
 
+		/* Drawn here rather than left to the browser, so the box has the
+		   inputs' edge color and corners in every browser */
 		input {
-			inline-size: 1.125rem;
-			block-size: 1.125rem;
+			display: grid;
+			place-content: center;
+			inline-size: 1.25rem;
+			block-size: 1.25rem;
 			margin: 0;
-			accent-color: var(--color-brand-blue);
+			border: 1.5px solid var(--color-border-strong);
+			border-radius: var(--radius-s);
+			background: var(--color-surface-card);
+			appearance: none;
+			cursor: pointer;
+
+			&::before {
+				content: '';
+				inline-size: 0.75rem;
+				block-size: 0.75rem;
+				background: var(--color-text-on-brand);
+				clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+				transform: scale(0);
+			}
+
+			&:checked {
+				border-color: var(--color-brand-blue);
+				background: var(--color-brand-blue);
+
+				&::before {
+					transform: scale(1);
+				}
+			}
 
 			&:focus-visible {
 				outline: 2px solid var(--color-focus-ring);
 				outline-offset: 2px;
+			}
+
+			/* High-contrast modes drop backgrounds; keep the check visible */
+			@media (forced-colors: active) {
+				&::before {
+					background: CanvasText;
+				}
 			}
 		}
 
 		/* Padding widens the click target without spacing out the hint */
 		label {
 			padding-block: var(--space-3xs);
+			cursor: pointer;
 		}
 
 		.hint {

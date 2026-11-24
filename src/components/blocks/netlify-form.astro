@@ -76,8 +76,10 @@ const groupId = (group: FormGroup) => `${name}-${group.fields[0]!.name}-group`;
 		border: 0;
 		min-inline-size: 0;
 
+		/* Same size as the field labels (form-field.astro) */
 		legend {
 			padding: 0;
+			font-size: var(--font-size-m);
 		}
 
 		.lead {
