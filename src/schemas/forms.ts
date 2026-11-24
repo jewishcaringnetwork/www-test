@@ -50,7 +50,7 @@ export const fieldSchema = z
 		}),
 		autocapitalize: z.enum(['words']).optional().meta({
 			description:
-				'Phone keyboards start each word with a capital, for names and titles. Omit for everything else: text fields already capitalize each sentence.',
+				"Phone keyboards start each word with a capital, for people's names. Omit for everything else: text fields already capitalize each sentence.",
 		}),
 	})
 	.refine((f) => !f.required || f.missing, {
@@ -212,7 +212,6 @@ export const netlifyForms = {
 				type: 'text',
 				required: true,
 				missing: 'Enter a title for your story.',
-				autocapitalize: 'words',
 			},
 			{
 				name: 'story',
