@@ -107,7 +107,7 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
 | `prose`     | markdown                                                                  | General text, Services lists, History |
 | `mediaText` | heading, markdown, images (1–2), imageSide `start\|end`                   | Tikva "What's included"               |
 | `cards`     | header, items (2–6: title, text, icon?, link?), link?                     | Services teaser                       |
-| `stats`     | header, items (2–4: value, label)                                         | Impact                                |
+| `impact`    | header, items (2–8: value, label, source), link?                          | Impact (Home, About)                  |
 | `faq`       | header, items (1–12: question, answer markdown)                           | Plan Your Stay                        |
 | `cta`       | heading, text?, actions (1–2), tone `brand\|subtle`                       | Donate / volunteer / support teasers  |
 | `contact`   | header, name, address, phone, email?, image?, link?                       | Tikva "Request a Stay", Contact page  |

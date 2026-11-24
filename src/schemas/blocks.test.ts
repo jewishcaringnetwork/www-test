@@ -19,7 +19,8 @@ const card = {
 	title: 'Family support',
 	text: 'Meals, childcare and household help.',
 };
-const stat = { value: '30', label: 'years serving families' };
+const source = { document: 'JCN26 Infographic WWW.pdf', date: '2026-06-14' };
+const figure = { value: '17,000', label: 'meals provided each year', source };
 
 const ok = (schema: z.ZodType, data: unknown) => {
 	const result = schema.safeParse(data);
@@ -84,7 +85,7 @@ describe('blockSchema', () => {
 			items: [{ ...card, icon: 'heartbeat' }, card],
 			link,
 		},
-		stats: { type: 'stats', items: [stat, stat] },
+		impact: { type: 'impact', items: [figure, figure] },
 		faq: {
 			type: 'faq',
 			items: [{ question: 'Is parking free?', answer: 'Yes.' }],
@@ -126,7 +127,7 @@ describe('blockSchema', () => {
 	});
 
 	it('rejects unknown keys in blocks and items', () => {
-		bad(block, { ...minimal.stats, icon: 'house' });
+		bad(block, { ...minimal.impact, icon: 'house' });
 		bad(block, {
 			type: 'faq',
 			items: [{ question: 'Is parking free?', answer: 'Yes.', id: 1 }],
@@ -153,5 +154,42 @@ describe('blockSchema', () => {
 			type: 'cards',
 			items: [{ ...card, icon: 'not-an-icon' }, card],
 		});
+	});
+});
+
+describe('impact block', () => {
+	const impact = (items: unknown[]) => ({ type: 'impact', items });
+
+	it('needs a source for every figure', () => {
+		const { source: _, ...unsourced } = figure;
+		bad(block, impact([figure, unsourced]));
+	});
+
+	it('takes the source date as YYYY-MM-DD', () => {
+		bad(
+			block,
+			impact([figure, { ...figure, source: { ...source, date: 'June 2026' } }]),
+		);
+		bad(
+			block,
+			impact([figure, {
+				...figure,
+				source: { ...source, date: '2026-13-01' },
+			}]),
+		);
+	});
+
+	it('rejects unknown keys in the source', () => {
+		bad(block, impact([figure, { ...figure, source: { ...source, page: 4 } }]));
+	});
+
+	it('takes two to eight figures', () => {
+		bad(block, impact([figure]));
+		ok(block, impact(Array(8).fill(figure)));
+		bad(block, impact(Array(9).fill(figure)));
+	});
+
+	it('keeps values short enough to show large', () => {
+		bad(block, impact([figure, { ...figure, value: '17,000 meals a year' }]));
 	});
 });

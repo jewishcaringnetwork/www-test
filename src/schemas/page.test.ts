@@ -106,10 +106,24 @@ describe('pageSchema', () => {
 			},
 			blocks: [
 				{
-					type: 'stats',
+					type: 'impact',
 					items: [
-						{ value: '30', label: 'years serving families' },
-						{ value: '$xxx', label: 'saved' },
+						{
+							value: '30',
+							label: 'years caring for families, since 1996',
+							source: {
+								document: 'JCN_Impact_Sponsorship_Opportunities.pdf',
+								date: '2026-11-15',
+							},
+						},
+						{
+							value: '21,000',
+							label: 'overnight stays at Tikva House in 13 years',
+							source: {
+								document: 'JCN26 Infographic WWW.pdf',
+								date: '2026-06-14',
+							},
+						},
 					],
 				},
 				{

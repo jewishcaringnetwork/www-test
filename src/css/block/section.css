@@ -28,7 +28,7 @@
 	}
 
 	/*
-	 * Kept for a future block (e.g. impact numbers). It swaps the text tokens
+	 * For emphasis: the impact block, once per landing page. It swaps the text tokens
 	 * for on-brand ones, so the block's text, headings and links follow
 	 * without knowing about bands. A .card inside swaps them back
 	 * (src/css/block/card.css).

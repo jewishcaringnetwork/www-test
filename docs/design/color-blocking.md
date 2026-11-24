@@ -17,9 +17,9 @@ and stays the base.
    band loses its edge.
 4. **Content never picks a background.** The page works it out from the header
    type and each block's type, so editors and Claude can't break these rules.
-5. **Blue is for emphasis, not a default.** No current block uses it. It's kept
-   as a variant for a future block it suits, such as impact numbers, and then at
-   most once per page. No page needs one.
+5. **Blue is for emphasis, not a default.** Only the impact-numbers block uses
+   it, and only the first one on a landing page; a second is an open section.
+   The open section after the blue band is white.
 6. **No gold band.** Gold is a secondary accent and the Donate button's fill,
    not a section background.
 
@@ -30,8 +30,8 @@ The backgrounds are the `color.section.*` tokens in `src/tokens/color.json`.
 - **paper:** `surface.page`, the page itself.
 - **white:** `neutral.0`, edged top and bottom with `border.subtle`, since white
   is only 1.06:1 against paper.
-- **blue (reserved):** brand blue. The band swaps the text tokens for on-brand
-  ones, and a `.card` inside swaps them back:
+- **blue:** brand blue, for the impact block. The band swaps the text tokens for
+  on-brand ones, and a `.card` inside swaps them back:
 
 | On the blue band | Token                     | Contrast |
 | ---------------- | ------------------------- | -------- |
@@ -50,5 +50,6 @@ Links on blue are white like the body text, so they are always underlined.
 - `src/pages/[...slug].astro` calls it and passes each block its background;
   `src/css/block/section.css` paints it; `src/css/block/card.css` resets the
   text tokens inside cards.
-- To give a future block the blue variant, return `blue` for it from
-  `sectionBackgrounds()` and keep rule 5's once-per-page limit.
+- `sectionBackgrounds()` names the one block type that gets blue (`impact`). To
+  give it to another type instead, change it there and keep rule 5's
+  once-per-page limit.
