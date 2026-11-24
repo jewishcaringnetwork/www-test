@@ -16,7 +16,7 @@ done separately afterwards.
       jewishcaringnetwork/www-test#34
 - [ ] Titles, meta descriptions, OG image and favicon on every page.
 - [ ] Accessibility pass: keyboard, focus, contrast, form labels.
-- [ ] Lighthouse on Home, Tikva House and Ways to Give.
+- [ ] Lighthouse on Home, Tikva House and Donate.
 - [ ] Client signs off on v1 at the Netlify URL.
 
 ## Repo
