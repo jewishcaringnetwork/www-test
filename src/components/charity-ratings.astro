@@ -10,7 +10,8 @@
  * file fails the build, so the seal can't disagree with the content. Without
  * a Charity Navigator file the rating shows as a text badge.
  *
- * Colour follows the surrounding text; set `--rating-star` for the stars.
+ * Colour follows the surrounding text. Set `--rating-star` for the stars
+ * and `--rating-size` for the badge height (default 96px).
  */
 import { finance, ratingProfiles } from '~/config';
 
@@ -63,7 +64,7 @@ const navigator = charityNavigator && {
 	img {
 		display: block;
 		inline-size: auto;
-		block-size: 96px;
+		block-size: var(--rating-size, 96px);
 	}
 
 	.text-badge {
@@ -71,7 +72,7 @@ const navigator = charityNavigator && {
 		flex-direction: column;
 		justify-content: center;
 		gap: var(--space-3xs);
-		block-size: 96px;
+		block-size: var(--rating-size, 96px);
 		padding-inline: var(--space-s);
 		border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
 		border-radius: var(--radius-s);
