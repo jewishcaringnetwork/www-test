@@ -1,0 +1,174 @@
+---
+/**
+ * One field of a Netlify form (src/schemas/forms.ts): visible label, optional
+ * hint, the control, and an error line the form's script fills in. The hint
+ * and error are tied to the control with `aria-describedby`.
+ *
+ * Fields in a group (`groupError`) sit in a "one of these" fieldset, which
+ * owns the error line and the "at least one" rule. They point at its error
+ * line, and are never marked "(optional)".
+ */
+import Phosphor from '~/components/phosphor.astro';
+import type { FormField } from '~/schemas/forms';
+
+interface Props {
+	field: FormField;
+	form: string;
+	/** Id of the group's error line, for a field inside a group. */
+	groupError?: string;
+}
+
+const { field, form, groupError } = Astro.props;
+const grouped = groupError !== undefined;
+const id = `${form}-${field.name}`;
+const hintId = field.hint ? `${id}-hint` : undefined;
+// Checkboxes are never required, so they have no error line
+const errorId = grouped || field.type === 'checkbox'
+	? undefined
+	: `${id}-error`;
+const describedBy = [hintId, errorId ?? groupError].filter(Boolean).join(' ')
+	|| undefined;
+const optional = !field.required && !grouped && field.type !== 'checkbox';
+const control = {
+	id,
+	name: field.name,
+	required: field.required,
+	autocomplete: field.autocomplete,
+	'aria-describedby': describedBy,
+	'data-field': true,
+	'data-grouped': grouped || undefined,
+	'data-missing': field.missing,
+	'data-error-id': errorId,
+};
+---
+
+<style>
+	/* Its own gap, not a .stack: a stack's --stack-gap would also set
+	   this field's distance from the one above */
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3xs);
+
+		:is(label, p) {
+			margin-block-end: 0;
+		}
+	}
+
+	.hint {
+		color: var(--color-text-secondary);
+	}
+
+	.optional {
+		color: var(--color-text-secondary);
+		font-weight: var(--font-weight-regular, 400);
+	}
+
+	input:not([type='checkbox']),
+	textarea {
+		box-sizing: border-box;
+		inline-size: 100%;
+		min-block-size: 44px;
+		padding: var(--space-2xs) var(--space-xs);
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius-m);
+		background: var(--color-surface-card);
+		color: var(--color-text-primary);
+		font: inherit;
+		/* Keep the label and error in view under the sticky header */
+		scroll-margin-block-start: 10rem;
+
+		&:focus-visible {
+			outline: 2px solid var(--color-focus-ring);
+			outline-offset: 2px;
+		}
+
+		&[aria-invalid='true'] {
+			border-color: var(--color-status-danger);
+			box-shadow: inset 0 0 0 1px var(--color-status-danger);
+		}
+	}
+
+	textarea {
+		min-block-size: 10rem;
+		resize: vertical;
+	}
+
+	/* Checkbox: box first, label beside it, hint under the label */
+	.checkbox {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		column-gap: var(--space-xs);
+		align-items: center;
+
+		input {
+			inline-size: 1.5rem;
+			block-size: 1.5rem;
+			margin: 0;
+			accent-color: var(--color-brand-blue);
+
+			&:focus-visible {
+				outline: 2px solid var(--color-focus-ring);
+				outline-offset: 2px;
+			}
+		}
+
+		label {
+			display: flex;
+			align-items: center;
+			min-block-size: 44px;
+		}
+
+		.hint {
+			grid-column: 2;
+		}
+	}
+
+	.error {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		color: var(--color-status-danger);
+
+		&[hidden] {
+			display: none;
+		}
+	}
+</style>
+
+{field.type === 'checkbox'
+	? (
+	 <div class="field checkbox">
+		 <input type="checkbox" value="yes" {...control} />
+		 <label for={id} class="text-body" dir="auto">{field.label}</label>
+		 {field.hint && (
+			 <p id={hintId} class="hint | text-small" dir="auto">{field.hint}</p>
+		 )}
+	 </div>
+ )
+	: (
+	 <div class="field">
+		 <label for={id} class="text-label" dir="auto">
+			 {field.label}
+			 {optional && <span class="optional">{' '}(optional)</span>}
+		 </label>
+		 {field.hint && (
+			 <p id={hintId} class="hint | text-small" dir="auto">{field.hint}</p>
+		 )}
+		 {errorId && (
+			 <p id={errorId} class="error | text-small" hidden>
+				 <Phosphor name="warning-circle" size={20} />
+				 <span data-error-text></span>
+			 </p>
+		 )}
+		 {field.type === 'textarea'
+		 	? <textarea rows="8" dir="auto" {...control}></textarea>
+		 	: (
+				<input
+					type={field.type}
+					dir={field.type === 'text' ? 'auto' : undefined}
+					{...control}
+				/>
+			)}
+	 </div>
+ )}

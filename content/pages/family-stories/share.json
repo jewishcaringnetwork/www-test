@@ -1,0 +1,14 @@
+{
+	"title": "Share Your Story",
+	"header": {
+		"type": "header",
+		"heading": "Has JCN touched your family?",
+		"lead": "We encourage you to share the stories of your journey. We believe you’ll find that you are not alone. We’ll always ask before sharing anything publicly."
+	},
+	"blocks": [
+		{
+			"type": "form",
+			"form": "story"
+		}
+	]
+}

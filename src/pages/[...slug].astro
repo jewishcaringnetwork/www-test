@@ -11,9 +11,15 @@ import Header from '~/components/header.astro';
 import Hero from '~/components/hero.astro';
 import Layout from '~/layouts/base.astro';
 import { sectionBackgrounds } from '~/lib/section-background';
+import { duplicateForms } from '~/schemas/forms';
 
 export async function getStaticPaths() {
 	const pages = await getCollection('pages');
+	const errors = duplicateForms(pages.map((page) => ({
+		id: page.id,
+		forms: page.data.blocks.flatMap((b) => b.type === 'form' ? [b.form] : []),
+	})));
+	if (errors.length) throw new Error(errors.join('\n'));
 	return pages.map((page) => ({
 		params: { slug: page.id },
 		props: { page },

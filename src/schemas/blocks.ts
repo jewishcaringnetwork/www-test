@@ -203,13 +203,14 @@ const form = z
 		...sectionHeader,
 		form: z.enum(['contact', 'volunteer', 'tehillim', 'story', 'donate']).meta({
 			description:
-				'Which form to show. Fields are fixed in code. "donate" is the Admire donation form; use it once, on the Donate page (/donate), and link other pages there instead (/donate?fund=… preselects a fund). "donate" ignores confirmation: Admire shows its own.',
+				'Which form to show. Fields are fixed in code (src/schemas/forms.ts). Each form goes on one page only, and the build fails otherwise: "contact" on /contact, "volunteer" on /get-involved/volunteer, "story" on /family-stories/share; link other pages there. "donate" is the Admire donation form; use it once, on the Donate page (/donate), and link other pages there instead (/donate?fund=… preselects a fund). "donate" ignores confirmation: Admire shows its own. Submissions to "contact", "volunteer" and "story" are emailed to JCN staff.',
 		}),
 		confirmation: text(10, 250).optional().meta({
-			description: 'Message shown after sending. Omit to use the default.',
+			description:
+				"Message shown in place of the form after it is sent. Omit to use the form's default; set it only when this page needs a different reply, e.g. a timeframe.",
 		}),
 	})
-	.meta({ description: 'An embedded form.' });
+	.meta({ description: 'A form visitors fill in and send to JCN.' });
 
 const logos = (fns: SchemaFns) =>
 	z

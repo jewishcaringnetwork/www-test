@@ -1,10 +1,14 @@
 ---
 /**
- * An embedded form, by `form`. Only the donation form is built so far; the
- * others render the placeholder until they are.
+ * A form, by `form`: "donate" is the Admire embed; contact, volunteer and
+ * story are Netlify Forms (`netlify-form.astro`). Others render the
+ * placeholder until they are built.
  */
 import type { CollectionEntry } from 'astro:content';
+import type { SectionBackground } from '~/lib/section-background';
+import { isNetlifyForm } from '~/schemas/forms';
 import DonateForm from './donate-form.astro';
+import NetlifyForm from './netlify-form.astro';
 import Placeholder from './placeholder.astro';
 
 type Block = Extract<
@@ -14,11 +18,15 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
+const form = block.form;
 ---
 
-{block.form === 'donate'
+{form === 'donate'
 	? <DonateForm block={block} />
-	: <Placeholder block={block} />}
+	: isNetlifyForm(form)
+	? <NetlifyForm block={{ ...block, form }} background={background} />
+	: <Placeholder block={block} background={background} />}
