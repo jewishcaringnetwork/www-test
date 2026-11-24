@@ -12,10 +12,9 @@
  * wrong. Use Charity Navigator's transparent full-colour badge: its white
  * interior reads on the dark footer and the light Donate page alike.
  *
- * The level, stars and year printed on the badges are a few pixels tall, so
- * each badge has a live-text caption that repeats them. The image's alt is
- * just the rater's name; with the caption it makes the link's name, e.g.
- * "Candid Gold Seal 2026", so screen readers don't hear the rating twice.
+ * The text printed on the badges is a few pixels tall, so each badge has a
+ * live-text caption with the rater, level and year. The caption is the
+ * link's whole name ("Candid Gold Seal 2026"), so the image's alt is empty.
  *
  * Colour follows the surrounding text. Set `--rating-star` for the stars
  * and `--rating-size` for the badge height (default 96px).
@@ -75,7 +74,7 @@ const navigator = charityNavigator && {
 				border-color: currentColor;
 			}
 
-			.level {
+			.rater {
 				text-decoration: underline;
 				text-underline-offset: 3px;
 			}
@@ -96,7 +95,7 @@ const navigator = charityNavigator && {
 		text-align: center;
 	}
 
-	.level,
+	.rater,
 	.rating {
 		font-weight: var(--font-weight-semibold);
 	}
@@ -125,10 +124,14 @@ const navigator = charityNavigator && {
 		{candidSeal && (
 			<li>
 				<a href={ratingProfiles.candid}>
-					<img src={candidSeal.src} alt="Candid" width="96" height="96" />{' '}
+					<img src={candidSeal.src} alt="" width="96" height="96" />{' '}
 					<span class="caption | text-small">
-						<span class="level">{candidSeal.level}</span>{' '}
-						<span>{candidSeal.year}</span>
+						<span class="rater">Candid</span>{' '}
+						<span>
+							{candidSeal.level}{' '}
+							<span aria-hidden="true">·</span>{' '}
+							{candidSeal.year}
+						</span>
 					</span>
 				</a>
 			</li>
@@ -141,13 +144,17 @@ const navigator = charityNavigator && {
 						 <>
 							 <img
 								 src={navigator.src}
-								 alt="Charity Navigator"
+								 alt=""
 								 width="96"
 								 height="96"
 							 />{' '}
 							 <span class="caption | text-small">
-								 <span class="level">{navigator.level}</span>{' '}
-								 <span>{navigator.year}</span>
+								 <span class="rater">Charity Navigator</span>{' '}
+								 <span>
+									 {navigator.level}{' '}
+									 <span aria-hidden="true">·</span>{' '}
+									 {navigator.year}
+								 </span>
 							 </span>
 						 </>
 					 )
