@@ -14,10 +14,17 @@
  * cascades in: `--card-padding` (default space.m) and `--card-radius`
  * (default radius.l). A child that runs to the card's edges, like the
  * contact photo, can pad itself with `var(--card-padding)`. The large
- * variant sets them, and `--stack-gap` for a card that is also a `.stack`
- * (Kochav resets `--stack-gap` one level down, so it never leaks into
- * stacks nested inside). Custom properties inherit, so a card nested in a
- * large card would inherit its padding: set it back on the inner card.
+ * variant sets them.
+ *
+ * Rhythm inside every card: 12px (space.xs) from a heading to its text,
+ * as in section headers, and 24px (space.m) above an action (a button row
+ * or link). The card sets `--stack-gap` to the 12px for a card that is
+ * itself a `.stack` (Kochav reads it, so it can't be a fallback here). A
+ * stack inside a card sets the same 12px itself: Kochav resets
+ * `--stack-gap` on the children of a stack's later items, so the card's
+ * value doesn't reliably reach it. An action sets
+ * `--stack-gap: var(--space-m)` on itself: the stack's gap is the later
+ * child's top margin, so that changes only the gap above it.
  *
  * Cards are not clickable as a whole: links inside them are ordinary links,
  * so card text stays selectable. That's also why cards take no shadow
@@ -29,6 +36,7 @@
  */
 
 .card {
+	--stack-gap: var(--space-xs);
 	--color-text-primary: var(--color-neutral-900);
 	--color-text-secondary: var(--color-neutral-600);
 	--color-text-heading: var(--color-brand-blue);
@@ -44,7 +52,6 @@
 	&[data-size='large'] {
 		--card-padding: var(--space-xl);
 		--card-radius: var(--radius-xl);
-		--stack-gap: var(--space-m);
 
 		@media (max-width: 48rem) {
 			--card-padding: var(--space-l);

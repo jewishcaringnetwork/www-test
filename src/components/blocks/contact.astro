@@ -47,8 +47,9 @@ const { address } = block;
 		}
 	}
 
+	/* The card rhythm (src/css/block/card.css): 12px, 24px above the link */
 	.details {
-		--stack-gap: var(--space-m);
+		--stack-gap: var(--space-xs);
 
 		padding: var(--card-padding, var(--space-m));
 
@@ -92,6 +93,8 @@ const { address } = block;
 	}
 
 	.quiet {
+		--stack-gap: var(--space-m);
+
 		display: inline-flex;
 		align-items: center;
 		gap: var(--space-3xs);
