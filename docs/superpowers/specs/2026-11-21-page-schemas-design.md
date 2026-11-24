@@ -110,7 +110,7 @@ Blocks are **semantic sections**, not layout primitives (no `row`, `column` or
 | `impact`    | header, items (2–8: value, label, source), link?                          | Impact (Home, About)                  |
 | `faq`       | header, items (1–12: question, answer markdown)                           | Plan Your Stay                        |
 | `cta`       | heading, text?, actions (1–2), tone `brand\|subtle`                       | Donate / volunteer / support teasers  |
-| `contact`   | header, name, address, phone, email?, image?, link?                       | Tikva "Request a Stay", Contact page  |
+| `contact`   | header, locations (1–2: name, address, phone, email?, image?, link?)      | Tikva "Request a Stay", Contact page  |
 | `form`      | header, form `contact\|volunteer\|tehillim\|story\|donate`, confirmation? | Forms (fields live in code)           |
 | `logos`     | header, items (1–24: name, image, href?), link?                           | Corporate sponsors                    |
 | `stories`   | header, count (1–6, default 3), pick? (`reference('stories')`)            | Story teasers                         |

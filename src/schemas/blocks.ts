@@ -205,11 +205,9 @@ const cta = z
 	})
 	.meta({ description: `${hierarchy.cta} ${hierarchy.whenUnsure}` });
 
-const contact = (fns: SchemaFns) =>
+const location = (fns: SchemaFns) =>
 	z
 		.strictObject({
-			type: z.literal('contact'),
-			...sectionHeader,
 			name: text(2, 80).meta({
 				description: 'Name of the place, e.g. "The Tikva House".',
 			}),
@@ -223,6 +221,20 @@ const contact = (fns: SchemaFns) =>
 			link: linkSchema.optional(),
 		})
 		.meta({ description: 'Contact details for one location.' });
+
+const contact = (fns: SchemaFns) =>
+	z
+		.strictObject({
+			type: z.literal('contact'),
+			...sectionHeader,
+			locations: z.array(location(fns)).min(1).max(2).meta({
+				description:
+					'One or two places. Two sit side by side on wide screens, so list every location a page needs in one block instead of repeating the block.',
+			}),
+		})
+		.meta({
+			description: 'Address, phone and email for one or two locations.',
+		});
 
 const form = z
 	.strictObject({

@@ -1,10 +1,14 @@
 ---
 /**
- * Contact details for one location: name, address, tap-to-call phone,
- * optional email, a photo of the place and a quiet link (e.g. to Plan Your
- * Stay). Every detail is the same size, so the place's name leads; the
- * loud way to call (e.g. Tikva House's "Request a stay") belongs to the
- * hero or a CTA, not this reference panel.
+ * Contact details for one or two locations, each a panel: name, address,
+ * tap-to-call phone, optional email, a photo of the place and a quiet link
+ * (e.g. to Plan Your Stay). Every detail is the same size, so the place's
+ * name leads; the loud way to call (e.g. Tikva House's "Request a stay")
+ * belongs to the hero or a CTA, not this reference panel.
+ *
+ * Two locations sit side by side when there's room. Each panel lays itself
+ * out by its own width (a container query), so a photo goes beside the
+ * details only in a wide panel and above them in a narrow one.
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
@@ -24,10 +28,29 @@ interface Props {
 }
 
 const { block, background } = Astro.props;
-const { address } = block;
+// Under a section heading the place names are h3; without one, they head
+// their own sections of the page, so h2
+const Name = block.heading ? 'h3' : 'h2';
+const imageSizes = block.locations.length > 1
+	? '(max-width: 48rem) 100vw, 36rem'
+	: '(max-width: 48rem) 100vw, 28rem';
 ---
 
 <style>
+	/* Same gap as the cards block's grid */
+	.locations {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+		gap: var(--space-m);
+		padding: 0;
+		list-style: none;
+	}
+
+	.location {
+		display: grid;
+		container-type: inline-size;
+	}
+
 	/*
 	 * A large .card whose photo runs to its edges: the card's padding moves
 	 * to the details.
@@ -39,10 +62,8 @@ const { address } = block;
 		padding: 0;
 
 		&:has(> .photo) {
-			grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-
-			@media (max-width: 48rem) {
-				grid-template-columns: minmax(0, 1fr);
+			@container (min-width: 48rem) {
+				grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
 			}
 		}
 	}
@@ -54,12 +75,12 @@ const { address } = block;
 		padding: var(--card-padding, var(--space-m));
 
 		/* Bottom only: the top margin is the stack's gap */
-		:is(h3, p, dl, dd) {
+		:is(h2, h3, p, dl, dd) {
 			margin-block-end: 0;
 		}
 	}
 
-	h3 {
+	.name {
 		color: var(--color-text-heading);
 	}
 
@@ -69,7 +90,7 @@ const { address } = block;
 		gap: var(--space-s) var(--space-m);
 		align-items: baseline;
 
-		@media (max-width: 30rem) {
+		@container (max-width: 30rem) {
 			grid-template-columns: minmax(0, 1fr);
 			gap: var(--space-3xs);
 
@@ -104,10 +125,11 @@ const { address } = block;
 	}
 
 	/* Brand color shows (with the alt text) if the photo fails to load */
-	/* The details set the panel's height; the photo fills it */
+	/* Narrow panel: the photo sits above the details */
 	.photo {
 		position: relative;
-		min-block-size: 18rem;
+		order: -1;
+		aspect-ratio: 16 / 9;
 		background: var(--color-surface-brand);
 		color: var(--color-text-on-brand);
 
@@ -121,10 +143,11 @@ const { address } = block;
 			object-position: 50% 75%;
 		}
 
-		@media (max-width: 48rem) {
-			order: -1;
-			min-block-size: 0;
-			aspect-ratio: 16 / 9;
+		/* Wide panel: the details set its height; the photo fills it */
+		@container (min-width: 48rem) {
+			order: 0;
+			min-block-size: 18rem;
+			aspect-ratio: auto;
 		}
 	}
 </style>
@@ -135,45 +158,54 @@ const { address } = block;
 	heading={block.heading}
 	intro={block.intro}
 >
-	<div class="panel | card" data-size="large">
-		<div class="details | stack">
-			<h3 class="text-h3" dir="auto">{block.name}</h3>
-			<dl class="text-body">
-				<dt class="text-label">Phone</dt>
-				<dd>
-					<a href={telHref(block.phone)}>{block.phone}</a>
-				</dd>
-				<dt class="text-label">Address</dt>
-				<dd>
-					<address>
-						{address.street}<br />{address.city}, {address.state} {address.zip}
-					</address>
-				</dd>
-				{block.email && (
-					<>
-						<dt class="text-label">Email</dt>
-						<dd>
-							<a class="email" href={`mailto:${block.email}`}>{block.email}</a>
-						</dd>
-					</>
-				)}
-			</dl>
-			{block.link && (
-				<a class="quiet" href={block.link.href} dir="auto">
-					{block.link.label}
-					<Icon name="arrow-right" size={16} />
-				</a>
-			)}
-		</div>
-		{block.image && (
-			<div class="photo">
-				<Image
-					src={block.image.src}
-					alt={block.image.alt}
-					widths={[480, 720, 960]}
-					sizes="(max-width: 48rem) 100vw, 28rem"
-				/>
-			</div>
-		)}
-	</div>
+	<ul role="list" class="locations">
+		{block.locations.map((place) => (
+			<li class="location">
+				<div class="panel | card" data-size="large">
+					<div class="details | stack">
+						<Name class="name | text-h3" dir="auto">{place.name}</Name>
+						<dl class="text-body">
+							<dt class="text-label">Phone</dt>
+							<dd>
+								<a href={telHref(place.phone)}>{place.phone}</a>
+							</dd>
+							<dt class="text-label">Address</dt>
+							<dd>
+								<address>
+									{place.address.street}<br />{place.address.city},{' '}
+									{place.address.state} {place.address.zip}
+								</address>
+							</dd>
+							{place.email && (
+								<>
+									<dt class="text-label">Email</dt>
+									<dd>
+										<a class="email" href={`mailto:${place.email}`}>
+											{place.email}
+										</a>
+									</dd>
+								</>
+							)}
+						</dl>
+						{place.link && (
+							<a class="quiet" href={place.link.href} dir="auto">
+								{place.link.label}
+								<Icon name="arrow-right" size={16} />
+							</a>
+						)}
+					</div>
+					{place.image && (
+						<div class="photo">
+							<Image
+								src={place.image.src}
+								alt={place.image.alt}
+								widths={[480, 720, 960]}
+								sizes={imageSizes}
+							/>
+						</div>
+					)}
+				</div>
+			</li>
+		))}
+	</ul>
 </Section>
