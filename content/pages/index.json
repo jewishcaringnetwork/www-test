@@ -19,7 +19,7 @@
 		],
 		"link": {
 			"label": "Need support?",
-			"href": "/#cta-facing-a-diagnosis-you-don-t-have-to-do-this-alone-"
+			"href": "/contact"
 		}
 	},
 	"blocks": [
@@ -112,31 +112,13 @@
 		{
 			"type": "cta",
 			"tone": "subtle",
-			"heading": "Lend a hand, a heart, or a few hours",
-			"text": "JCN runs on the kindness of our community. There’s a place for everyone.",
-			"actions": [
-				{
-					"label": "Volunteer with us",
-					"href": "/get-involved/volunteer",
-					"variant": "primary"
-				}
-			]
-		},
-		{
-			"type": "cta",
-			"tone": "subtle",
 			"heading": "Facing a diagnosis? You don’t have to do this alone.",
 			"text": "Reach out confidentially. We’re here for your whole family.",
 			"actions": [
 				{
-					"label": "Call 410-602-6075",
-					"href": "tel:+14106026075",
+					"label": "Contact us",
+					"href": "/contact",
 					"variant": "primary"
-				},
-				{
-					"label": "Email us",
-					"href": "mailto:info@jewishcaringnetwork.org",
-					"variant": "secondary"
 				}
 			]
 		}

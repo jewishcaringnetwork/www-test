@@ -29,7 +29,7 @@ export const hierarchy = {
 	quietLink:
 		'A plain text link, quieter than any button. Use it for a secondary need that should stay findable without competing, e.g. "Need support?".',
 	cta:
-		"A call-to-action band for one of the page's main asks (give, volunteer, get support). Not for incidental actions: for those, use a link inside prose.",
+		"A call-to-action band for one of the page's main asks (give, volunteer, get support). At most two per page, one brand and one subtle: more bands compete with each other. Not for incidental actions: for those, use a link inside prose.",
 } as const;
 
 const invisible = /[\u200B\u2060\uFEFF]/g;

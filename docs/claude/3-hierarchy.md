@@ -22,9 +22,14 @@ keep a quiet "Need support?" link in the hero and the support teaser.
    services" link (see below)
 4. **Donate teaser**: "Your kindness becomes a meal, a night's rest, a moment of
    normal"
-5. **Volunteer**: "Lend a hand, a heart, or a few hours"
-6. **Support teaser** (families): request support, call
-7. **Footer**
+5. **Support teaser** (families): links to the Contact page
+6. **Footer**
+
+Volunteer section dropped (11/24/2026): three CTA bands in a row competed with
+each other, so a page gets at most two, one brand (Donate) and one subtle
+(Support). Volunteer stays the hero's secondary button and is in the nav.
+Support links to the Contact page, not a phone number, so contact details live
+in one place.
 
 Removed: newsletter sign-up (11/16/2026). Not used: the "Longer Hero" three "I
 need / I want" cards from the content draft (meant as section 2): they repeat

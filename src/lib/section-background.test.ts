@@ -32,8 +32,8 @@ describe('sectionBackgrounds', () => {
 	it('paints the first impact block blue, once per page', () => {
 		// Home
 		assert.deepEqual(
-			sectionBackgrounds('hero', ['impact', 'cards', 'cta', 'cta', 'cta']),
-			['blue', 'paper', 'paper', 'paper', 'paper'],
+			sectionBackgrounds('hero', ['impact', 'cards', 'cta', 'cta']),
+			['blue', 'paper', 'paper', 'paper'],
 		);
 		assert.deepEqual(
 			sectionBackgrounds('hero', ['impact', 'prose', 'impact']),

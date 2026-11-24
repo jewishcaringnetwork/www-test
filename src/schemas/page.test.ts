@@ -138,20 +138,31 @@ describe('pageSchema', () => {
 				},
 				{
 					type: 'cta',
-					heading: 'Lend a hand, a heart, or a few hours',
-					actions: [action('Volunteer', '/get-involved/volunteer')],
-				},
-				{
-					type: 'cta',
 					heading: "You don't have to do this alone",
 					tone: 'subtle',
 					actions: [
-						action('Request support', '/contact'),
-						action('Call 410-602-6075', 'tel:+14106026075', 'secondary'),
+						action('Contact us', '/contact'),
 					],
 				},
 			],
 		});
+	});
+
+	it('allows at most two CTAs, one of them brand', () => {
+		const cta = (tone: string) => ({
+			type: 'cta',
+			heading: 'How your gift helps',
+			tone,
+			actions: [action('Make a gift', '/donate', 'donate')],
+		});
+		const home = (...blocks: unknown[]) => ({
+			title: 'Home',
+			header: {},
+			blocks,
+		});
+		ok(page, home(cta('brand'), cta('subtle')));
+		bad(page, home(cta('brand'), cta('brand')));
+		bad(page, home(cta('brand'), cta('subtle'), cta('subtle')));
 	});
 
 	it('converts to JSON Schema for the MCP server', () => {
