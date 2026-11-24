@@ -1,7 +1,8 @@
 ---
 /**
  * The landing-page header (see `hierarchy.hero`): display heading, lead, up to
- * two buttons, a quiet link, and a photo beside the text when there is one.
+ * two buttons and a quiet link in one row, and a photo or illustration
+ * beside the text when there is one (an illustration is hidden when narrow).
  * Its heading is the page's only h1.
  *
  * Coded pages (the 404) can fill two optional slots: `eyebrow`, shown above
@@ -35,6 +36,8 @@ const brands = {
 };
 const brand = hero.brand && brands[hero.brand];
 const slottedActions = Astro.slots.has('actions');
+/** An SVG is an illustration: decoration, hidden on narrow screens. */
+const illustration = hero.image?.src.format === 'svg' || undefined;
 ---
 
 <style>
@@ -97,14 +100,15 @@ const slottedActions = Astro.slots.has('actions');
 		.actions {
 			justify-content: center;
 		}
-
-		.quiet {
-			align-self: center;
-		}
 	}
 
+	/*
+	 * Buttons and the quiet link share one row while there's room, and
+	 * wrap when there isn't.
+	 */
 	.actions {
 		--cluster-gap: var(--space-xs);
+		--cluster-valign: center;
 
 		margin-block-start: var(--space-xs);
 	}
@@ -114,7 +118,6 @@ const slottedActions = Astro.slots.has('actions');
 		align-items: center;
 		gap: var(--space-3xs);
 		min-block-size: 44px;
-		align-self: start;
 		font-family: var(--font-family-heading);
 		font-weight: var(--font-weight-medium);
 	}
@@ -130,6 +133,16 @@ const slottedActions = Astro.slots.has('actions');
 		aspect-ratio: 4 / 3;
 		overflow: hidden;
 		border-radius: var(--radius-l);
+
+		/*
+		 * An illustration only decorates. On narrow screens, where it would
+		 * come after the buttons, it's hidden; a photo is content and stays.
+		 */
+		&[data-illustration] {
+			@media (max-width: 60rem) {
+				display: none;
+			}
+		}
 
 		img {
 			position: relative;
@@ -171,29 +184,26 @@ const slottedActions = Astro.slots.has('actions');
 		<slot name="eyebrow" />
 		<h1 class="text-display" dir="auto">{hero.heading}</h1>
 		<p class="lead | text-large" dir="auto">{hero.lead}</p>
-		{slottedActions && (
+		{(slottedActions || hero.actions.length > 0 || hero.link) && (
 			<div class="actions | cluster">
-				<slot name="actions" />
+				{slottedActions
+					? <slot name="actions" />
+					: hero.actions.map((action) => (
+					 <Button href={action.href} variant={action.variant}>
+						 {action.label}
+					 </Button>
+				 ))}
+				{hero.link && (
+					<a class="quiet" href={hero.link.href}>
+						{hero.link.label}
+						<Icon name="arrow-right" size={16} />
+					</a>
+				)}
 			</div>
-		)}
-		{!slottedActions && hero.actions.length > 0 && (
-			<div class="actions | cluster">
-				{hero.actions.map((action) => (
-					<Button href={action.href} variant={action.variant}>
-						{action.label}
-					</Button>
-				))}
-			</div>
-		)}
-		{hero.link && (
-			<a class="quiet" href={hero.link.href}>
-				{hero.link.label}
-				<Icon name="arrow-right" size={16} />
-			</a>
 		)}
 	</div>
 	{hero.image && (
-		<div class="media">
+		<div class="media" data-illustration={illustration}>
 			<Image
 				src={hero.image.src}
 				alt={hero.image.alt}
