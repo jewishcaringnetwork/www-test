@@ -4,8 +4,8 @@
  *
  * - `brand`: the loud one. A brand-blue band, h2 in white, inverse buttons
  *   (the gold donate button keeps its fill). Use sparingly, so it stays loud.
- * - `subtle`: a white `.card` panel (src/css/block/card.css) with ordinary
- *   buttons and a smaller heading, for support or a second ask (e.g. Home's
+ * - `subtle`: a white `.card` panel (src/css/block/card.css) of the same
+ *   shape, with ordinary buttons and a smaller heading, for support or a second ask (e.g. Home's
  *   support teaser). No gold: gold surfaces are for donation prompts, and
  *   the brand-gold fill is the donate button's.
  */
@@ -38,14 +38,15 @@ const id = `cta-${
 		align-items: center;
 		justify-content: space-between;
 		gap: var(--space-l) var(--space-xl);
+		/* Both tones share one shape: equal padding on every side, same radius */
 		padding: var(--space-xl);
+		border-radius: var(--radius-xl);
 
 		@media (max-width: 48rem) {
-			padding: var(--space-l) var(--space-m);
+			padding: var(--space-l);
 		}
 
 		&[data-tone='brand'] {
-			border-radius: var(--radius-xl);
 			background: var(--color-surface-brand);
 			color: var(--color-text-on-brand);
 
@@ -59,12 +60,6 @@ const id = `cta-${
 		}
 
 		&[data-tone='subtle'] {
-			padding: var(--space-l) var(--space-xl);
-
-			@media (max-width: 48rem) {
-				padding: var(--space-m);
-			}
-
 			h2 {
 				color: var(--color-text-heading);
 			}
