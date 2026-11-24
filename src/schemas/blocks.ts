@@ -203,7 +203,7 @@ const form = z
 		...sectionHeader,
 		form: z.enum(['contact', 'volunteer', 'tehillim', 'story', 'donate']).meta({
 			description:
-				'Which form to show. Fields are fixed in code. "donate" is the Admire donation form; use it once, on the Ways to Give page (/donate), and link other pages there instead (/donate?fund=… preselects a fund). "donate" ignores confirmation: Admire shows its own.',
+				'Which form to show. Fields are fixed in code. "donate" is the Admire donation form; use it once, on the Donate page (/donate), and link other pages there instead (/donate?fund=… preselects a fund). "donate" ignores confirmation: Admire shows its own.',
 		}),
 		confirmation: text(10, 250).optional().meta({
 			description: 'Message shown after sending. Omit to use the default.',
