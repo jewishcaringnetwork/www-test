@@ -50,7 +50,7 @@ const { address } = block;
 	.details {
 		--stack-gap: var(--space-m);
 
-		padding: var(--card-padding);
+		padding: var(--card-padding, var(--space-m));
 
 		/* Bottom only: the top margin is the stack's gap */
 		:is(h3, p, dl, dd) {

@@ -104,10 +104,11 @@ const illustration = hero.image?.src.format === 'svg' || undefined;
 
 	/*
 	 * Buttons and the quiet link share one row while there's room, and
-	 * wrap when there isn't.
+	 * wrap when there isn't. Same gaps as the CTA band's buttons
+	 * (src/components/blocks/cta.astro).
 	 */
 	.actions {
-		--cluster-gap: var(--space-xs);
+		--cluster-gap: var(--space-xs) var(--space-m);
 		--cluster-valign: center;
 
 		margin-block-start: var(--space-xs);
