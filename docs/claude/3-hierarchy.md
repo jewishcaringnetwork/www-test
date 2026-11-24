@@ -14,22 +14,32 @@ keep a quiet "Need support?" link in the hero and the support teaser.
 
 ## Home: section order (done for the prototype, 11/16/2026)
 
-1. **Hero** (donors): short hero copy from the content draft ("When serious
-   illness strikes, the entire family is affected" + blurb), Give now (primary),
-   Volunteer (secondary), quiet "Need support?" link
-2. **Impact and trust**: 30 years, $ saved, overnight stays
+1. **Hero** (donors): "Caring for the whole family, for as long as it takes"
+   (the draft's Longer Hero heading), with "When serious illness strikes, the
+   entire family is affected" and the blurb as the lead; Give now (primary),
+   Volunteer (secondary), quiet "Need support?" link to Contact; an illustration
+   beside the text
+2. **Impact and trust**: figures from the client's flyers (#26)
 3. **Services teaser**: answers "what do you do?"; three cards + "See all
    services" link (see below)
 4. **Donate teaser**: "Your kindness becomes a meal, a night's rest, a moment of
    normal"
-5. **Support teaser** (families): links to the Contact page
-6. **Footer**
+5. **Footer**
 
-Volunteer section dropped (11/24/2026): three CTA bands in a row competed with
-each other, so a page gets at most two, one brand (Donate) and one subtle
-(Support). Volunteer stays the hero's secondary button and is in the nav.
-Support links to the Contact page, not a phone number, so contact details live
-in one place.
+Changed 11/24/2026:
+
+- **One CTA band.** Volunteer and Support bands dropped: stacked CTA bands
+  compete with each other, so a page gets at most two (one brand, one subtle),
+  and Home ends on the Donate ask. Volunteer stays the hero's secondary button
+  and is in the nav. The support band moved to the bottom of Services as
+  "Request support", where families decide whether to ask. Families stay one
+  click from help through the hero's "Need support?" link and the banner's
+  "Contact us". Support links go to Contact, not a phone number, so contact
+  details live in one place; a Request support page is #55.
+- **Hero heading and illustration.** The old heading named the problem, not what
+  JCN does. The illustration (`content/images/home-hero.svg`: the JCN mark with
+  meal, home and care icons, no text) stands in for a photo: the photos we have
+  for Home are from the 5K or show families, which need written consent.
 
 Removed: newsletter sign-up (11/16/2026). Not used: the "Longer Hero" three "I
 need / I want" cards from the content draft (meant as section 2): they repeat

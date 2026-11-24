@@ -3,8 +3,12 @@
 	"description": "Free, long-term, family-centered support for Jewish families facing serious illness in Baltimore and beyond.",
 	"header": {
 		"type": "hero",
-		"heading": "When serious illness strikes, the entire family is affected.",
-		"lead": "Our programs, activities, and services are designed to help each family member. Always free. Always with dignity.",
+		"heading": "Caring for the whole family, for as long as it takes",
+		"lead": "When serious illness strikes, the entire family is affected. Our programs, activities, and services are designed to help each family member. Always free. Always with dignity.",
+		"image": {
+			"src": "../images/home-hero.svg",
+			"alt": "The Jewish Caring Network logo in a circle, with icons for meals, a home and a caring hand around it"
+		},
 		"actions": [
 			{
 				"label": "Give now",
@@ -106,19 +110,6 @@
 					"label": "Make a gift",
 					"href": "/donate",
 					"variant": "donate"
-				}
-			]
-		},
-		{
-			"type": "cta",
-			"tone": "subtle",
-			"heading": "Facing a diagnosis? You don’t have to do this alone.",
-			"text": "Reach out confidentially. We’re here for your whole family.",
-			"actions": [
-				{
-					"label": "Contact us",
-					"href": "/contact",
-					"variant": "primary"
 				}
 			]
 		}
