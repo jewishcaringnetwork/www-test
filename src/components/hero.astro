@@ -120,10 +120,9 @@ const slottedActions = Astro.slots.has('actions');
 	}
 
 	/*
-	 * The empty-image gray (as on Leadership's portraits) shows behind an
-	 * illustration's clear areas and, with the alt text, if the image fails
-	 * to load. Height is capped at half the viewport so the next section
-	 * shows below the fold.
+	 * Photo or illustration, in a 4:3 frame with no fill of its own, so an
+	 * illustration's clear areas show the page. Height is capped at half the
+	 * viewport so the next section shows below the fold.
 	 */
 	.media {
 		inline-size: min(100%, 50svh * 4 / 3);
@@ -131,13 +130,30 @@ const slottedActions = Astro.slots.has('actions');
 		aspect-ratio: 4 / 3;
 		overflow: hidden;
 		border-radius: var(--radius-l);
-		background: var(--color-surface-sunken);
-		color: var(--color-text-secondary);
 
 		img {
+			position: relative;
 			inline-size: 100%;
 			block-size: 100%;
 			object-fit: cover;
+		}
+
+		/*
+		 * Only a broken image renders ::before (Chrome, Firefox), so the
+		 * empty-image gray from Leadership's portraits, with the alt text,
+		 * shows only when the image fails to load. Safari shows its own
+		 * broken-image box instead.
+		 */
+		img::before {
+			content: attr(alt);
+			position: absolute;
+			inset: 0;
+			display: grid;
+			place-items: center;
+			padding: var(--space-m);
+			background: var(--color-surface-sunken);
+			color: var(--color-text-secondary);
+			text-align: center;
 		}
 	}
 </style>

@@ -20,7 +20,7 @@
 			<stop offset="1" stop-color="#fbefc6" stop-opacity="0" />
 		</radialGradient>
 	</defs>
-	<circle cx="610" cy="140" r="260" fill="url(#glow)" />
+	<circle cx="590" cy="190" r="190" fill="url(#glow)" />
 	<g filter="url(#lift)"><circle cx="400" cy="300" r="216" fill="#ffffff" /></g>
 	<circle
 		cx="400"
