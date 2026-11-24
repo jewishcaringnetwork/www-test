@@ -55,11 +55,14 @@ export const financeSchema = z
 				stars: z.int().min(1).max(4).meta({
 					description: "JCN's current Charity Navigator star rating, 1 to 4.",
 				}),
+				year: z.int().min(2020).max(2100).meta({
+					description: 'The year printed on the rating badge, e.g. 2026.',
+				}),
 			})
 			.optional()
 			.meta({
 				description:
-					"JCN's current Charity Navigator rating. Omit to stop showing it.",
+					"JCN's current Charity Navigator rating. The badge image is stored in code per star count and year; until a developer adds the image for a new rating or year, the site shows a plain text badge instead: tell staff so. Omit to stop showing the rating.",
 			}),
 	})
 	.meta({
