@@ -6,13 +6,23 @@
 	},
 	"blocks": [
 		{
-			"type": "prose",
-			"markdown": "Volunteers cook and deliver meals, visit in the hospital, mentor children, help at Tikva House, and power our events. Tell us what you enjoy and when you’re free — we’ll find the right fit."
+			"type": "form",
+			"heading": "Tell us how you’d like to help",
+			"intro": "Volunteers cook and deliver meals, visit in the hospital, mentor children, help at Tikva House, and power our events. Tell us what you enjoy and when you’re free — we’ll find the right fit.",
+			"form": "volunteer"
 		},
 		{
-			"type": "form",
-			"heading": "Sign up",
-			"form": "volunteer"
+			"type": "cta",
+			"tone": "subtle",
+			"heading": "Not ready to volunteer?",
+			"text": "There are other ways to contribute.",
+			"actions": [
+				{
+					"label": "Make a gift",
+					"href": "/donate",
+					"variant": "donate"
+				}
+			]
 		}
 	]
 }
