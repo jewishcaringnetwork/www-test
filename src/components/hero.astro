@@ -62,11 +62,15 @@ const illustration = hero.image?.src.format === 'svg' || undefined;
 		color: var(--color-text-heading);
 	}
 
-	/* Program logo above the heading; the extra space sets it apart from the h1 */
+	/* Program logo above the heading */
 	.brand {
 		inline-size: min(20rem, 80%);
 		block-size: auto;
-		margin-block-end: var(--space-xs);
+	}
+
+	/* The extra space sets the logo apart from the h1 */
+	.brand + * {
+		--stack-gap: var(--space-l);
 	}
 
 	.lead {
@@ -87,6 +91,12 @@ const illustration = hero.image?.src.format === 'svg' || undefined;
 		}
 	}
 
+	/*
+	 * 16px between the heading and the lead (a step up from cards' 12px, for
+	 * the display heading), and 24px above the action row, as in cards
+	 * (src/css/block/card.css). Overrides go on the later child: the stack's
+	 * gap is its top margin.
+	 */
 	.text {
 		--stack-gap: var(--space-s);
 	}
@@ -110,8 +120,7 @@ const illustration = hero.image?.src.format === 'svg' || undefined;
 	.actions {
 		--cluster-gap: var(--space-xs) var(--space-m);
 		--cluster-valign: center;
-
-		margin-block-start: var(--space-xs);
+		--stack-gap: var(--space-m);
 	}
 
 	.quiet {
