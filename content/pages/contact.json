@@ -8,7 +8,31 @@
 		{
 			"type": "form",
 			"heading": "Send us a message",
-			"form": "contact"
+			"form": "contact",
+			"locations": [
+				{
+					"name": "Jewish Caring Network",
+					"address": {
+						"street": "5806 Park Heights Ave",
+						"city": "Baltimore",
+						"state": "MD",
+						"zip": "21215"
+					},
+					"phone": "410-602-6075",
+					"email": "info@jewishcaringnetwork.org"
+				},
+				{
+					"name": "The Tikva House",
+					"address": {
+						"street": "529 N. Washington Street",
+						"city": "Baltimore",
+						"state": "MD",
+						"zip": "21205"
+					},
+					"phone": "410-534-1033",
+					"email": "info@tikvahouse.org"
+				}
+			]
 		}
 	]
 }

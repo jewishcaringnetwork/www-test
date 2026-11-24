@@ -142,6 +142,23 @@ describe('blockSchema', () => {
 		bad(block, { ...minimal.contact, phone: '410.534.1033' });
 	});
 
+	it('shows up to two places beside a form', () => {
+		const { type: _, image: __, ...place } = minimal.contact as Record<
+			string,
+			unknown
+		>;
+		const form = { type: 'form', form: 'contact' };
+		ok(block, { ...form, locations: [place] });
+		ok(block, { ...form, locations: [place, place] });
+		bad(block, { ...form, locations: [] });
+		bad(block, { ...form, locations: [place, place, place] });
+		bad(block, { ...form, locations: [{ ...place, phone: '410.534.1033' }] });
+		bad(block, {
+			...form,
+			locations: [{ ...place, link: { label: 'Plan', href: '/x' } }],
+		});
+	});
+
 	it('allows a card link without a label', () => {
 		ok(block, {
 			type: 'cards',
