@@ -19,6 +19,14 @@ export const site = {
 	name: org.name,
 };
 
+export const finance = editable.finance;
+
+/** JCN's public profiles, linked from the ratings. Locked: not in content. */
+export const ratingProfiles = {
+	candid: 'https://app.candid.org/profile/7788538',
+	charityNavigator: 'https://www.charitynavigator.org/ein/522224452',
+};
+
 export interface NavLink {
 	label: string;
 	href: string;

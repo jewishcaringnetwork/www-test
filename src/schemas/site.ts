@@ -34,6 +34,39 @@ export const contactSchema = z.strictObject({
 	address: addressSchema,
 });
 
+export const financeSchema = z
+	.strictObject({
+		candid: z
+			.strictObject({
+				seal: z.enum(['bronze', 'silver', 'gold', 'platinum']).meta({
+					description: 'Seal of Transparency level, as on the seal itself.',
+				}),
+				year: z.int().min(2020).max(2100).meta({
+					description: 'The year printed on the seal, e.g. 2026.',
+				}),
+			})
+			.optional()
+			.meta({
+				description:
+					"JCN's current Candid Seal of Transparency. The seal image is stored in code per level and year, so a new level or year fails the build until a developer adds that image: tell staff so. Omit to stop showing the seal.",
+			}),
+		charityNavigator: z
+			.strictObject({
+				stars: z.int().min(1).max(4).meta({
+					description: "JCN's current Charity Navigator star rating, 1 to 4.",
+				}),
+			})
+			.optional()
+			.meta({
+				description:
+					"JCN's current Charity Navigator rating. Omit to stop showing it.",
+			}),
+	})
+	.meta({
+		description:
+			"Charity ratings shown in the footer and on the Donate page, each linking to JCN's profile on that site. Update when a rating changes or a new seal year arrives.",
+	});
+
 export const siteSchema = z.strictObject({
 	site: z
 		.strictObject({
@@ -50,6 +83,7 @@ export const siteSchema = z.strictObject({
 	org: contactSchema.meta({
 		description: 'Main office contact details, shown in the banner and footer.',
 	}),
+	finance: financeSchema,
 });
 
 export type SiteContent = z.infer<typeof siteSchema>;

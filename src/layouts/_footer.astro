@@ -1,5 +1,6 @@
 ---
 import Logo from '~/assets/logos/JCN-logo-white.svg';
+import CharityRatings from '~/components/charity-ratings.astro';
 import { footerLinks, legalLinks, org, site, telHref } from '~/config';
 ---
 
@@ -26,6 +27,8 @@ import { footerLinks, legalLinks, org, site, telHref } from '~/config';
 	.brand {
 		--stack-gap: var(--space-m);
 		--stack-halign: start;
+		--rating-size: 72px;
+		--rating-star: var(--color-brand-gold);
 
 		p {
 			max-inline-size: 24rem;
@@ -114,6 +117,7 @@ import { footerLinks, legalLinks, org, site, telHref } from '~/config';
 			<div class="brand | stack">
 				<Logo width={176} role="img" aria-label={site.name} />
 				<p>{site.description}</p>
+				<CharityRatings />
 			</div>
 
 			<div class="col | stack">

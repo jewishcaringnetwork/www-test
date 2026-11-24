@@ -35,6 +35,7 @@
  * Re-measure if Admire changes the form.
  */
 import type { CollectionEntry } from 'astro:content';
+import CharityRatings from '~/components/charity-ratings.astro';
 import Phosphor from '~/components/phosphor.astro';
 import { donateEmbedSrc, funds, fundSlug } from '~/schemas/funds';
 import Section from './section.astro';
@@ -97,6 +98,16 @@ const srcBySlug = Object.fromEntries(
 		}
 	}
 
+	.ratings {
+		--stack-gap: var(--space-xs);
+
+		margin-block-start: var(--space-l);
+
+		p {
+			color: var(--color-text-secondary);
+		}
+	}
+
 	.fallback {
 		display: flex;
 		flex-wrap: wrap;
@@ -132,6 +143,12 @@ const srcBySlug = Object.fromEntries(
 			<Phosphor name="arrow-square-out" size={16} />
 		</a>
 	</p>
+	<div class="ratings | stack">
+		<p class="text-body">
+			Independently rated by Candid and Charity Navigator.
+		</p>
+		<CharityRatings />
+	</div>
 </Section>
 
 <script is:inline define:vars={{ srcBySlug }}>
