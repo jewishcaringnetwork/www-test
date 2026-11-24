@@ -18,6 +18,11 @@
  *   The narrow layout still overflows by 2-4px, even on Admire's own page;
  *   phones overlay their scrollbars, so that's a 2px sideways pan there.
  *   Desktop browsers with classic scrollbars show both in a narrow window.
+ * - Centring: in the wide layout Admire centres a 510px box and lets its
+ *   600px card overflow it to the right, so the card sits 45px right of
+ *   centre. The frame is 90px wider than the panel and shifted left by that
+ *   much, with the panel clipping it, which centres the card. Nothing in the
+ *   frame starts within 90px of its left edge.
  * - Height: 1387px narrow and 1251px wide by default, up to 1555 and 1419px
  *   with "Monthly" and "Enter address manually", plus about 85px for the
  *   Cloudflare check Admire shows only when embedded. The heights below
@@ -49,22 +54,34 @@ const srcBySlug = Object.fromEntries(
 
 <style>
 	.embed {
+		--admire-offset: 90px;
+
 		container-type: inline-size;
 		max-inline-size: 704px;
 	}
 
-	iframe {
-		display: block;
-		inline-size: 100%;
+	.panel {
+		overflow: clip;
 		max-inline-size: 520px;
-		block-size: 1660px;
-		border: 0;
 		border-radius: var(--radius-l);
 		/* A light panel while the form loads, close to Admire's own */
 		background: var(--color-surface-card);
 
 		@container (min-width: 704px) {
 			max-inline-size: none;
+		}
+	}
+
+	iframe {
+		display: block;
+		inline-size: 100%;
+		block-size: 1660px;
+		border: 0;
+
+		@container (min-width: 704px) {
+			/* Physical left: Admire's offset doesn't flip with our direction */
+			inline-size: calc(100% + var(--admire-offset));
+			margin-left: calc(-1 * var(--admire-offset));
 			block-size: 1520px;
 		}
 	}
@@ -88,12 +105,14 @@ const srcBySlug = Object.fromEntries(
 
 <Section type="form" heading={block.heading} intro={block.intro}>
 	<div class="embed">
-		<iframe
-			data-donate-embed
-			title="Donation form"
-			src={src}
-			allow="payment"
-		></iframe>
+		<div class="panel">
+			<iframe
+				data-donate-embed
+				title="Donation form"
+				src={src}
+				allow="payment"
+			></iframe>
+		</div>
 	</div>
 	<p class="fallback | text-body">
 		Form not loading?
