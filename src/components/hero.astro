@@ -1,7 +1,8 @@
 ---
 /**
  * The landing-page header (see `hierarchy.hero`): display heading, lead, up to
- * two buttons, a quiet link, and a photo beside the text when there is one.
+ * two buttons and a quiet link in one row, and a photo or illustration
+ * beside the text when there is one (an illustration is hidden when narrow).
  * Its heading is the page's only h1.
  *
  * Coded pages (the 404) can fill two optional slots: `eyebrow`, shown above
@@ -35,6 +36,8 @@ const brands = {
 };
 const brand = hero.brand && brands[hero.brand];
 const slottedActions = Astro.slots.has('actions');
+/** An SVG is an illustration: decoration, hidden on narrow screens. */
+const illustration = hero.image?.src.format === 'svg' || undefined;
 ---
 
 <style>
@@ -59,11 +62,20 @@ const slottedActions = Astro.slots.has('actions');
 		color: var(--color-text-heading);
 	}
 
-	/* Program logo above the heading; the extra space sets it apart from the h1 */
+	/* Program logo above the heading */
 	.brand {
 		inline-size: min(20rem, 80%);
 		block-size: auto;
-		margin-block-end: var(--space-xs);
+	}
+
+	/* The extra space sets the logo apart from the h1 */
+	.brand + * {
+		--stack-gap: var(--space-l);
+	}
+
+	/* An eyebrow label belongs to the heading, so it sits close above it */
+	.eyebrow + h1 {
+		--stack-gap: var(--space-2xs);
 	}
 
 	.lead {
@@ -84,6 +96,12 @@ const slottedActions = Astro.slots.has('actions');
 		}
 	}
 
+	/*
+	 * 16px between the heading and the lead (a step up from cards' 12px, for
+	 * the display heading), and 24px above the action row, as in cards
+	 * (src/css/block/card.css). Overrides go on the later child: the stack's
+	 * gap is its top margin.
+	 */
 	.text {
 		--stack-gap: var(--space-s);
 	}
@@ -97,16 +115,17 @@ const slottedActions = Astro.slots.has('actions');
 		.actions {
 			justify-content: center;
 		}
-
-		.quiet {
-			align-self: center;
-		}
 	}
 
+	/*
+	 * Buttons and the quiet link share one row while there's room, and
+	 * wrap when there isn't. Same gaps as the CTA band's buttons
+	 * (src/components/blocks/cta.astro).
+	 */
 	.actions {
-		--cluster-gap: var(--space-xs);
-
-		margin-block-start: var(--space-xs);
+		--cluster-gap: var(--space-xs) var(--space-m);
+		--cluster-valign: center;
+		--stack-gap: var(--space-m);
 	}
 
 	.quiet {
@@ -114,7 +133,6 @@ const slottedActions = Astro.slots.has('actions');
 		align-items: center;
 		gap: var(--space-3xs);
 		min-block-size: 44px;
-		align-self: start;
 		font-family: var(--font-family-heading);
 		font-weight: var(--font-weight-medium);
 	}
@@ -130,6 +148,16 @@ const slottedActions = Astro.slots.has('actions');
 		aspect-ratio: 4 / 3;
 		overflow: hidden;
 		border-radius: var(--radius-l);
+
+		/*
+		 * An illustration only decorates. On narrow screens, where it would
+		 * come after the buttons, it's hidden; a photo is content and stays.
+		 */
+		&[data-illustration] {
+			@media (max-width: 60rem) {
+				display: none;
+			}
+		}
 
 		img {
 			position: relative;
@@ -168,32 +196,33 @@ const slottedActions = Astro.slots.has('actions');
 				width={320}
 			/>
 		)}
-		<slot name="eyebrow" />
+		{Astro.slots.has('eyebrow') && (
+			<div class="eyebrow">
+				<slot name="eyebrow" />
+			</div>
+		)}
 		<h1 class="text-display" dir="auto">{hero.heading}</h1>
 		<p class="lead | text-large" dir="auto">{hero.lead}</p>
-		{slottedActions && (
+		{(slottedActions || hero.actions.length > 0 || hero.link) && (
 			<div class="actions | cluster">
-				<slot name="actions" />
+				{slottedActions
+					? <slot name="actions" />
+					: hero.actions.map((action) => (
+					 <Button href={action.href} variant={action.variant}>
+						 {action.label}
+					 </Button>
+				 ))}
+				{hero.link && (
+					<a class="quiet" href={hero.link.href}>
+						{hero.link.label}
+						<Icon name="arrow-right" size={16} />
+					</a>
+				)}
 			</div>
-		)}
-		{!slottedActions && hero.actions.length > 0 && (
-			<div class="actions | cluster">
-				{hero.actions.map((action) => (
-					<Button href={action.href} variant={action.variant}>
-						{action.label}
-					</Button>
-				))}
-			</div>
-		)}
-		{hero.link && (
-			<a class="quiet" href={hero.link.href}>
-				{hero.link.label}
-				<Icon name="arrow-right" size={16} />
-			</a>
 		)}
 	</div>
 	{hero.image && (
-		<div class="media">
+		<div class="media" data-illustration={illustration}>
 			<Image
 				src={hero.image.src}
 				alt={hero.image.alt}

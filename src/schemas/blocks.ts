@@ -53,7 +53,7 @@ export const headerSchema = (fns: SchemaFns) => {
 			}),
 			image: imageSchema(
 				fns,
-				'Photo or illustration shown beside the text in a 4:3 frame. An illustration is an SVG drawn at 4:3, with no text in it: put words in the heading and lead. Omit for a text-only hero.',
+				'Photo or illustration shown beside the text in a 4:3 frame. An illustration is an SVG drawn at 4:3, with no text in it: put words in the heading and lead. It is decoration, so it is hidden on phones. Omit for a text-only hero.',
 			).optional(),
 			actions: actions(0, 2).default([]),
 			link: linkSchema.optional(),

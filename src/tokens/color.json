@@ -34,7 +34,7 @@
 			},
 			"blue": {
 				"$value": "{color.brand.blue}",
-				"$description": "Emphasis band, kept for a future block it suits (e.g. impact numbers), at most once per page; no block uses it yet. Text switches to text.on-brand (7.5:1), text.on-brand-secondary (5.9:1) and text.link-on-brand (7.5:1, underlined); focus ring brand.gold (4.3:1)."
+				"$description": "Emphasis band for the impact block, at most once per landing page. Text switches to text.on-brand (7.5:1), text.on-brand-secondary (5.9:1) and text.link-on-brand (7.5:1, underlined); focus ring brand.gold (4.3:1)."
 			}
 		},
 		"text": {
