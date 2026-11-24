@@ -173,7 +173,7 @@ export const netlifyForms = {
 			'Thank you. We’ve received your message and will be in touch. If this is urgent, please call us.',
 	}),
 	volunteer: define({
-		title: 'Volunteer sign-up',
+		title: 'Volunteer form',
 		fields: [
 			name,
 			{
