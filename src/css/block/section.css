@@ -53,6 +53,15 @@
 		@media (max-width: 60rem) {
 			padding-inline: var(--space-s);
 		}
+
+		/*
+		 * A heading binds to what it introduces, so it sits closer to it
+		 * than the rows of a grid below it (people: space-l) sit to each
+		 * other.
+		 */
+		> .section-header + * {
+			--stack-gap: var(--space-m);
+		}
 	}
 
 	/*
