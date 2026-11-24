@@ -1,0 +1,124 @@
+---
+/**
+ * JCN's charity ratings (`finance` in content/site.json), each linking to
+ * JCN's profile on that site. Static images, not the raters' embed scripts,
+ * so no third-party JavaScript loads.
+ *
+ * Images live in src/assets/charity-ratings/, named by what the content says:
+ * `candid-<seal>-<year>.svg` (the seal prints both), and optionally
+ * `charity-navigator-<stars>-star.svg|png`. A Candid seal with no matching
+ * file fails the build, so the seal can't disagree with the content. Without
+ * a Charity Navigator file the rating shows as a text badge.
+ *
+ * Colour follows the surrounding text; set `--rating-star` for the stars.
+ */
+import { finance, ratingProfiles } from '~/config';
+
+const images = import.meta.glob<string>('~/assets/charity-ratings/*', {
+	eager: true,
+	query: '?url',
+	import: 'default',
+});
+const imageFor = (name: string) =>
+	Object.entries(images).find(([path]) =>
+		path.replace(/\.(svg|png)$/, '').endsWith(`/${name}`)
+	)?.[1];
+
+const { candid, charityNavigator } = finance;
+const title = (s: string) => s[0].toUpperCase() + s.slice(1);
+
+const candidSeal = candid && {
+	alt: `Candid ${title(candid.seal)} Seal of Transparency ${candid.year}`,
+	src: imageFor(`candid-${candid.seal}-${candid.year}`),
+};
+if (candidSeal && !candidSeal.src) {
+	throw new Error(
+		`No image for the ${candidSeal.alt}. Add src/assets/charity-ratings/candid-${candid?.seal}-${candid?.year}.svg from JCN's Candid profile ("Share your seal").`,
+	);
+}
+
+const navigator = charityNavigator && {
+	label: `Charity Navigator ${charityNavigator.stars}-Star rating`,
+	src: imageFor(`charity-navigator-${charityNavigator.stars}-star`),
+};
+---
+
+<style>
+	ul {
+		--cluster-gap: var(--space-s);
+		--cluster-valign: stretch;
+	}
+
+	a {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+		border-radius: var(--radius-s);
+
+		&:hover .text-badge {
+			border-color: currentColor;
+		}
+	}
+
+	img {
+		display: block;
+		inline-size: auto;
+		block-size: 96px;
+	}
+
+	.text-badge {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: var(--space-3xs);
+		block-size: 96px;
+		padding-inline: var(--space-s);
+		border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+		border-radius: var(--radius-s);
+		line-height: 1.2;
+	}
+
+	.stars {
+		color: var(--rating-star, var(--color-gold-700));
+		font-size: var(--font-size-m);
+		letter-spacing: 0.1em;
+	}
+
+	.rating {
+		font-weight: var(--font-weight-semibold);
+	}
+</style>
+
+{(candidSeal || navigator) && (
+	<ul role="list" class="cluster">
+		{candidSeal && (
+			<li>
+				<a href={ratingProfiles.candid}>
+					<img
+						src={candidSeal.src}
+						alt={candidSeal.alt}
+						width="96"
+						height="96"
+					/>
+				</a>
+			</li>
+		)}
+		{navigator && (
+			<li>
+				<a href={ratingProfiles.charityNavigator}>
+					{navigator.src
+						? <img src={navigator.src} alt={navigator.label} height="96" />
+						: (
+						 <span class="text-badge | text-small">
+							 <span class="stars" aria-hidden="true">
+								 {'★'.repeat(charityNavigator!.stars)}
+							 </span>
+							 <span class="rating">{charityNavigator!.stars}-Star Rating</span>
+							 <span>Charity Navigator</span>
+						 </span>
+					 )}
+				</a>
+			</li>
+		)}
+	</ul>
+)}

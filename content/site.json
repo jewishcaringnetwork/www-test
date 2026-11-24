@@ -13,5 +13,9 @@
 			"state": "MD",
 			"zip": "21215"
 		}
+	},
+	"finance": {
+		"candid": { "seal": "gold", "year": 2026 },
+		"charityNavigator": { "stars": 3 }
 	}
 }
