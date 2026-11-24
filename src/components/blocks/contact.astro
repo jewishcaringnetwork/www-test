@@ -10,6 +10,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Icon from '~/components/icon.astro';
 import { telHref } from '~/config';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -19,9 +20,10 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 const { address } = block;
 ---
 
@@ -58,7 +60,7 @@ const { address } = block;
 	}
 
 	h3 {
-		color: var(--color-brand-blue);
+		color: var(--color-text-heading);
 	}
 
 	dl {
@@ -125,7 +127,12 @@ const { address } = block;
 	}
 </style>
 
-<Section type="contact" heading={block.heading} intro={block.intro}>
+<Section
+	type="contact"
+	background={background}
+	heading={block.heading}
+	intro={block.intro}
+>
 	<div class="panel | card">
 		<div class="details | stack">
 			<h3 class="text-h3" dir="auto">{block.name}</h3>

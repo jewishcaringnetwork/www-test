@@ -1,12 +1,13 @@
 {
 	"title": "Services",
 	"header": {
-		"type": "header"
+		"type": "header",
+		"lead": "Every service is free of charge. These are the ways we help most often, and we shape our support around what each family needs."
 	},
 	"blocks": [
 		{
 			"type": "prose",
-			"markdown": "All the services the Jewish Caring Network provides are free of charge and include, but are not limited to:\n\n## Care & Counseling\n\n- Nursing Care\n- Hospital Visitation\n- Individual & Group Counseling\n- Bereavement Counseling\n\n## Meals & Household Help\n\n- Groceries & Prepared Meals\n- Complete Shabbat Meals\n- Shabbat & Jewish Holiday Packages\n- Cleaning & Laundry Assistance\n- Babysitting\n\n## For Children\n\n- Big Brother/Big Sister Program\n- Tutoring & Education Support\n- Summer Camp Assistance\n- Birthday Gifts & Parties\n\n## Respite & Retreats\n\n- Women's Rejuvenating Retreats\n- Passover Retreat Program\n- Journey to Jerusalem\n- Family Respite Retreats\n- Parent's Night Out\n\n## Outings & Events\n\n- Sunday Funday Program\n- Tickets to Concerts, Plays, Amusement Parks & Sporting Events\n- Dinner-Lecture Series"
+			"markdown": "## Care & Counseling\n\n- Nursing Care\n- Hospital Visitation\n- Individual & Group Counseling\n- Bereavement Counseling\n\n## Meals & Household Help\n\n- Groceries & Prepared Meals\n- Complete Shabbat Meals\n- Shabbat & Jewish Holiday Packages\n- Cleaning & Laundry Assistance\n- Babysitting\n\n## For Children\n\n- Big Brother/Big Sister Program\n- Tutoring & Education Support\n- Summer Camp Assistance\n- Birthday Gifts & Parties\n\n## Respite & Retreats\n\n- Women's Rejuvenating Retreats\n- Passover Retreat Program\n- Journey to Jerusalem\n- Family Respite Retreats\n- Parent's Night Out\n\n## Outings & Events\n\n- Sunday Funday Program\n- Tickets to Concerts, Plays, Amusement Parks & Sporting Events\n- Dinner-Lecture Series"
 		}
 	]
 }

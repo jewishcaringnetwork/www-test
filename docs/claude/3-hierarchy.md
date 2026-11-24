@@ -79,6 +79,11 @@ check-in, what to bring, house rules), never the house's amenities.
   that page has no job; its policies/guidelines could move to Plan Your Stay.
   Raise with the client before changing the approved list.
 
+## Color blocking (11/23/2026)
+
+Landing pages get paper and white bands; other pages stay on paper. Rules:
+[../design/color-blocking.md](../design/color-blocking.md).
+
 ## Hero layout (11/16/2026)
 
 Split layout on both pages: text and buttons left, photo right in a 4:3 frame

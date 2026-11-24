@@ -23,10 +23,28 @@
 				"$description": "Soft gold highlight behind callouts and donation prompts. Text on it: text.primary or gold.700."
 			}
 		},
+		"section": {
+			"paper": {
+				"$value": "{color.surface.page}",
+				"$description": "The page's own off-white. Every section on a page with a plain header, and self-contained blocks (cards, contact panel, CTA) everywhere."
+			},
+			"white": {
+				"$value": "{color.neutral.0}",
+				"$description": "Open sections on a landing page (hero header), alternating with paper from the first section after the hero. Edged with border.subtle top and bottom because white is only 1.06:1 against paper. Default text colors (text.primary 17:1, text.link 7.5:1)."
+			},
+			"blue": {
+				"$value": "{color.brand.blue}",
+				"$description": "Emphasis band, kept for a future block it suits (e.g. impact numbers), at most once per page; no block uses it yet. Text switches to text.on-brand (7.5:1), text.on-brand-secondary (5.9:1) and text.link-on-brand (7.5:1, underlined); focus ring brand.gold (4.3:1)."
+			}
+		},
 		"text": {
 			"primary": {
 				"$value": "{color.neutral.900}",
 				"$description": "Default text and headings on light surfaces (16:1 on surface.page)."
+			},
+			"heading": {
+				"$value": "{color.brand.blue}",
+				"$description": "Section and card headings, list markers (7.5:1 on white). On section.blue it becomes text.on-brand."
 			},
 			"secondary": {
 				"$value": "{color.neutral.600}",
@@ -39,6 +57,14 @@
 			"on-brand": {
 				"$value": "{color.neutral.0}",
 				"$description": "Text and icons on surface.brand or blue.700 (7.5:1 on brand blue)."
+			},
+			"on-brand-secondary": {
+				"$value": "{color.blue.100}",
+				"$description": "Supporting text on surface.brand and section.blue: intros, roles, captions (5.9:1)."
+			},
+			"link-on-brand": {
+				"$value": "{color.neutral.0}",
+				"$description": "Links on section.blue (7.5:1). Always underlined, since body text there is white too. text.link is brand blue and would vanish."
 			},
 			"on-accent": {
 				"$value": "{color.blue.900}",

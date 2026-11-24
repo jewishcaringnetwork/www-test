@@ -9,3 +9,5 @@
 @import './utility/text.css' layer(utility);
 
 @import './block/card.css' layer(block);
+@import './block/page.css' layer(block);
+@import './block/section.css' layer(block);

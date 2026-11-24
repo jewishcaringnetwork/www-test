@@ -30,17 +30,23 @@ const moreLinks: NavLink[] = [
 		color: var(--color-text-secondary);
 	}
 
+	/*
+	 * Its space above and below is the page's (src/css/block/page.css). The
+	 * inner stack sets the tight gap between the heading and the links, so
+	 * the nav's own top gap stays the page's.
+	 */
 	.more {
 		--container-size: 40rem;
-		--stack-gap: var(--space-2xs);
 
-		padding-block-end: var(--space-3xl);
 		padding-inline: var(--space-l);
 		text-align: center;
 
 		@media (max-width: 60rem) {
-			padding-block-end: var(--space-2xl);
 			padding-inline: var(--space-s);
+		}
+
+		> .stack {
+			--stack-gap: var(--space-2xs);
 		}
 
 		h2 {
@@ -75,10 +81,14 @@ const moreLinks: NavLink[] = [
 		</Fragment>
 	</Hero>
 
-	<nav class="more | stack container" aria-labelledby="more-heading">
-		<h2 id="more-heading">Or try one of these:</h2>
-		<ul role="list" class="cluster">
-			{moreLinks.map(({ label, href }) => <li><a href={href}>{label}</a></li>)}
-		</ul>
+	<nav class="more | container" aria-labelledby="more-heading">
+		<div class="stack">
+			<h2 id="more-heading">Or try one of these:</h2>
+			<ul role="list" class="cluster">
+				{moreLinks.map(({ label, href }) => (
+					<li><a href={href}>{label}</a></li>
+				))}
+			</ul>
+		</div>
 	</nav>
 </Layout>

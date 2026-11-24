@@ -2,7 +2,7 @@
 /**
  * The plain page header: heading (or the page title) and an optional lead.
  * Almost every page opens with this; landing pages use the hero instead.
- * Its heading is the page's only h1.
+ * Its heading is the page's only h1. Styles: src/css/block/page.css.
  */
 import type { CollectionEntry } from 'astro:content';
 
@@ -20,35 +20,7 @@ interface Props {
 const { header, title } = Astro.props;
 ---
 
-<style>
-	header {
-		--container-size: 75rem;
-		--stack-gap: var(--space-xs);
-
-		padding-block: var(--space-2xl) var(--space-l);
-		padding-inline: var(--space-l);
-
-		@media (max-width: 60rem) {
-			padding-block-start: var(--space-xl);
-			padding-inline: var(--space-s);
-		}
-
-		:is(h1, p) {
-			margin-block-end: 0;
-		}
-	}
-
-	h1 {
-		color: var(--color-brand-blue);
-	}
-
-	.lead {
-		max-inline-size: 40rem;
-		color: var(--color-text-secondary);
-	}
-</style>
-
-<header class="stack container">
+<header class="page-header | stack container">
 	<h1 class="text-h1" dir="auto">{header.heading ?? title}</h1>
 	{header.lead && <p class="lead | text-large" dir="auto">{header.lead}</p>}
 </header>

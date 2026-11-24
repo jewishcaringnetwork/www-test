@@ -1,0 +1,62 @@
+/**
+ * Page
+ * The vertical rhythm of a page's content: `<main class="page | stack">`
+ * (src/layouts/base.astro). The stack's gap is the space between the page
+ * header or hero and each section. Paper sections add no padding of their
+ * own; a banded section pads inside its color by the same gap
+ * (src/css/block/section.css). A child can set its own top gap with
+ * `--stack-gap`.
+ */
+
+.page {
+	--stack-gap: var(--space-2xl);
+
+	padding-block-end: var(--space-3xl);
+
+	@media (max-width: 60rem) {
+		--stack-gap: var(--space-xl);
+
+		padding-block-end: var(--space-2xl);
+	}
+
+	/*
+	 * The page title introduces what follows: the first section sits no
+	 * further from it than sections sit from each other, and further than
+	 * the groups inside a section (Markdown headings: space-l).
+	 */
+	> .page-header + * {
+		--stack-gap: var(--space-xl);
+	}
+}
+
+/**
+ * Page header
+ * The plain page header (src/components/header.astro): the page's h1 and an
+ * optional lead. The space below it is the page's.
+ */
+
+.page-header {
+	--container-size: 75rem;
+	--stack-gap: var(--space-xs);
+
+	padding-block-start: var(--space-2xl);
+	padding-inline: var(--space-l);
+
+	@media (max-width: 60rem) {
+		padding-block-start: var(--space-xl);
+		padding-inline: var(--space-s);
+	}
+
+	:is(h1, p) {
+		margin-block-end: 0;
+	}
+
+	h1 {
+		color: var(--color-text-heading);
+	}
+
+	.lead {
+		max-inline-size: 40rem;
+		color: var(--color-text-secondary);
+	}
+}

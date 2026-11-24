@@ -11,6 +11,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import Button from '~/components/button.astro';
+import type { SectionBackground } from '~/lib/section-background';
 import Section from './section.astro';
 
 type Block = Extract<
@@ -20,9 +21,10 @@ type Block = Extract<
 
 interface Props {
 	block: Block;
+	background: SectionBackground;
 }
 
-const { block } = Astro.props;
+const { block, background } = Astro.props;
 const brand = block.tone === 'brand';
 const id = `cta-${
 	block.heading.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-')
@@ -64,7 +66,7 @@ const id = `cta-${
 			}
 
 			h2 {
-				color: var(--color-brand-blue);
+				color: var(--color-text-heading);
 			}
 
 			.text {
@@ -74,7 +76,7 @@ const id = `cta-${
 	}
 
 	.copy {
-		--stack-gap: var(--space-2xs);
+		--stack-gap: var(--space-xs);
 
 		flex: 1 1 24rem;
 		max-inline-size: 40rem;
@@ -94,7 +96,7 @@ const id = `cta-${
 	}
 </style>
 
-<Section type="cta" aria-labelledby={id}>
+<Section type="cta" background={background} aria-labelledby={id}>
 	<div class:list={['band', !brand && 'card']} data-tone={block.tone}>
 		<div class="copy | stack">
 			<h2

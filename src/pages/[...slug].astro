@@ -10,6 +10,7 @@ import Block from '~/components/blocks/block.astro';
 import Header from '~/components/header.astro';
 import Hero from '~/components/hero.astro';
 import Layout from '~/layouts/base.astro';
+import { sectionBackgrounds } from '~/lib/section-background';
 
 export async function getStaticPaths() {
 	const pages = await getCollection('pages');
@@ -21,11 +22,17 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const { title, description, noindex, header, blocks } = page.data;
+const backgrounds = sectionBackgrounds(
+	header.type,
+	blocks.map((block) => block.type),
+);
 ---
 
 <Layout title={title} description={description} ignore={noindex}>
 	{header.type === 'hero'
 		? <Hero hero={header} />
 		: <Header header={header} title={title} />}
-	{blocks.map((block) => <Block block={block} />)}
+	{blocks.map((block, i) => (
+		<Block block={block} background={backgrounds[i]} />
+	))}
 </Layout>
