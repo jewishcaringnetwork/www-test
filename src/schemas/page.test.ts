@@ -106,10 +106,24 @@ describe('pageSchema', () => {
 			},
 			blocks: [
 				{
-					type: 'stats',
+					type: 'impact',
 					items: [
-						{ value: '30', label: 'years serving families' },
-						{ value: '$xxx', label: 'saved' },
+						{
+							value: '30',
+							label: 'years caring for families, since 1996',
+							source: {
+								document: 'JCN_Impact_Sponsorship_Opportunities.pdf',
+								date: '2026-11-15',
+							},
+						},
+						{
+							value: '21,000',
+							label: 'overnight stays at Tikva House in 13 years',
+							source: {
+								document: 'JCN26 Infographic WWW.pdf',
+								date: '2026-06-14',
+							},
+						},
 					],
 				},
 				{
@@ -124,20 +138,31 @@ describe('pageSchema', () => {
 				},
 				{
 					type: 'cta',
-					heading: 'Lend a hand, a heart, or a few hours',
-					actions: [action('Volunteer', '/get-involved/volunteer')],
-				},
-				{
-					type: 'cta',
 					heading: "You don't have to do this alone",
 					tone: 'subtle',
 					actions: [
-						action('Request support', '/contact'),
-						action('Call 410-602-6075', 'tel:+14106026075', 'secondary'),
+						action('Contact us', '/contact'),
 					],
 				},
 			],
 		});
+	});
+
+	it('allows at most two CTAs, one of them brand', () => {
+		const cta = (tone: string) => ({
+			type: 'cta',
+			heading: 'How your gift helps',
+			tone,
+			actions: [action('Make a gift', '/donate', 'donate')],
+		});
+		const home = (...blocks: unknown[]) => ({
+			title: 'Home',
+			header: {},
+			blocks,
+		});
+		ok(page, home(cta('brand'), cta('subtle')));
+		bad(page, home(cta('brand'), cta('brand')));
+		bad(page, home(cta('brand'), cta('subtle'), cta('subtle')));
 	});
 
 	it('converts to JSON Schema for the MCP server', () => {

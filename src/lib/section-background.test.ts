@@ -29,7 +29,26 @@ describe('sectionBackgrounds', () => {
 		]);
 	});
 
-	it('never assigns blue to a current block', () => {
+	it('paints the first impact block blue, once per page', () => {
+		// Home
+		assert.deepEqual(
+			sectionBackgrounds('hero', ['impact', 'cards', 'cta', 'cta']),
+			['blue', 'paper', 'paper', 'paper'],
+		);
+		assert.deepEqual(
+			sectionBackgrounds('hero', ['impact', 'prose', 'impact']),
+			['blue', 'white', 'paper'],
+		);
+	});
+
+	it('keeps impact on paper under a plain header', () => {
+		assert.deepEqual(sectionBackgrounds('header', ['prose', 'impact']), [
+			'paper',
+			'paper',
+		]);
+	});
+
+	it('assigns blue to no other block', () => {
 		const types = ['prose', 'mediaText', 'cards', 'contact', 'cta', 'people'];
 		assert.ok(!sectionBackgrounds('hero', types).includes('blue'));
 	});

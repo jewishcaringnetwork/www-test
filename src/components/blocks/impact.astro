@@ -1,0 +1,114 @@
+---
+/**
+ * Impact numbers: two to eight figures shown large, each with what it counts,
+ * under the shared section header, with an optional quiet link below. Built
+ * for Home's impact teaser and About's Impact section.
+ *
+ * On a landing page the first impact block gets the blue band
+ * (`sectionBackgrounds`), whose on-brand text tokens these styles follow; on
+ * paper the same styles read in brand blue. Each figure's `source` is a record
+ * for staff and is not rendered.
+ *
+ * Figures are a list, not a table: each reads as one phrase ("17,000 meals
+ * provided each year"), number first.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Icon from '~/components/icon.astro';
+import type { SectionBackground } from '~/lib/section-background';
+import Section from './section.astro';
+
+type Block = Extract<
+	CollectionEntry<'pages'>['data']['blocks'][number],
+	{ type: 'impact' }
+>;
+
+interface Props {
+	block: Block;
+	background: SectionBackground;
+}
+
+const { block, background } = Astro.props;
+---
+
+<style>
+	/*
+	 * Columns fit the figures; two or four never leave one alone on a row
+	 * (four go two by two when narrow).
+	 */
+	.figures {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+		gap: var(--space-l) var(--space-m);
+		padding: 0;
+
+		&[data-count='2'] {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		&[data-count='4'] {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+
+			@media (max-width: 60rem) {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+		}
+	}
+
+	/* A short gold rule sets each figure apart; gold is the accent */
+	.figure {
+		--stack-gap: var(--space-3xs);
+
+		padding-block-start: var(--space-s);
+		border-block-start: 3px solid var(--color-brand-gold);
+
+		p {
+			margin-block-end: 0;
+		}
+	}
+
+	.value {
+		font-family: var(--font-family-heading);
+		font-size: var(--font-size-3xl);
+		font-weight: var(--font-weight-semibold);
+		font-variant-numeric: tabular-nums;
+		line-height: 1.1;
+		color: var(--color-text-heading);
+	}
+
+	.label {
+		max-inline-size: 18rem;
+		color: var(--color-text-secondary);
+	}
+
+	.quiet {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+</style>
+
+<Section
+	type="impact"
+	background={background}
+	heading={block.heading}
+	intro={block.intro}
+>
+	<ul role="list" class="figures" data-count={block.items.length}>
+		{block.items.map((item) => (
+			<li class="figure | stack">
+				<p class="value" dir="auto">{item.value}</p>
+				<p class="label | text-large" dir="auto">{item.label}</p>
+			</li>
+		))}
+	</ul>
+	{block.link && (
+		<a class="quiet" href={block.link.href} dir="auto">
+			{block.link.label}
+			<Icon name="arrow-right" size={16} />
+		</a>
+	)}
+</Section>

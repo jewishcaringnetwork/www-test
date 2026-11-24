@@ -1,0 +1,117 @@
+{
+	"title": "Home",
+	"description": "Free, long-term, family-centered support for Jewish families facing serious illness in Baltimore and beyond.",
+	"header": {
+		"type": "hero",
+		"heading": "Caring for the whole family, for as long as it takes",
+		"lead": "When serious illness strikes, the entire family is affected. Our programs, activities, and services are designed to help each family member. Always free. Always with dignity.",
+		"image": {
+			"src": "../images/home-hero.svg",
+			"alt": "The Jewish Caring Network logo in a circle, with icons for meals, a home and a caring hand around it"
+		},
+		"actions": [
+			{
+				"label": "Give now",
+				"href": "/donate",
+				"variant": "donate"
+			},
+			{
+				"label": "Volunteer",
+				"href": "/get-involved/volunteer",
+				"variant": "secondary"
+			}
+		],
+		"link": {
+			"label": "Need support?",
+			"href": "/contact"
+		}
+	},
+	"blocks": [
+		{
+			"type": "impact",
+			"heading": "Support that reaches the whole family",
+			"items": [
+				{
+					"value": "30",
+					"label": "years caring for families, since 1996",
+					"source": {
+						"document": "JCN_Impact_Sponsorship_Opportunities.pdf",
+						"date": "2026-11-15"
+					}
+				},
+				{
+					"value": "17,000",
+					"label": "meals provided each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "1,300",
+					"label": "hours of cleaning help and nursing care each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "21,000",
+					"label": "overnight stays at Tikva House in 13 years",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				}
+			]
+		},
+		{
+			"type": "cards",
+			"heading": "How we help",
+			"intro": "Every service is free, and shaped around what each family needs.",
+			"items": [
+				{
+					"title": "Care & counseling",
+					"text": "Nursing care, hospital visits, and individual, group and bereavement counseling.",
+					"icon": "heartbeat",
+					"link": {
+						"href": "/services"
+					}
+				},
+				{
+					"title": "Family support",
+					"text": "Meals and Shabbos packages, cleaning and laundry, babysitting, tutoring and camp.",
+					"icon": "users-three",
+					"link": {
+						"href": "/services"
+					}
+				},
+				{
+					"title": "Tikva House",
+					"text": "Seven private suites with kosher hospitality, a block from Johns Hopkins Hospital.",
+					"icon": "house-line",
+					"link": {
+						"href": "/tikva-house"
+					}
+				}
+			],
+			"link": {
+				"label": "See all services",
+				"href": "/services"
+			}
+		},
+		{
+			"type": "cta",
+			"tone": "brand",
+			"heading": "Your kindness becomes a meal, a night’s rest, a moment of normal",
+			"text": "Every gift reaches a family facing serious illness — through meals, care, respite or a home at Tikva House.",
+			"actions": [
+				{
+					"label": "Make a gift",
+					"href": "/donate",
+					"variant": "donate"
+				}
+			]
+		}
+	]
+}

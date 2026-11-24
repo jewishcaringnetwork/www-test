@@ -23,10 +23,22 @@ export const pageSchema = (fns: SchemaFns) =>
 				description: 'Hide this page from search engines.',
 			}),
 			header: headerSchema(fns),
-			blocks: z.array(blockSchema(fns)).max(12).default([]).meta({
-				description:
-					'Page sections after the header, top to bottom. Order by priority: the first sections get the most attention.',
-			}),
+			blocks: z
+				.array(blockSchema(fns))
+				.max(12)
+				.refine(
+					(blocks) => {
+						const ctas = blocks.filter((b) => b.type === 'cta');
+						return ctas.length <= 2
+							&& ctas.filter((b) => b.tone === 'brand').length <= 1;
+					},
+					'At most two cta blocks per page: one brand and one subtle.',
+				)
+				.default([])
+				.meta({
+					description:
+						'Page sections after the header, top to bottom. Order by priority: the first sections get the most attention.',
+				}),
 		})
 		.meta({
 			description: [

@@ -15,14 +15,18 @@ export type SectionBackground = 'paper' | 'white' | 'blue';
 const selfContained = new Set(['cards', 'contact', 'cta']);
 
 /**
+ * The block type that gets the blue band, for emphasis. At most one per page:
+ * a second one is treated as an open section.
+ */
+const emphasis = 'impact';
+
+/**
  * Backgrounds for a page's blocks, top to bottom. Only landing pages (a
  * hero header), whose sections are stacked blocks, get bands: the first open
  * section after the hero is white, and open sections alternate from there,
- * with self-contained blocks staying on paper. Pages with a plain header are
- * all paper: their headings already set sections apart.
- *
- * `blue` is not assigned to any block yet. It is kept for a future block
- * it suits, such as impact numbers, at most once per page.
+ * with self-contained blocks staying on paper. The first impact block is
+ * blue instead, and the next open section after it is white. Pages with a
+ * plain header are all paper: their headings already set sections apart.
  */
 export const sectionBackgrounds = (
 	header: 'header' | 'hero',
@@ -30,10 +34,16 @@ export const sectionBackgrounds = (
 ): SectionBackground[] => {
 	if (header !== 'hero') return types.map(() => 'paper');
 	let previous: SectionBackground = 'paper';
+	let blueUsed = false;
 	return types.map((type) => {
-		previous = selfContained.has(type) || previous === 'white'
-			? 'paper'
-			: 'white';
+		if (type === emphasis && !blueUsed) {
+			blueUsed = true;
+			previous = 'blue';
+		} else {
+			previous = selfContained.has(type) || previous === 'white'
+				? 'paper'
+				: 'white';
+		}
 		return previous;
 	});
 };

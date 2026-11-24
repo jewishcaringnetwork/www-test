@@ -53,7 +53,7 @@ export const headerSchema = (fns: SchemaFns) => {
 			}),
 			image: imageSchema(
 				fns,
-				'Photo shown beside the text in a 4:3 frame. Omit for a text-only hero.',
+				'Photo or illustration shown beside the text in a 4:3 frame. An illustration is an SVG drawn at 4:3, with no text in it: put words in the heading and lead. Omit for a text-only hero.',
 			).optional(),
 			actions: actions(0, 2).default([]),
 			link: linkSchema.optional(),
@@ -123,27 +123,54 @@ const cards = z
 	})
 	.meta({ description: 'A grid of short cards, e.g. a teaser of services.' });
 
-const stats = z
+const impactSource = z
 	.strictObject({
-		type: z.literal('stats'),
+		document: text(3, 120).meta({
+			description:
+				'Exact file name or title of the document the figure was copied from, e.g. "JCN26 Infographic WWW.pdf".',
+		}),
+		date: z.iso.date().meta({
+			description:
+				'Date of that document as YYYY-MM-DD: the date printed on it, or when it was made if none is printed.',
+		}),
+	})
+	.meta({
+		description:
+			'Where the figure comes from. Not shown on the page: it lets staff check the figure and see when it is out of date.',
+	});
+
+const impact = z
+	.strictObject({
+		type: z.literal('impact'),
 		...sectionHeader,
 		items: z
 			.array(
 				z.strictObject({
 					value: text(1, 12).meta({
-						description: 'The number, e.g. "30" or "$1.2M".',
+						description:
+							'The figure exactly as the source gives it, e.g. "30", "21,000" or "20,000+". Never round up or estimate.',
 					}),
-					label: text(2, 60).meta({
-						description: 'What it counts, e.g. "years serving families".',
+					label: text(2, 80).meta({
+						description:
+							'What it counts, with its period when it has one, e.g. "meals provided each year" or "overnight stays at Tikva House in 13 years".',
 					}),
+					source: impactSource,
 				}),
 			)
 			.min(2)
-			.max(4),
+			.max(8)
+			.meta({
+				description:
+					'The figures, most telling first. Two to four suit a teaser; use more only on a page about impact.',
+			}),
+		link: linkSchema.optional().meta({
+			description:
+				`Shown below the figures, e.g. "See our impact". ${hierarchy.quietLink}`,
+		}),
 	})
 	.meta({
 		description:
-			'Impact numbers. Only use figures the organisation can stand behind.',
+			'Impact numbers, shown large. Numbers are a trust claim: use only figures from a document the organization published, give each its source, and never invent or estimate one.',
 	});
 
 const faq = z
@@ -259,7 +286,7 @@ export const blockSchema = (fns: SchemaFns) =>
 		prose,
 		mediaText(fns),
 		cards,
-		stats,
+		impact,
 		faq,
 		cta,
 		contact(fns),
