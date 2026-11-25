@@ -49,26 +49,8 @@
 			]
 		},
 		{
-			"type": "cards",
-			"heading": "More about us",
-			"items": [
-				{
-					"title": "Leadership",
-					"text": "Our President, our CEO and the Board of Directors.",
-					"icon": "users-three",
-					"link": {
-						"href": "/about/leadership"
-					}
-				},
-				{
-					"title": "History",
-					"text": "Our two divisions, Gevuras Yarden and Gevuras Rina, and the people they’re named for.",
-					"icon": "book-open",
-					"link": {
-						"href": "/about/history"
-					}
-				}
-			]
+			"type": "prose",
+			"markdown": "## Our leadership\n\n[Meet our President, CEO and Board of Directors](/about/leadership)"
 		}
 	]
 }
