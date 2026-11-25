@@ -63,6 +63,16 @@ const Heading = block.heading ? 'h3' : 'h2';
 		margin-block-start: auto;
 		padding-block-start: var(--space-xs);
 	}
+
+	/*
+	 * Override: with no stories, the one sentence reads as the end of the
+	 * page intro, so it sits at the stack's default gap under the lead
+	 * instead of the page's section gap (src/css/block/page.css). The CTA
+	 * below keeps the full gap. Beats `.page > .page-header + *`.
+	 */
+	.section[data-empty] {
+		--stack-gap: var(--space-s);
+	}
 </style>
 
 <Section
@@ -70,6 +80,7 @@ const Heading = block.heading ? 'h3' : 'h2';
 	background={background}
 	heading={block.heading}
 	intro={block.intro}
+	data-empty={stories.length === 0 || undefined}
 >
 	{stories.length
 		? (
