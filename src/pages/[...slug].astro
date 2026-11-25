@@ -4,7 +4,9 @@
  * `content/pages/about/history.json` is `/about/history`. A page is the base
  * layout, its header (plain, or a hero on landing pages) and its blocks;
  * there is no separate page layout. `content/pages/index.json` is Home (`/`),
- * whose browser tab shows the site name alone.
+ * whose browser tab shows the site name alone. A hero photo is also the
+ * page's social preview image; an SVG illustration isn't (Home), since
+ * social sites can't show SVG.
  *
  * Pages in `ownRoute` have a route of their own that renders the same JSON
  * around something blocks can't express, so they're skipped here.
@@ -16,6 +18,7 @@ import Hero from '~/components/hero.astro';
 import Layout from '~/layouts/base.astro';
 import { sectionBackgrounds } from '~/lib/section-background';
 import { duplicateForms } from '~/schemas/forms';
+import { missingDescriptions } from '~/schemas/page';
 
 export async function getStaticPaths() {
 	// Page ids rendered by their own route, e.g. an archive
@@ -27,6 +30,10 @@ export async function getStaticPaths() {
 		id: page.id,
 		forms: page.data.blocks.flatMap((b) => b.type === 'form' ? [b.form] : []),
 	})));
+	errors.push(...missingDescriptions(pages.map((page) => ({
+		id: page.id,
+		...page.data,
+	}))));
 	if (errors.length) throw new Error(errors.join('\n'));
 	return pages.filter((page) => !ownRoute.has(page.id)).map((page) => ({
 		params: { slug: page.id === 'index' ? undefined : page.id },
@@ -46,6 +53,9 @@ const backgrounds = sectionBackgrounds(
 	title={page.id === 'index' ? false : title}
 	description={description}
 	ignore={noindex}
+	image={header.type === 'hero' && header.image?.src.format !== 'svg'
+	? header.image
+	: undefined}
 >
 	{header.type === 'hero'
 		? <Hero hero={header} />

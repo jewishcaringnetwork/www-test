@@ -103,7 +103,7 @@ const { title, lead, date, byline, back, next } = Astro.props;
 	}
 </style>
 
-<Layout title={title}>
+<Layout title={title} description={lead}>
 	<Header header={{ type: 'header', lead }} title={title}>
 		<a slot="before" class="back | text-small" href={back.href}>
 			<Icon name="arrow-right" size={16} />

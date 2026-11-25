@@ -1,7 +1,12 @@
 import { z } from 'astro/zod';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { pageSchema, personSchema, storySchema } from './page.ts';
+import {
+	missingDescriptions,
+	pageSchema,
+	personSchema,
+	storySchema,
+} from './page.ts';
 import type { SchemaFns } from './shared.ts';
 
 const fns = {
@@ -26,6 +31,8 @@ const action = (label: string, href: string, variant = 'primary') => ({
 	href,
 	variant,
 });
+const description =
+	'Free support for Jewish families facing serious illness in Baltimore.';
 const card = {
 	title: 'Family support',
 	text: 'Meals, childcare and household help.',
@@ -33,7 +40,7 @@ const card = {
 
 describe('pageSchema', () => {
 	it('fills defaults', () => {
-		const data = ok(page, { title: 'Contact us', header: {} });
+		const data = ok(page, { title: 'Contact us', description, header: {} });
 		assert.deepEqual(data.blocks, []);
 		assert.equal(data.header.type, 'header');
 	});
@@ -42,6 +49,7 @@ describe('pageSchema', () => {
 		ok(page, {
 			$schema: '../../.astro/collections/pages.schema.json',
 			title: 'Contact us',
+			description,
 			header: {},
 		});
 	});
@@ -91,9 +99,15 @@ describe('pageSchema', () => {
 		});
 	});
 
+	it('tells the model a description is required unless noindex', () => {
+		const json = JSON.stringify(z.toJSONSchema(page, { io: 'input' }));
+		assert.match(json, /Required unless noindex is true/);
+	});
+
 	it('accepts the approved home page shape', () => {
 		ok(page, {
 			title: 'Home',
+			description,
 			header: {
 				type: 'hero',
 				heading: 'When serious illness strikes, the entire family is affected.',
@@ -158,6 +172,7 @@ describe('pageSchema', () => {
 		});
 		const home = (...blocks: unknown[]) => ({
 			title: 'Home',
+			description,
 			header: {},
 			blocks,
 		});
@@ -170,6 +185,29 @@ describe('pageSchema', () => {
 		const json = z.toJSONSchema(page, { io: 'input' }) as any;
 		const items = json.properties.blocks.items;
 		assert.equal((items.oneOf ?? items.anyOf).length, 11);
+	});
+});
+
+describe('missingDescriptions', () => {
+	it('passes pages with a description, and noindex pages without one', () => {
+		assert.deepEqual(
+			missingDescriptions([
+				{ id: 'contact', description },
+				{ id: 'preview/blocks', noindex: true },
+			]),
+			[],
+		);
+	});
+
+	it('names each indexed page without a description', () => {
+		const errors = missingDescriptions([
+			{ id: 'about/history' },
+			{ id: 'services', noindex: false },
+			{ id: 'contact', description },
+		]);
+		assert.equal(errors.length, 2);
+		assert.match(errors[0]!, /content\/pages\/about\/history\.json/);
+		assert.match(errors[1]!, /services/);
 	});
 });
 
