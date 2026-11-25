@@ -17,7 +17,7 @@ export const pageSchema = (fns: SchemaFns) =>
 			}),
 			description: text(50, 160).optional().meta({
 				description:
-					'One-sentence summary for search engines. Omit to let them write a snippet from the page.',
+					"One-sentence summary of the page, shown under its link in search results and in previews when the link is shared. Required unless noindex is true. Write it from what the page says, in the site's plain, warm voice, and name the Jewish Caring Network or the program the page is about.",
 			}),
 			noindex: z.boolean().optional().meta({
 				description: 'Hide this page from search engines.',
@@ -47,6 +47,21 @@ export const pageSchema = (fns: SchemaFns) =>
 				hierarchy.whenUnsure,
 			].join(' '),
 		});
+
+/**
+ * A page search engines can see needs a description. Not a refinement on
+ * `pageSchema`: Astro extends that object to make the editor JSON Schema,
+ * and Zod can't extend an object with refinements. Given each page's id,
+ * description and noindex, returns an error per page missing one, or none.
+ */
+export const missingDescriptions = (
+	pages: readonly { id: string; description?: string; noindex?: boolean }[],
+): string[] =>
+	pages
+		.filter((page) => !page.noindex && !page.description)
+		.map((page) =>
+			`content/pages/${page.id}.json needs a description, or noindex: true.`
+		);
 
 /**
  * Written by families; not edited through MCP. No photo: a story is its

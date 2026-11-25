@@ -3,20 +3,69 @@ import 'virtual:sugarcube.css';
 import '~/css/main.css';
 import '@fontsource-variable/signika';
 
+import { getImage } from 'astro:assets';
 import { site } from '~/config';
 import Banner from './_banner.astro';
 import Footer from './_footer.astro';
 import Header from './_header.astro';
 
 export interface Props {
+	/** `false` on Home: the tab shows the site name and tagline. */
 	title: string | false;
 	/** For search results. Omit to let search engines pick a snippet. */
 	description?: string;
 	/** Hide the page from search engines. */
 	ignore?: boolean;
+	/**
+	 * Preview image for links shared on social media, e.g. a hero photo.
+	 * Cropped to 1200×630. Defaults to `/og-default.png`.
+	 */
+	image?: { src: ImageMetadata; alt: string };
+	/**
+	 * For a dated post, e.g. a family story. Makes the social preview an
+	 * article. `section` is the list it belongs to, e.g. "Family Stories".
+	 */
+	article?: { published: Date; section: string };
 }
 
-const title = [Astro.props.title || [], site.name].flat().join(' | ');
+const { description, ignore, image, article } = Astro.props;
+const title = Astro.props.title
+	? `${Astro.props.title} | ${site.name}`
+	: `${site.name} | ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+/*
+ * Social sites fetch og:url and og:image from the address in the tag, and
+ * treat og:url as the page's real address. On a deploy preview, point both
+ * at the preview so a card validator reads this build, not the live site.
+ * The canonical link always names the live site.
+ */
+const previewOrigin = process.env.CONTEXT !== 'production'
+	&& process.env.DEPLOY_PRIME_URL;
+const origin = previewOrigin || Astro.site;
+const shareUrl = new URL(Astro.url.pathname, origin);
+
+/*
+ * The default card is the wordmark beside the Home hero illustration
+ * (content/images/home-hero.svg) on the paper color, made with ImageMagick.
+ * Remake it if the logo or that illustration changes.
+ */
+const card = image
+	? {
+		src: (await getImage({
+			src: image.src,
+			width: 1200,
+			height: 630,
+			fit: 'cover',
+			format: 'jpg',
+		})).src,
+		alt: image.alt,
+	}
+	: {
+		src: '/og-default.png',
+		alt:
+			`The ${site.name} name beside its logo, ringed by icons for meals, a home and a caring hand`,
+	};
 ---
 
 <style>
@@ -48,13 +97,37 @@ const title = [Astro.props.title || [], site.name].flat().join(' | ');
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="text-scale" content="scale" />
-		<link rel="icon" href="data:," />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-		{Astro.props.description && (
-			<meta name="description" content={Astro.props.description} />
+		{description && <meta name="description" content={description} />}
+		{ignore
+			? <meta name="robots" content="noindex" />
+			: <link rel="canonical" href={canonical} />}
+		<meta property="og:type" content={article ? 'article' : 'website'} />
+		{article && (
+			<Fragment>
+				<meta
+					property="article:published_time"
+					content={article.published.toISOString()}
+				/>
+				<meta property="article:section" content={article.section} />
+			</Fragment>
 		)}
-		{Astro.props.ignore && <meta name="robots" content="noindex" />}
+		<meta property="og:site_name" content={site.name} />
+		<meta property="og:title" content={Astro.props.title || site.name} />
+		<meta
+			property="og:description"
+			content={description ?? site.description}
+		/>
+		<meta property="og:url" content={shareUrl} />
+		<meta property="og:image" content={new URL(card.src, origin)} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={card.alt} />
+		<meta name="twitter:card" content="summary_large_image" />
 	</head>
 	<body>
 		<a class="skip-link" href="#main">Skip to content</a>

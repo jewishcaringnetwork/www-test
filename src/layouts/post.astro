@@ -29,7 +29,10 @@ interface Props {
 	date: Date;
 	/** E.g. "By the Cohen family". Omit for an anonymous post. */
 	byline?: string;
-	/** Above the title, e.g. the list this post belongs to. */
+	/**
+	 * Above the title: the list this post belongs to. Its label is also the
+	 * post's section in social previews.
+	 */
 	back: Link;
 	/** After the body, back to the list, e.g. "Read more stories". */
 	next: Link;
@@ -103,7 +106,11 @@ const { title, lead, date, byline, back, next } = Astro.props;
 	}
 </style>
 
-<Layout title={title}>
+<Layout
+	title={title}
+	description={lead}
+	article={{ published: date, section: back.label }}
+>
 	<Header header={{ type: 'header', lead }} title={title}>
 		<a slot="before" class="back | text-small" href={back.href}>
 			<Icon name="arrow-right" size={16} />
