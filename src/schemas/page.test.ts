@@ -192,6 +192,12 @@ describe('storySchema', () => {
 		assert.equal(ok(story, { ...minimal, approved: true }).approved, true);
 	});
 
+	it('has no photo field', () =>
+		bad(story, {
+			...minimal,
+			image: { src: './a.jpg', alt: 'A family at Tikva House' },
+		}));
+
 	it('rejects a non-boolean approved flag', () =>
 		bad(story, { ...minimal, approved: 'yes' }));
 

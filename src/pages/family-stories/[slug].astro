@@ -11,9 +11,11 @@
  */
 import { getCollection, render } from 'astro:content';
 import PostLayout from '~/layouts/post.astro';
-import { approvedStories, type Story } from '~/lib/stories';
+import { approvedStories, type Story, storyProblems } from '~/lib/stories';
 
 export async function getStaticPaths() {
+	const problems = await storyProblems();
+	if (problems.length) throw new Error(problems.join('\n'));
 	const stories = await approvedStories();
 	// A story named like a page under /family-stories/ (e.g. share.md)
 	// would hide that page.
@@ -37,7 +39,7 @@ interface Props {
 }
 
 const { story } = Astro.props;
-const { title, summary, image, date, author } = story.data;
+const { title, summary, date, author } = story.data;
 const { Content } = await render(story);
 ---
 
@@ -46,7 +48,6 @@ const { Content } = await render(story);
 	lead={summary}
 	date={date}
 	byline={author && `By ${author}`}
-	image={image}
 	back={{ href: '/family-stories', label: 'Family Stories' }}
 	next={{ href: '/family-stories', label: 'Read more stories' }}
 >

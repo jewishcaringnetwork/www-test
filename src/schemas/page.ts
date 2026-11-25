@@ -48,14 +48,30 @@ export const pageSchema = (fns: SchemaFns) =>
 			].join(' '),
 		});
 
-/** Written by families; not edited through MCP. */
-export const storySchema = (fns: SchemaFns) =>
+/**
+ * Written by families; not edited through MCP. No photo: a story is its
+ * words (2026-11-24). Takes `SchemaFns` like the other schemas, unused.
+ *
+ * Claude turns each submission (the Share Your Story form, email, a
+ * document) into `content/stories/<slug>.md`. The client doesn't write
+ * Markdown. Rules for that conversion:
+ *
+ * - Keep the wording exactly: spelling, punctuation, tone and line breaks,
+ *   even obvious typos. List typos for the client instead of fixing them.
+ * - Paragraphs: a blank line between them. A line break inside a
+ *   paragraph (a letter, a poem): end the line with a backslash `\`.
+ * - Only the Markdown `storyProblems` (src/lib/stories.ts) allows:
+ *   ## / ### headings, lists, **bold**, *italic*, links, > quotes, and
+ *   images saved in content/images (ADR 5) as `../images/<file>` with alt
+ *   text. Add markup only where the submission already has the structure.
+ * - Leave `approved` off until the client approves the story for public use.
+ */
+export const storySchema = (_fns: SchemaFns) =>
 	z.strictObject({
 		title: text(3, 100),
 		summary: text(10, 200).meta({
 			description: 'Teaser text shown in story lists.',
 		}),
-		image: imageSchema(fns).optional(),
 		date: z.coerce.date(),
 		author: text(2, 80).optional().meta({
 			description: 'Omit to publish anonymously.',
