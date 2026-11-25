@@ -1,0 +1,21 @@
+{
+	"title": "Family Stories",
+	"header": {
+		"type": "header",
+		"lead": "Read the stories families and volunteers have shared, or tell us yours."
+	},
+	"blocks": [
+		{
+			"type": "cta",
+			"heading": "Has JCN touched your family?",
+			"tone": "subtle",
+			"actions": [
+				{
+					"label": "Share your story",
+					"href": "/family-stories/share",
+					"variant": "primary"
+				}
+			]
+		}
+	]
+}

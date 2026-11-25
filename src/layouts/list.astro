@@ -1,0 +1,114 @@
+---
+/**
+ * An archive page: the page header, then a list of dated entries, newest
+ * first as given, each linking to its own page. Anything slotted in follows
+ * the list (e.g. a page's CTA blocks).
+ *
+ * It knows nothing about what the entries are: a route maps its collection
+ * to `items` (see src/pages/family-stories/index.astro).
+ *
+ * Entries are told apart by space and type alone, no rules or cards: a wide
+ * gap between entries and tight ones within. Each entry is an `<article>`
+ * with the date, the title as an h2 link, and an optional summary and
+ * byline. No photos: they broke the shared text edge between entries and
+ * squeezed the text on phones; an entry's own page shows its photo.
+ *
+ * With no entries, the `empty` message follows the lead inside the page
+ * header, so it reads as the end of the intro rather than a stray section.
+ */
+import Section from '~/components/blocks/section.astro';
+import Header from '~/components/header.astro';
+import { isoDate, longDate } from '~/lib/date';
+import Layout from './base.astro';
+
+export interface ListItem {
+	href: string;
+	title: string;
+	date: Date;
+	summary?: string;
+	/** Shown after the summary, e.g. "By the Cohen family". */
+	byline?: string;
+}
+
+interface Props {
+	/** Browser tab title, and the heading when `heading` is omitted. */
+	title: string;
+	heading?: string;
+	lead?: string;
+	/** For search results. Omit to let search engines pick a snippet. */
+	description?: string;
+	/** Hide the page from search engines. */
+	ignore?: boolean;
+	items: ListItem[];
+	/** Shown in place of the list while there are no items. */
+	empty: string;
+}
+
+const { title, heading, lead, description, ignore, items, empty } = Astro.props;
+---
+
+<style>
+	/* The stack's default gap under the lead, not the header's tight one */
+	.empty {
+		--stack-gap: var(--space-s);
+
+		max-inline-size: 40rem;
+		margin-block-end: 0;
+	}
+
+	.entries {
+		--stack-gap: var(--space-xl);
+	}
+
+	.entry {
+		--stack-gap: var(--space-2xs);
+
+		> * {
+			margin-block-end: 0;
+		}
+	}
+
+	.date,
+	.summary,
+	.byline {
+		color: var(--color-text-secondary);
+	}
+
+	/* A little more room after the title than around the small lines */
+	.summary {
+		--stack-gap: var(--space-xs);
+	}
+</style>
+
+<Layout title={title} description={description} ignore={ignore}>
+	<Header header={{ type: 'header', heading, lead }} title={title}>
+		{items.length === 0 && <p class="empty | text-large" dir="auto">{empty}</p>}
+	</Header>
+	{items.length > 0 && (
+		<Section type="list" narrow>
+			<ul role="list" class="entries | stack">
+				{items.map((item) => (
+					<li>
+						<article class="entry | stack">
+							<p class="date | text-small">
+								<time datetime={isoDate(item.date)}>
+									{longDate(item.date)}
+								</time>
+							</p>
+							<h2 class="text-h3" dir="auto">
+								<a href={item.href}>{item.title}</a>
+							</h2>
+							{item.summary && <p class="summary" dir="auto">{item.summary}</p>}
+							{item.byline && (
+								<p class="byline | text-small" dir="auto">
+									{item.byline}
+								</p>
+							)}
+						</article>
+					</li>
+				))}
+			</ul>
+		</Section>
+	)}
+	<slot />
+</Layout>

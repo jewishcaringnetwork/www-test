@@ -70,3 +70,43 @@ describe('markdownProblems', () => {
 		);
 	});
 });
+
+describe('markdownProblems for stories', () => {
+	const story = { quotes: true, images: true, gfm: true } as const;
+
+	it('allows quotes and images from content/images with alt text', () => {
+		assert.deepEqual(
+			markdownProblems(
+				'> A nurse told us\n\n![The library at Tikva House](../images/tikva-house-library.jpg)',
+				story,
+			),
+			[],
+		);
+	});
+
+	it('allows line breaks as typed', () => {
+		assert.deepEqual(markdownProblems('Dear JCN,\nThank you', story), []);
+	});
+
+	const cases: [string, RegExp][] = [
+		['![](../images/a.jpg)', /alt text/],
+		['![A photo](https://example.org/a.jpg)', /content\/images/],
+		['![A photo](a.jpg)', /content\/images/],
+		['# Title', /## or ###/],
+		['<div>raw</div>', /HTML/],
+		['`code`', /inline code/],
+		['| a |\n|---|\n| b |', /tables/],
+		['~~struck~~', /strikethrough/],
+	];
+
+	for (const [source, expected] of cases) {
+		it(`checks ${JSON.stringify(source)}`, () => {
+			assert.match(markdownProblems(source, story).join(' '), expected);
+		});
+	}
+
+	it('still rejects quotes and images on pages', () => {
+		assert.match(markdownProblems('> quote').join(' '), /block quotes/);
+		assert.match(markdownProblems('![a](../images/a.jpg)').join(' '), /images/);
+	});
+});
