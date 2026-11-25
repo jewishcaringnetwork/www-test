@@ -297,16 +297,6 @@ const people = z
 	})
 	.meta({ description: 'A list of people from one group.' });
 
-const ratings = z
-	.strictObject({
-		type: z.literal('ratings'),
-		...sectionHeader,
-	})
-	.meta({
-		description:
-			'JCN\'s charity ratings (Candid seal, Charity Navigator stars), shown large, each linking to JCN\'s public profile on that site. The ratings themselves come from "finance" in the site settings, not from this block: change them there. Shows nothing if the site settings have no ratings. Use it once, in the Financials section of About; the footer already shows the ratings on every page.',
-	});
-
 export const blockSchema = (fns: SchemaFns) =>
 	z.discriminatedUnion('type', [
 		prose,
@@ -320,7 +310,6 @@ export const blockSchema = (fns: SchemaFns) =>
 		logos(fns),
 		stories(fns),
 		people,
-		ratings,
 	]);
 
 export type Block = z.infer<ReturnType<typeof blockSchema>>;
