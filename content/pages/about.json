@@ -7,7 +7,7 @@
 	"blocks": [
 		{
 			"type": "prose",
-			"markdown": "## It began with a friend named Yarden\n\nIn 1996, our friend Jordan (Yarden in Hebrew) was diagnosed with cancer. The community responded with meals, visits and fundraising, and that outpouring raised a question: could the same care carry other families, too?\n\nIt could. Today the Jewish Caring Network brings meals, nursing care, counseling and respite to families facing serious illness, free of charge, for as long as they need us.\n\n[Read our full history](/about/history)"
+			"markdown": "## It began with a friend named Yarden\n\nIn 1996, our friend Jordan (Yarden in Hebrew) was diagnosed with cancer. The community responded with meals, visits and fundraising, and that outpouring raised a question: could the same care carry other families, too?\n\nIt could. Today the Jewish Caring Network brings meals, nursing care, counseling and respite to families facing serious illness, free of charge, for as long as they need us.\n\nIf your family is facing serious illness, you can [request support](/contact) confidentially."
 		},
 		{
 			"type": "impact",
@@ -45,19 +45,6 @@
 						"document": "JCN26 Infographic WWW.pdf",
 						"date": "2026-06-14"
 					}
-				}
-			]
-		},
-		{
-			"type": "cta",
-			"tone": "subtle",
-			"heading": "Facing a diagnosis? You don’t have to do this alone.",
-			"text": "Reach out confidentially. We’re here for your whole family.",
-			"actions": [
-				{
-					"label": "Request support",
-					"href": "/contact",
-					"variant": "primary"
 				}
 			]
 		},
