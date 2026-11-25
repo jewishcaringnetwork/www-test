@@ -6,10 +6,6 @@
 	},
 	"blocks": [
 		{
-			"type": "stories",
-			"count": "all"
-		},
-		{
 			"type": "cta",
 			"heading": "Has JCN touched your family?",
 			"tone": "subtle",

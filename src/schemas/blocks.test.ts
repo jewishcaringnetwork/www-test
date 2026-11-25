@@ -119,12 +119,6 @@ describe('blockSchema', () => {
 		assert.equal(ok(block, minimal.cta).tone, 'brand');
 	});
 
-	it('lets a stories block show every story', () => {
-		assert.equal(ok(block, { type: 'stories', count: 'all' }).count, 'all');
-		bad(block, { type: 'stories', count: 7 });
-		bad(block, { type: 'stories', count: 0 });
-	});
-
 	it('rejects hero as a block', () => bad(block, { type: 'hero' }));
 
 	it('enforces card counts', () => {

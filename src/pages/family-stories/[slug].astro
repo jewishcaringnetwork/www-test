@@ -15,7 +15,8 @@ import Icon from '~/components/icon.astro';
 import '~/components/blocks/markdown.css';
 import Section from '~/components/blocks/section.astro';
 import Layout from '~/layouts/base.astro';
-import { approvedStories, type Story, storyDate } from '~/lib/stories';
+import { isoDate, longDate } from '~/lib/date';
+import { approvedStories, type Story } from '~/lib/stories';
 
 export async function getStaticPaths() {
 	const stories = await approvedStories();
@@ -74,8 +75,8 @@ const { Content } = await render(story);
 	<Header header={{ type: 'header', lead: summary }} title={title} />
 	<Section type="story" narrow>
 		<p class="byline | text-small" dir="auto">
-			<time datetime={date.toISOString().slice(0, 10)}>
-				{storyDate(date)}
+			<time datetime={isoDate(date)}>
+				{longDate(date)}
 			</time>
 			{author && <>, {author}</>}
 		</p>

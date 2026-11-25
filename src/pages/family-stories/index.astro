@@ -1,0 +1,49 @@
+---
+/**
+ * The Family Stories archive. Its copy (title, intro, and the blocks after
+ * the list, e.g. the share CTA) is `content/pages/family-stories.json`, so
+ * it stays editable; `[...slug].astro` skips that page. The list is every
+ * approved story, newest first (`approvedStories`). Until one is approved,
+ * the page says stories are coming soon.
+ */
+import { getEntry } from 'astro:content';
+import Block from '~/components/blocks/block.astro';
+import ListLayout from '~/layouts/list.astro';
+import { sectionBackgrounds } from '~/lib/section-background';
+import { approvedStories, storyHref } from '~/lib/stories';
+
+const page = await getEntry('pages', 'family-stories');
+if (!page) throw new Error('content/pages/family-stories.json is missing.');
+const { title, description, noindex, header, blocks } = page.data;
+if (header.type !== 'header') {
+	throw new Error(
+		'content/pages/family-stories.json needs a plain header: the list layout has no hero.',
+	);
+}
+
+const items = (await approvedStories()).map((story) => ({
+	href: storyHref(story),
+	title: story.data.title,
+	date: story.data.date,
+	summary: story.data.summary,
+	byline: story.data.author && `By ${story.data.author}`,
+}));
+const backgrounds = sectionBackgrounds(
+	header.type,
+	blocks.map((block) => block.type),
+);
+---
+
+<ListLayout
+	title={title}
+	heading={header.heading}
+	lead={header.lead}
+	description={description}
+	ignore={noindex}
+	items={items}
+	empty="Family stories are coming soon."
+>
+	{blocks.map((block, i) => (
+		<Block block={block} background={backgrounds[i]} />
+	))}
+</ListLayout>

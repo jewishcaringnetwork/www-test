@@ -5,6 +5,9 @@
  * layout, its header (plain, or a hero on landing pages) and its blocks;
  * there is no separate page layout. `content/pages/index.json` is Home (`/`),
  * whose browser tab shows the site name alone.
+ *
+ * Pages in `ownRoute` have a route of their own that renders the same JSON
+ * around something blocks can't express, so they're skipped here.
  */
 import { getCollection } from 'astro:content';
 import Block from '~/components/blocks/block.astro';
@@ -15,13 +18,17 @@ import { sectionBackgrounds } from '~/lib/section-background';
 import { duplicateForms } from '~/schemas/forms';
 
 export async function getStaticPaths() {
+	// Page ids rendered by their own route, e.g. an archive
+	const ownRoute = new Set([
+		'family-stories', // src/pages/family-stories/index.astro
+	]);
 	const pages = await getCollection('pages');
 	const errors = duplicateForms(pages.map((page) => ({
 		id: page.id,
 		forms: page.data.blocks.flatMap((b) => b.type === 'form' ? [b.form] : []),
 	})));
 	if (errors.length) throw new Error(errors.join('\n'));
-	return pages.map((page) => ({
+	return pages.filter((page) => !ownRoute.has(page.id)).map((page) => ({
 		params: { slug: page.id === 'index' ? undefined : page.id },
 		props: { page },
 	}));

@@ -12,9 +12,9 @@ and stays the base.
    stays on paper throughout.
 2. **The first open section after the hero is white,** and open sections
    alternate paper and white from there.
-3. **Self-contained blocks stay on paper:** cards, story teasers, the contact
-   panel and CTAs. Their cards and panels already set them apart, and a white
-   card on a white band loses its edge.
+3. **Self-contained blocks stay on paper:** cards, the contact panel and CTAs.
+   Their cards and panels already set them apart, and a white card on a white
+   band loses its edge.
 4. **Content never picks a background.** The page works it out from the header
    type and each block's type, so editors and Claude can't break these rules.
 5. **Blue is for emphasis, not a default.** Only the impact-numbers block uses
