@@ -6,8 +6,9 @@
  * stories, all of them for `count: "all"`, or the `pick`ed ones in order.
  *
  * Only approved stories appear (`approvedStories`); a picked story that
- * isn't approved is skipped. With none to show, a "Coming soon" panel
- * stands in, so the page never shows an empty list.
+ * isn't approved is skipped. With none to show, one plain sentence says
+ * they're coming soon, so the page never shows an empty list or an empty
+ * card. The page's own CTA does the asking.
  *
  * Card headings are h3 under the section heading, or h2 when the section
  * has none (as on the Family Stories page), so no level is skipped.
@@ -54,18 +55,13 @@ const Heading = block.heading ? 'h3' : 'h2';
 	}
 
 	.summary,
-	.byline,
-	.soon p {
+	.byline {
 		color: var(--color-text-secondary);
 	}
 
 	.byline {
 		margin-block-start: auto;
 		padding-block-start: var(--space-xs);
-	}
-
-	.soon {
-		max-inline-size: 40rem;
 	}
 </style>
 
@@ -94,12 +90,5 @@ const Heading = block.heading ? 'h3' : 'h2';
 			 ))}
 		 </ul>
 	 )
-		: (
-		 <div class="soon | card | stack">
-			 <Heading class="text-h3">Coming soon</Heading>
-			 <p dir="auto">
-				 Stories from families and volunteers will appear here.
-			 </p>
-		 </div>
-	 )}
+		: <p class="text-large" dir="auto">Family stories are coming soon.</p>}
 </Section>
