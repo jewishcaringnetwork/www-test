@@ -42,7 +42,6 @@
 	h2 {
 		font-size: var(--font-size-2xl);
 		font-weight: var(--font-weight-semibold);
-		color: var(--color-text-heading);
 	}
 
 	h3 {

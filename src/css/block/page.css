@@ -51,10 +51,6 @@
 		margin-block-end: 0;
 	}
 
-	h1 {
-		color: var(--color-text-heading);
-	}
-
 	.lead {
 		max-inline-size: 40rem;
 		color: var(--color-text-secondary);

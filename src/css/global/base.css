@@ -18,6 +18,15 @@ body {
 	outline-offset: var(--outline-offset, var(--outline-size));
 }
 
+/*
+ * Headings take the heading token. Surfaces that change the text colours
+ * (the blue section band, .card and its brand tone) redefine the token, so
+ * headings on them follow without a rule of their own.
+ */
+:is(h1, h2, h3, h4) {
+	color: var(--color-text-heading);
+}
+
 p {
 	line-height: var(--leading-normal, 1.5);
 	overflow-wrap: break-word;
