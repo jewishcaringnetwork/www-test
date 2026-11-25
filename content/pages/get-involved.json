@@ -1,5 +1,6 @@
 {
 	"title": "Get Involved",
+	"description": "Volunteer with the Jewish Caring Network or make a gift, and help Jewish families facing serious illness in Baltimore and beyond.",
 	"header": {
 		"type": "header",
 		"lead": "JCN runs on the kindness of our community. There’s a place for everyone."
@@ -10,7 +11,7 @@
 			"items": [
 				{
 					"title": "Volunteer",
-					"text": "Lend a hand, a heart, or a few hours.",
+					"text": "Cook and deliver meals, visit in the hospital, mentor children, or help at Tikva House and our events.",
 					"icon": "hand-heart",
 					"link": {
 						"href": "/get-involved/volunteer"
@@ -28,7 +29,7 @@
 		},
 		{
 			"type": "prose",
-			"markdown": "## Where your gift goes\n\n- Shabbos meals and holiday packages for families at home and in the hospital\n- Nursing and respite care when insurance isn’t enough\n- Tutoring, camp, birthdays and outings for children\n- Kosher hospitality at Tikva House for families traveling for treatment\n\n[Give now](/donate)"
+			"markdown": "## Where your gift goes\n\n- Shabbos meals and holiday packages for families at home and in the hospital\n- Nursing and respite care when insurance isn’t enough\n- Tutoring, camp, birthdays and outings for children\n- Kosher hospitality at Tikva House for families traveling for treatment"
 		}
 	]
 }
