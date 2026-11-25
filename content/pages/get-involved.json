@@ -1,5 +1,6 @@
 {
 	"title": "Get Involved",
+	"description": "Volunteer with the Jewish Caring Network or make a gift, and help Jewish families facing serious illness in Baltimore and beyond.",
 	"header": {
 		"type": "header",
 		"lead": "JCN runs on the kindness of our community. There’s a place for everyone."
@@ -10,7 +11,7 @@
 			"items": [
 				{
 					"title": "Volunteer",
-					"text": "Lend a hand, a heart, or a few hours.",
+					"text": "Cook and deliver meals, visit in the hospital, mentor children, or help at Tikva House and our events.",
 					"icon": "hand-heart",
 					"link": {
 						"href": "/get-involved/volunteer"
@@ -22,6 +23,44 @@
 					"icon": "hand-coins",
 					"link": {
 						"href": "/donate"
+					}
+				}
+			]
+		},
+		{
+			"type": "impact",
+			"heading": "What our community makes possible",
+			"items": [
+				{
+					"value": "17,000",
+					"label": "meals provided each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "1,500",
+					"label": "Shabbos packages each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "508",
+					"label": "care packages each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "21,000",
+					"label": "overnight stays at Tikva House in 13 years",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
 					}
 				}
 			]
