@@ -49,8 +49,26 @@
 			]
 		},
 		{
-			"type": "prose",
-			"markdown": "## Our leadership\n\n[Meet our President, CEO and Board of Directors](/about/leadership)"
+			"type": "cards",
+			"heading": "More about us",
+			"items": [
+				{
+					"title": "Leadership",
+					"text": "Our President, our CEO and the Board of Directors.",
+					"icon": "users-three",
+					"link": {
+						"href": "/about/leadership"
+					}
+				},
+				{
+					"title": "Family Stories",
+					"text": "Read the stories families and volunteers have shared, or tell us yours.",
+					"icon": "book-open-text",
+					"link": {
+						"href": "/family-stories"
+					}
+				}
+			]
 		}
 	]
 }
