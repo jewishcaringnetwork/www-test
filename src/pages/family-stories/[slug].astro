@@ -73,7 +73,7 @@ const { Content } = await render(story);
 <Layout title={title}>
 	<Header header={{ type: 'header', lead: summary }} title={title} />
 	<Section type="story" narrow>
-		<p class="byline" dir="auto">
+		<p class="byline | text-small" dir="auto">
 			<time datetime={date.toISOString().slice(0, 10)}>
 				{storyDate(date)}
 			</time>

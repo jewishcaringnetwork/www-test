@@ -8,6 +8,9 @@
  * Only approved stories appear (`approvedStories`); a picked story that
  * isn't approved is skipped. With none to show, a "Coming soon" panel
  * stands in, so the page never shows an empty list.
+ *
+ * Card headings are h3 under the section heading, or h2 when the section
+ * has none (as on the Family Stories page), so no level is skipped.
  */
 import type { CollectionEntry } from 'astro:content';
 import type { SectionBackground } from '~/lib/section-background';
@@ -31,6 +34,7 @@ const stories = block.pick
 	: block.count === 'all'
 	? approved
 	: approved.slice(0, block.count);
+const Heading = block.heading ? 'h3' : 'h2';
 ---
 
 <style>
@@ -41,11 +45,11 @@ const stories = block.pick
 	}
 
 	/* Spacing between the parts is the card's (src/css/block/card.css) */
-	.card :is(h3, p) {
+	.card :is(h2, h3, p) {
 		margin-block-end: 0;
 	}
 
-	h3 {
+	:is(h2, h3) {
 		color: var(--color-text-primary);
 	}
 
@@ -58,15 +62,10 @@ const stories = block.pick
 	.byline {
 		margin-block-start: auto;
 		padding-block-start: var(--space-xs);
-		font-size: var(--font-size-s);
 	}
 
 	.soon {
 		max-inline-size: 40rem;
-	}
-
-	.soon .text-label {
-		color: var(--color-text-heading);
 	}
 </style>
 
@@ -81,11 +80,11 @@ const stories = block.pick
 		 <ul role="list" class="items | grid">
 			 {stories.map((story) => (
 				 <li class="card | stack">
-					 <h3 class="text-h3" dir="auto">
+					 <Heading class="text-h3" dir="auto">
 						 <a href={storyHref(story)}>{story.data.title}</a>
-					 </h3>
+					 </Heading>
 					 <p class="summary" dir="auto">{story.data.summary}</p>
-					 <p class="byline" dir="auto">
+					 <p class="byline | text-small" dir="auto">
 						 <time datetime={story.data.date.toISOString().slice(0, 10)}>
 							 {storyDate(story.data.date)}
 						 </time>
@@ -97,7 +96,7 @@ const stories = block.pick
 	 )
 		: (
 		 <div class="soon | card | stack">
-			 <p class="text-label">Coming soon</p>
+			 <Heading class="text-h3">Coming soon</Heading>
 			 <p dir="auto">
 				 Stories from families and volunteers will appear here.
 			 </p>
