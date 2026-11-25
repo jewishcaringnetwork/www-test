@@ -3,9 +3,9 @@
  * A single post laid out like a blog post: one reading column, left-aligned
  * with the rest of the site. A small link back to its list sits above the
  * title; the summary, byline and date follow it inside the page header;
- * then an optional photo, the body (slotted) and a link onward at the end,
- * usually back to the list (e.g. "Read more stories"), whose page carries
- * any call to action. The column is set at 18px for long reading.
+ * then an optional photo, the body (slotted) and a link at the end back
+ * to the list (e.g. "Read more stories"), whose page carries any call to
+ * action. The column is set at 18px for long reading.
  *
  * It knows nothing about what the post is: a route maps its entry to props
  * (see src/pages/family-stories/[slug].astro). Pairs with the list layout.
@@ -34,7 +34,7 @@ interface Props {
 	image?: { src: ImageMetadata; alt: string };
 	/** Above the title, e.g. the list this post belongs to. */
 	back: Link;
-	/** After the body, e.g. "Read more stories". */
+	/** After the body, back to the list, e.g. "Read more stories". */
 	next: Link;
 }
 
@@ -79,7 +79,7 @@ const { title, lead, date, byline, image, back, next } = Astro.props;
 		border-radius: var(--radius-l);
 	}
 
-	/* The body ends; the link onward is its own beat */
+	/* The body ends; the link back is its own beat */
 	.next {
 		--stack-gap: var(--space-xl);
 
@@ -90,6 +90,11 @@ const { title, lead, date, byline, image, back, next } = Astro.props;
 		align-self: start;
 		font-family: var(--font-family-heading);
 		font-weight: var(--font-weight-medium);
+
+		/* It goes back to the list, so the arrow points back */
+		:global(svg) {
+			transform: scaleX(-1);
+		}
 	}
 </style>
 
@@ -118,8 +123,8 @@ const { title, lead, date, byline, image, back, next } = Astro.props;
 			<slot />
 		</div>
 		<a class="next" href={next.href}>
-			{next.label}
 			<Icon name="arrow-right" size={16} />
+			{next.label}
 		</a>
 	</Section>
 </Layout>
