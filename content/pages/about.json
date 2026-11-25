@@ -1,0 +1,74 @@
+{
+	"title": "About Us",
+	"header": {
+		"type": "header",
+		"lead": "Free, long-term support for Jewish families facing serious illness, in Baltimore and beyond."
+	},
+	"blocks": [
+		{
+			"type": "prose",
+			"markdown": "## It began with a friend named Yarden\n\nIn 1996, our friend Jordan (Yarden in Hebrew) was diagnosed with cancer. The community responded with meals, visits and fundraising, and that outpouring raised a question: could the same care carry other families, too?\n\nIt could. Today the Jewish Caring Network brings meals, nursing care, counseling and respite to families facing serious illness, free of charge, for as long as they need us. If your family is facing serious illness, you can [request support](/contact) confidentially.\n\n[Read our full history](/about/history)"
+		},
+		{
+			"type": "impact",
+			"heading": "Our impact",
+			"intro": "Support that reaches the whole family",
+			"items": [
+				{
+					"value": "17,000",
+					"label": "meals provided each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "1,500",
+					"label": "Shabbos packages each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "1,300",
+					"label": "hours of cleaning help and nursing care each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				},
+				{
+					"value": "508",
+					"label": "care packages each year",
+					"source": {
+						"document": "JCN26 Infographic WWW.pdf",
+						"date": "2026-06-14"
+					}
+				}
+			]
+		},
+		{
+			"type": "cards",
+			"heading": "More about us",
+			"items": [
+				{
+					"title": "Leadership",
+					"text": "Our President, our CEO and the Board of Directors.",
+					"icon": "users-three",
+					"link": {
+						"href": "/about/leadership"
+					}
+				},
+				{
+					"title": "Family Stories",
+					"text": "Read the stories families and volunteers have shared, or tell us yours.",
+					"icon": "book-open-text",
+					"link": {
+						"href": "/family-stories"
+					}
+				}
+			]
+		}
+	]
+}

@@ -133,8 +133,8 @@ import { footerLinks, legalLinks, org, site, telHref } from '~/config';
 				<h2>Call or visit</h2>
 				<address class="stack">
 					<p>
-						{org.address.street}<br />{org.address.city},
-						{org.address.state} {org.address.zip}
+						{org.address.street}<br />
+						{`${org.address.city}, ${org.address.state} ${org.address.zip}`}
 					</p>
 					<p><a href={`mailto:${org.email}`}>{org.email}</a></p>
 					<p>
