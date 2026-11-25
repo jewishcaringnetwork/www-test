@@ -278,16 +278,20 @@ const stories = (fns: SchemaFns) =>
 		.strictObject({
 			type: z.literal('stories'),
 			...sectionHeader,
-			count: z.int().min(1).max(6).default(3).meta({
-				description:
-					'How many of the latest stories to show. Ignored when pick is set.',
-			}),
+			count: z.union([z.int().min(1).max(6), z.literal('all')]).default(3)
+				.meta({
+					description:
+						'How many of the latest stories to show, or "all" for the full list on the Family Stories page. Ignored when pick is set. Only stories the client has approved are ever shown.',
+				}),
 			pick: z.array(fns.reference('stories')).min(1).max(6).optional().meta({
 				description:
 					'Specific story ids to show, in order. Omit to show the latest.',
 			}),
 		})
-		.meta({ description: 'Teasers linking to family stories.' });
+		.meta({
+			description:
+				'Teasers linking to family stories. Shows "Coming soon" while no story is approved.',
+		});
 
 const people = z
 	.strictObject({

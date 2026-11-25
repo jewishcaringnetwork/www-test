@@ -61,6 +61,10 @@ export const storySchema = (fns: SchemaFns) =>
 			description: 'Omit to publish anonymously.',
 		}),
 		featured: z.boolean().default(false),
+		approved: z.boolean().default(false).meta({
+			description:
+				'Set to true only after the client approves this story for public use. Unapproved stories get no page and never appear in story lists or the sitemap.',
+		}),
 	});
 
 export const personSchema = (fns: SchemaFns) =>

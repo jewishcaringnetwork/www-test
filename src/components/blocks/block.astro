@@ -19,6 +19,7 @@ import MediaText from './media-text.astro';
 import People from './people.astro';
 import Placeholder from './placeholder.astro';
 import Prose from './prose.astro';
+import Stories from './stories.astro';
 
 type Block = CollectionEntry<'pages'>['data']['blocks'][number];
 
@@ -43,6 +44,7 @@ const components: Components = {
 	cta: Cta,
 	form: Form,
 	impact: Impact,
+	stories: Stories,
 };
 
 const { block, background } = Astro.props;

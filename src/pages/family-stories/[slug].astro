@@ -1,0 +1,99 @@
+---
+/**
+ * One family story at `/family-stories/<file name>`, from
+ * `content/stories/*.md`. Only approved stories get a page
+ * (`approvedStories`), so an unapproved one has no URL and stays out of the
+ * sitemap. With none approved, this route builds nothing.
+ *
+ * The story's Markdown is rendered as written: the families' wording is
+ * never changed.
+ */
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Header from '~/components/header.astro';
+import Icon from '~/components/icon.astro';
+import '~/components/blocks/markdown.css';
+import Section from '~/components/blocks/section.astro';
+import Layout from '~/layouts/base.astro';
+import { approvedStories, type Story, storyDate } from '~/lib/stories';
+
+export async function getStaticPaths() {
+	const stories = await approvedStories();
+	// A story named like a page under /family-stories/ (e.g. share.md)
+	// would hide that page.
+	const pages = new Set((await getCollection('pages')).map((p) => p.id));
+	const clashes = stories.filter((s) => pages.has(`family-stories/${s.id}`));
+	if (clashes.length) {
+		throw new Error(
+			clashes.map((s) =>
+				`content/stories/${s.id}.md clashes with the page /family-stories/${s.id}; rename the story file.`
+			).join('\n'),
+		);
+	}
+	return stories.map((story) => ({
+		params: { slug: story.id },
+		props: { story },
+	}));
+}
+
+interface Props {
+	story: Story;
+}
+
+const { story } = Astro.props;
+const { title, summary, image, date, author } = story.data;
+const { Content } = await render(story);
+---
+
+<style>
+	.byline {
+		color: var(--color-text-secondary);
+	}
+
+	.photo {
+		border-radius: var(--radius-l);
+	}
+
+	.back {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+
+	/* The arrow points back */
+	.back :global(svg) {
+		transform: scaleX(-1);
+	}
+</style>
+
+<Layout title={title}>
+	<Header header={{ type: 'header', lead: summary }} title={title} />
+	<Section type="story" narrow>
+		<p class="byline" dir="auto">
+			<time datetime={date.toISOString().slice(0, 10)}>
+				{storyDate(date)}
+			</time>
+			{author && <>, {author}</>}
+		</p>
+		{image && (
+			<Image
+				class="photo"
+				src={image.src}
+				alt={image.alt}
+				widths={[640, 1280]}
+				sizes="(max-width: 48rem) 100vw, 40rem"
+			/>
+		)}
+		<div class="markdown" dir="auto">
+			<Content />
+		</div>
+		<a class="back" href="/family-stories">
+			<Icon name="arrow-right" size={16} />
+			All family stories
+		</a>
+	</Section>
+</Layout>

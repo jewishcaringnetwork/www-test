@@ -1,7 +1,7 @@
 import { z } from 'astro/zod';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { pageSchema, personSchema } from './page.ts';
+import { pageSchema, personSchema, storySchema } from './page.ts';
 import type { SchemaFns } from './shared.ts';
 
 const fns = {
@@ -11,6 +11,7 @@ const fns = {
 
 const page = pageSchema(fns);
 const person = personSchema(fns);
+const story = storySchema(fns);
 
 const ok = (schema: z.ZodType, data: unknown) => {
 	const result = schema.safeParse(data);
@@ -177,4 +178,24 @@ describe('personSchema', () => {
 		ok(person, { name: 'Keren Traub', group: 'board', order: 0 }));
 	it('rejects a fractional order', () =>
 		bad(person, { name: 'Keren Traub', group: 'board', order: 1.5 }));
+});
+
+describe('storySchema', () => {
+	const minimal = {
+		title: 'Our year at Tikva House',
+		summary: 'How a week of meals turned into a year of friendship.',
+		date: '2026-11-01',
+	};
+
+	it('keeps a story unapproved unless marked approved', () => {
+		assert.equal(ok(story, minimal).approved, false);
+		assert.equal(ok(story, { ...minimal, approved: true }).approved, true);
+	});
+
+	it('rejects a non-boolean approved flag', () =>
+		bad(story, { ...minimal, approved: 'yes' }));
+
+	it('describes the approval rule for whoever edits the file', () => {
+		assert.match(story.shape.approved.description ?? '', /client/);
+	});
 });
