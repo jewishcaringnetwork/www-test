@@ -17,7 +17,7 @@
 				{
 					"label": "Share your story",
 					"href": "/family-stories/share",
-					"variant": "secondary"
+					"variant": "primary"
 				}
 			]
 		}
