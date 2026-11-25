@@ -75,11 +75,11 @@ export const siteSchema = z.strictObject({
 		.strictObject({
 			tagline: z.string().trim().min(10).max(70).meta({
 				description:
-					'One short line in the top banner (desktop only). No trailing period.',
+					'One short line in the top banner (desktop only), also after the site name in the Home page title in search results. Say what JCN does, in plain words. No trailing period.',
 			}),
 			description: z.string().trim().min(50).max(160).meta({
 				description:
-					'One-sentence summary of JCN. Shown in the footer and used as the default search-engine description.',
+					'One-sentence summary of JCN. Shown in the footer, and in link previews for pages without a description of their own.',
 			}),
 		})
 		.meta({ description: 'Site-wide text.' }),

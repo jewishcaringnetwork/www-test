@@ -10,7 +10,7 @@ import Footer from './_footer.astro';
 import Header from './_header.astro';
 
 export interface Props {
-	/** `false` on Home: the tab shows the site name alone. */
+	/** `false` on Home: the tab shows the site name and tagline. */
 	title: string | false;
 	/** For search results. Omit to let search engines pick a snippet. */
 	description?: string;
@@ -21,11 +21,29 @@ export interface Props {
 	 * Cropped to 1200×630. Defaults to `/og-default.png`.
 	 */
 	image?: { src: ImageMetadata; alt: string };
+	/**
+	 * For a dated post, e.g. a family story. Makes the social preview an
+	 * article. `section` is the list it belongs to, e.g. "Family Stories".
+	 */
+	article?: { published: Date; section: string };
 }
 
-const { description, ignore, image } = Astro.props;
-const title = [Astro.props.title || [], site.name].flat().join(' | ');
+const { description, ignore, image, article } = Astro.props;
+const title = Astro.props.title
+	? `${Astro.props.title} | ${site.name}`
+	: `${site.name} | ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+
+/*
+ * Social sites fetch og:url and og:image from the address in the tag, and
+ * treat og:url as the page's real address. On a deploy preview, point both
+ * at the preview so a card validator reads this build, not the live site.
+ * The canonical link always names the live site.
+ */
+const previewOrigin = process.env.CONTEXT !== 'production'
+	&& process.env.DEPLOY_PRIME_URL;
+const origin = previewOrigin || Astro.site;
+const shareUrl = new URL(Astro.url.pathname, origin);
 
 /*
  * The default card is the wordmark beside the Home hero illustration
@@ -88,15 +106,24 @@ const card = image
 		{ignore
 			? <meta name="robots" content="noindex" />
 			: <link rel="canonical" href={canonical} />}
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={article ? 'article' : 'website'} />
+		{article && (
+			<Fragment>
+				<meta
+					property="article:published_time"
+					content={article.published.toISOString()}
+				/>
+				<meta property="article:section" content={article.section} />
+			</Fragment>
+		)}
 		<meta property="og:site_name" content={site.name} />
 		<meta property="og:title" content={Astro.props.title || site.name} />
 		<meta
 			property="og:description"
 			content={description ?? site.description}
 		/>
-		<meta property="og:url" content={canonical} />
-		<meta property="og:image" content={new URL(card.src, Astro.site)} />
+		<meta property="og:url" content={shareUrl} />
+		<meta property="og:image" content={new URL(card.src, origin)} />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:alt" content={card.alt} />
