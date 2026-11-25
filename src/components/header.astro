@@ -4,8 +4,9 @@
  * Almost every page opens with this; landing pages use the hero instead.
  * Its heading is the page's only h1. Styles: src/css/block/page.css.
  *
- * Anything slotted in follows the lead inside the header, e.g. the list
- * layout's empty-state message.
+ * Slots: `before` sits above the heading (e.g. the post layout's link back
+ * to its list); the default slot follows the lead (e.g. the list layout's
+ * empty-state message, or a post's byline).
  */
 import type { CollectionEntry } from 'astro:content';
 
@@ -24,6 +25,7 @@ const { header, title } = Astro.props;
 ---
 
 <header class="page-header | stack container">
+	<slot name="before" />
 	<h1 class="text-h1" dir="auto">{header.heading ?? title}</h1>
 	{header.lead && <p class="lead | text-large" dir="auto">{header.lead}</p>}
 	<slot />

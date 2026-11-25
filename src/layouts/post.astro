@@ -1,0 +1,125 @@
+---
+/**
+ * A single post laid out like a blog post: one reading column, left-aligned
+ * with the rest of the site. A small link back to its list sits above the
+ * title; the summary, byline and date follow it inside the page header;
+ * then an optional photo, the body (slotted) and a link onward at the end,
+ * usually back to the list (e.g. "Read more stories"), whose page carries
+ * any call to action. The column is set at 18px for long reading.
+ *
+ * It knows nothing about what the post is: a route maps its entry to props
+ * (see src/pages/family-stories/[slug].astro). Pairs with the list layout.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import '~/components/blocks/markdown.css';
+import Section from '~/components/blocks/section.astro';
+import Header from '~/components/header.astro';
+import Icon from '~/components/icon.astro';
+import { isoDate, longDate } from '~/lib/date';
+import Layout from './base.astro';
+
+interface Link {
+	href: string;
+	label: string;
+}
+
+interface Props {
+	title: string;
+	/** Shown under the title, e.g. the post's summary. */
+	lead?: string;
+	date: Date;
+	/** E.g. "By the Cohen family". Omit for an anonymous post. */
+	byline?: string;
+	image?: { src: ImageMetadata; alt: string };
+	/** Above the title, e.g. the list this post belongs to. */
+	back: Link;
+	/** After the body, e.g. "Read more stories". */
+	next: Link;
+}
+
+const { title, lead, date, byline, image, back, next } = Astro.props;
+---
+
+<style>
+	/* 24px minimum target, but tight to the title it labels */
+	.back {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 24px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+
+		/* The arrow points back */
+		:global(svg) {
+			transform: scaleX(-1);
+		}
+	}
+
+	/* Byline and date bind to the title and summary above them */
+	.meta {
+		--stack-gap: var(--space-s);
+		--cluster-gap: var(--space-2xs) var(--space-s);
+
+		margin-block-end: 0;
+		color: var(--color-text-secondary);
+	}
+
+	/*
+	 * The column is set large (on the section), so the photo and the body
+	 * share one 60ch measure; ch follows each element's font size.
+	 */
+	.photo {
+		inline-size: 100%;
+		block-size: auto;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		border-radius: var(--radius-l);
+	}
+
+	/* The body ends; the link onward is its own beat */
+	.next {
+		--stack-gap: var(--space-xl);
+
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3xs);
+		min-block-size: 44px;
+		align-self: start;
+		font-family: var(--font-family-heading);
+		font-weight: var(--font-weight-medium);
+	}
+</style>
+
+<Layout title={title}>
+	<Header header={{ type: 'header', lead }} title={title}>
+		<a slot="before" class="back | text-small" href={back.href}>
+			<Icon name="arrow-right" size={16} />
+			{back.label}
+		</a>
+		<p class="meta | cluster text-small" dir="auto">
+			{byline && <span>{byline}</span>}
+			<time datetime={isoDate(date)}>{longDate(date)}</time>
+		</p>
+	</Header>
+	<Section type="post" narrow class="text-large">
+		{image && (
+			<Image
+				class="photo"
+				src={image.src}
+				alt={image.alt}
+				widths={[720, 1440]}
+				sizes="(max-width: 48rem) 100vw, 43rem"
+			/>
+		)}
+		<div class="markdown" dir="auto">
+			<slot />
+		</div>
+		<a class="next" href={next.href}>
+			{next.label}
+			<Icon name="arrow-right" size={16} />
+		</a>
+	</Section>
+</Layout>

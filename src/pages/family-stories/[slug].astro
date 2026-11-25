@@ -5,17 +5,12 @@
  * (`approvedStories`), so an unapproved one has no URL and stays out of the
  * sitemap. With none approved, this route builds nothing.
  *
- * The story's Markdown is rendered as written: the families' wording is
- * never changed.
+ * Laid out by the post layout. The story's Markdown is rendered as written:
+ * the families' wording is never changed. The link at the end goes back to
+ * the archive, which carries the "Share your story" ask.
  */
-import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
-import Header from '~/components/header.astro';
-import Icon from '~/components/icon.astro';
-import '~/components/blocks/markdown.css';
-import Section from '~/components/blocks/section.astro';
-import Layout from '~/layouts/base.astro';
-import { isoDate, longDate } from '~/lib/date';
+import PostLayout from '~/layouts/post.astro';
 import { approvedStories, type Story } from '~/lib/stories';
 
 export async function getStaticPaths() {
@@ -46,55 +41,14 @@ const { title, summary, image, date, author } = story.data;
 const { Content } = await render(story);
 ---
 
-<style>
-	.byline {
-		color: var(--color-text-secondary);
-	}
-
-	.photo {
-		border-radius: var(--radius-l);
-	}
-
-	.back {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-3xs);
-		min-block-size: 44px;
-		align-self: start;
-		font-family: var(--font-family-heading);
-		font-weight: var(--font-weight-medium);
-	}
-
-	/* The arrow points back */
-	.back :global(svg) {
-		transform: scaleX(-1);
-	}
-</style>
-
-<Layout title={title}>
-	<Header header={{ type: 'header', lead: summary }} title={title} />
-	<Section type="story" narrow>
-		<p class="byline | text-small" dir="auto">
-			<time datetime={isoDate(date)}>
-				{longDate(date)}
-			</time>
-			{author && <>, {author}</>}
-		</p>
-		{image && (
-			<Image
-				class="photo"
-				src={image.src}
-				alt={image.alt}
-				widths={[640, 1280]}
-				sizes="(max-width: 48rem) 100vw, 40rem"
-			/>
-		)}
-		<div class="markdown" dir="auto">
-			<Content />
-		</div>
-		<a class="back" href="/family-stories">
-			<Icon name="arrow-right" size={16} />
-			All family stories
-		</a>
-	</Section>
-</Layout>
+<PostLayout
+	title={title}
+	lead={summary}
+	date={date}
+	byline={author && `By ${author}`}
+	image={image}
+	back={{ href: '/family-stories', label: 'Family Stories' }}
+	next={{ href: '/family-stories', label: 'Read more stories' }}
+>
+	<Content />
+</PostLayout>
