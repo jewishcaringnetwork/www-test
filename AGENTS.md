@@ -53,6 +53,24 @@ go in `src/css/block/`.
   custom properties.
 - Prefer logical properties (`padding-inline`, `max-inline-size`).
 
+## Page and UI changes
+
+Work in this order: copy, then flow, then visuals.
+
+1. **Copy.** Read the surrounding pages and shared components first, and take
+   facts, numbers, and voice from the repo. Review the copy with the ux-copy
+   skill. Keep it plain, warm, and short. Never invent facts or stats; leave a
+   TODO and flag it instead.
+2. **Flow.** Check section order and calls to action before touching layout.
+   Each page should make clear who it's for and what the reader should do next.
+   Show a summary of copy and structure changes before starting visual work.
+3. **Visuals.** Run design-critique on the result, then fix what it flags with
+   frontend-design. Reuse existing components and tokens, and don't add new
+   patterns unless needed.
+
+Keep diffs small and don't touch unrelated pages. When done, list what changed,
+any TODOs, and anything skipped.
+
 ## Boundaries
 
 - Accessibility target is WCAG 2.2 AA: visible focus styles, 24px minimum target
