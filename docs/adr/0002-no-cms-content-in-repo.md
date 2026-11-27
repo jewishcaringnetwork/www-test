@@ -3,7 +3,8 @@
 - Status: accepted
 - Date: 2026-11-21
 - Amended by: [ADR 7](0007-v1-without-staff-editing.md) (staff editing deferred
-  past v1)
+  past v1), [ADR 9](0009-pages-in-plain-astro-until-mcp.md) (pages in plain
+  Astro until then)
 
 ## Context
 

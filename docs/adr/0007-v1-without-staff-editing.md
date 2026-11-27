@@ -3,6 +3,8 @@
 - Status: accepted
 - Date: 2026-11-23
 - Amends: [2. No CMS](0002-no-cms-content-in-repo.md)
+- Amended by: [ADR 9](0009-pages-in-plain-astro-until-mcp.md) (pages in plain
+  Astro until staff editing)
 
 ## Context
 
